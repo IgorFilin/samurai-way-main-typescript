@@ -1,0 +1,22 @@
+.navbar {
+    grid-area: navbar;
+    background-color:  darkturquoise;
+}
+
+.items{
+    margin: 30px;
+}
+
+
+.item {
+    padding: 3px;
+}
+
+.item a {
+    color: azure;
+    text-decoration: none;
+}
+
+.item:active{
+    color: cornsilk;
+}
