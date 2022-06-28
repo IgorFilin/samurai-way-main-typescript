@@ -3,33 +3,16 @@
     grid-template-columns: 1fr 3fr;
 }
 
-.item {
-    padding: 2px;
-}
+
 
 .items {
     padding-left: 15px;
     padding-top: 17px;
 }
 
-.message {
-    padding: 4px;
-}
+
 
 .messages {
     padding-top: 15px;
 }
 
-.item a {
-    text-decoration: none;
-}
-
-.item a:hover {
-    color: aqua;
-
-    transition: 0.5s;
-}
-
-a.active {
-    color: gold;
-}

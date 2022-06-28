@@ -1,0 +1,16 @@
+.item a {
+    text-decoration: none;
+}
+
+.item a:hover {
+    color: aqua;
+
+    transition: 0.5s;
+}
+
+a.active {
+    color: gold;
+}
+.item {
+    padding: 2px;
+}

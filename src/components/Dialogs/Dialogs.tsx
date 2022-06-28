@@ -1,25 +1,27 @@
 import classes from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
+import DialogsItems from "./DialogsItem/DialogsItems";
+import Message from "./Message/Message";
 
-type DialogsTypeProps ={
-    messages:string
+type DialogsTypeProps = {
+    messages: string
 }
 
 
-function Dialogs (props:DialogsTypeProps) {
+function Dialogs(props: DialogsTypeProps) {
     return (<div className={classes.dialogs}>
         <div className={classes.items}>
-            <div className={classes.item}><NavLink activeClassName={classes.active} to={'1'}>Igor</NavLink></div>
-            <div className={classes.item}><NavLink activeClassName={classes.active} to={'2'}>Sveta</NavLink></div>
-            <div className={classes.item}><NavLink activeClassName={classes.active} to={'3'}>Ivan</NavLink></div>
-            <div className={classes.item}><NavLink activeClassName={classes.active} to={'4'}>Alena</NavLink></div>
+            <DialogsItems name={'Igor'} id={1}/>
+            <DialogsItems name={'Ivan'} id={2}/>
+            <DialogsItems name={'Anya'} id={3}/>
+            <DialogsItems name={'Valera'} id={4}/>
+            <DialogsItems name={'Alisa'} id={5}/>
         </div>
-<div className={classes.messages}>
-    <div className={classes.message}>Hi</div>
-    <div className={classes.message}>YOYO</div>
-    <div className={classes.message}>Hello my friends :))</div>
-    <div className={classes.message}>go samurai</div>
-</div>
+        <div className={classes.messages}>
+            <Message message={'Hi Samurai'}/>
+            <Message message={'YO YO'}/>
+            <Message message={'What are you doing?'}/>
+            <Message message={'Im sleep :))'}/>
+        </div>
     </div>)
 }
 
