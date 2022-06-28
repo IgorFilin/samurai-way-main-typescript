@@ -9,7 +9,7 @@
 
 
 .item {
-    padding: 3px;
+    padding: 2px;
 }
 
 .item a {
@@ -22,9 +22,14 @@
 .item a:hover{
     transition: 1s;
     text-align: center;
+
     width: 100px;
     display: block;
     background-color: aliceblue;
     border-radius: 5px;
     color: black;
+}
+
+a.active {
+    color: gold;
 }

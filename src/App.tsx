@@ -13,8 +13,8 @@ function App() {
             <Header/>
             <Navbar/>
             <div className="app-wrapper-content">
-                <Route path={'/profile'} render={() => <Profile/>}/>
-                <Route path={'/dialogs'} render={() => <Dialogs messages={'HI'}/>}/>
+                <Route path={'/profile/'} render={() => <Profile/>}/>
+                <Route path={'/dialogs/'} render={() => <Dialogs messages={'HI'}/>}/>
             </div>
         </div>
     );
