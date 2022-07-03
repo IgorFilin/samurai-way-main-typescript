@@ -3,7 +3,7 @@ import classes from "./Message.module.css";
 
 
 
-type MessageUserTypeProps = {
+export type MessageUserTypeProps = {
     messages:string
 
 }
