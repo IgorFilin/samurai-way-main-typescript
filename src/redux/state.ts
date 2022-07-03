@@ -1,6 +1,7 @@
 export type stateType = {
     DialogPage: DialogPageType
     ProfilePage: ProfilePageType
+    sidebar:SidebarType
 }
 export type postDataType = {
     id: number
@@ -20,7 +21,12 @@ export type messagesDataType = {
 export type ProfilePageType = {
     postData: Array<postDataType>
 }
-
+export type SidebarType = {
+    Samurai: Array<SamutaiType>
+}
+export type SamutaiType = {
+     id:number
+}
 export type DialogPageType = {
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
@@ -49,6 +55,11 @@ export const state = {
             {id: 1, text: 'Hello,Its my first post', likeCount: 10},
             {id: 2, text: 'yoyoyo', likeCount: 12},
             {id: 3, text: 'Welcome samurai', likeCount: 77},
+        ]
+    },
+    sidebar: {
+        Samurai:[
+            {id:1}
         ]
     }
 }
