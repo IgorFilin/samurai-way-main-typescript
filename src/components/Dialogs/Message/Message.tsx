@@ -2,13 +2,19 @@ import classes from "./Message.module.css";
 
 
 
+
 type MessageUserTypeProps = {
-    message:string
+    messages:string
+
 }
 
 
 function Message(props: MessageUserTypeProps) {
-    return(<div className={classes.message}>{props.message}</div>)
+    return(
+        <div className={classes.message}>
+            {props.messages}
+        </div>
+    )
 
 }
 

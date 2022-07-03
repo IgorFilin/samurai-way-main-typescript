@@ -8,20 +8,31 @@ type DialogsTypeProps = {
 
 
 function Dialogs(props: DialogsTypeProps) {
+
+    const dialogsData = [
+        {id:1,name:'Igor'},
+        {id:2,name:'Ivan'},
+        {id:3,name:'Anya'},
+        {id:4,name:'Valera'},
+        {id:5,name:'Alisa'}
+    ]
+    const messagesData = [
+        {id:1,messages:'Hi Samurai'},
+        {id:2,messages:'YO YO'},
+        {id:3,messages:'What are you doing?'},
+        {id:4,messages:'Im sleep :))'},
+        {id:5,messages:'Hello samurai'}
+    ]
+    const addMessagesPage = messagesData.map(m => <Message messages={m.messages}/>)
+    const addDialogsPage = dialogsData.map(d => <DialogsItems name={d.name} id={d.id}/>)
+
     return (<div className={classes.dialogs}>
         <div className={classes.items}>
-            <DialogsItems name={'Igor'} id={1}/>
-            <DialogsItems name={'Ivan'} id={2}/>
-            <DialogsItems name={'Anya'} id={3}/>
-            <DialogsItems name={'Valera'} id={4}/>
-            <DialogsItems name={'Alisa'} id={5}/>
-        </div>
+            {addDialogsPage}
+         </div>
         <div className={classes.messages}>
-            <Message message={'Hi Samurai'}/>
-            <Message message={'YO YO'}/>
-            <Message message={'What are you doing?'}/>
-            <Message message={'Im sleep :))'}/>
-        </div>
+            {addMessagesPage}
+         </div>
     </div>)
 }
 
