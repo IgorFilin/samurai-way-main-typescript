@@ -18,7 +18,7 @@ function App(props: AppPropsType) {
 
         <div className='app-wrapper'>
             <Header/>
-            <Navbar/>
+            <Navbar state={props.state}/>
             <div className="app-wrapper-content">
                 <Routes>
                     <Route path={'/profile/'} element={<Profile state={props.state}/>}/>

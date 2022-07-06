@@ -1,12 +1,12 @@
 export type stateType = {
     DialogPage: DialogPageType
     ProfilePage: ProfilePageType
-    sidebar:SidebarType
+    sidebar: SidebarType
 }
 export type postDataType = {
     id: number
     text: string
-    likeCount:number
+    likeCount: number
 }
 
 export type dialogsDataType = {
@@ -22,10 +22,11 @@ export type ProfilePageType = {
     postData: Array<postDataType>
 }
 export type SidebarType = {
-    Samurai: Array<SamutaiType>
+    friendsData: Array<friendsDataType>
 }
-export type SamutaiType = {
-     id:number
+export type friendsDataType = {
+    id: number
+    name: string
 }
 export type DialogPageType = {
     dialogsData: Array<dialogsDataType>
@@ -58,8 +59,11 @@ export const state = {
         ]
     },
     sidebar: {
-        Samurai:[
-            {id:1}
+        friendsData: [
+            {id: 1, name: 'Igor'},
+            {id: 2, name: 'Sveta'},
+            {id: 3, name: 'Sasha'},
+            {id: 4, name: 'Max'}
         ]
     }
 }
