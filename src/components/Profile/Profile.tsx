@@ -5,12 +5,13 @@ import {state, stateType} from "../../redux/state";
 
 type ProfileTypeProps = {
     state:stateType
+    AddPost:(p:string)=>void
 }
 
 function Profile(props:ProfileTypeProps) {
     return (<div className={classes.profile}>
         <ProfileInfo/>
-        <MyPosts state={props.state}/>
+        <MyPosts state={props.state} AddPost={props.AddPost}/>
     </div>)
 }
 

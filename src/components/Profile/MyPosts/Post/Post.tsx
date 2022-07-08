@@ -3,7 +3,7 @@ import classes from "./Post.module.css";
 
 
 type PostTypeProps = {
-    id: number
+    id: string
     text: String
     likeCount: number
 }

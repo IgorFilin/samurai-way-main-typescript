@@ -6,18 +6,20 @@ import React from "react";
 
 type MyPostsTypeProps = {
     state: stateType
+    AddPost: (p: string) => void
 }
 
-const MyPosts:React.FC<MyPostsTypeProps> = (props) => {
+const MyPosts: React.FC<MyPostsTypeProps> = (props) => {
 
     const TextAreaValue = React.createRef<HTMLTextAreaElement>()
 
     const onClickHandler = () => {
-        alert(TextAreaValue.current?.value)
+        if (TextAreaValue.current?.value)
+            props.AddPost(TextAreaValue.current?.value)
     }
 
 
-    const addNewPostPage = props.state.ProfilePage.postData.map(p => <Post key={p.id} id={p.id} text={p.text}
+    const addNewPostPage = props.state.ProfilePage.postData.map(p => <Post  id={p.id} text={p.text}
                                                                            likeCount={p.likeCount}/>)
     return (<div className={classes.Posts}>
         <div>

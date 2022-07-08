@@ -5,12 +5,15 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import {Route, Routes} from "react-router-dom";
-import {stateType} from "./redux/state";
+import {AddPost, stateType} from "./redux/state";
 
 
 export type AppPropsType = {
     state: stateType
+    AddPost:(p:string)=>void
 }
+
+
 
 function App(props: AppPropsType) {
 
@@ -21,7 +24,7 @@ function App(props: AppPropsType) {
             <Navbar state={props.state}/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path={'/profile/'} element={<Profile state={props.state}/>}/>
+                    <Route path={'/profile/'} element={<Profile state={props.state} AddPost={props.AddPost}/>}/>
                     <Route path={'/dialogs/*'} element={<Dialogs state={props.state}/>}/>
                 </Routes>
             </div>
