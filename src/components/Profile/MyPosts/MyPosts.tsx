@@ -1,22 +1,29 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import {stateType} from "../../../redux/state";
+import React from "react";
 
 
 type MyPostsTypeProps = {
-    state:stateType
+    state: stateType
 }
 
-function MyPosts(props:MyPostsTypeProps) {
+const MyPosts:React.FC<MyPostsTypeProps> = (props) => {
+
+    const TextAreaValue = React.createRef<HTMLTextAreaElement>()
+
+    const onClickHandler = () => {
+        alert(TextAreaValue.current?.value)
+    }
 
 
-    const addNewPostPage = props.state.ProfilePage.postData.map(p => <Post id={p.id}  text={p.text} likeCount={p.likeCount}/> )
-
-
+    const addNewPostPage = props.state.ProfilePage.postData.map(p => <Post key={p.id} id={p.id} text={p.text}
+                                                                           likeCount={p.likeCount}/>)
     return (<div className={classes.Posts}>
-        <div><textarea></textarea>
+        <div>
+            <textarea ref={TextAreaValue}></textarea>
             <div>
-                <button>Add Post</button>
+                <button onClick={onClickHandler}>Add Post</button>
             </div>
         </div>
         {addNewPostPage}
