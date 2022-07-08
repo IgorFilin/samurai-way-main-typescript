@@ -1,4 +1,4 @@
-import {rerender} from "../index";
+import {rerender} from "../Render";
 import {v1} from "uuid";
 
 export type stateType = {
@@ -22,6 +22,7 @@ export type messagesDataType = {
 }
 
 export type ProfilePageType = {
+    newPostText: string
     postData: Array<postDataType>
 }
 export type SidebarType = {
@@ -55,6 +56,7 @@ export const state = {
         ],
     },
     ProfilePage: {
+        newPostText: '',
         postData: [
             {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
             {id: v1(), text: 'yoyoyo', likeCount: 12},
@@ -71,8 +73,13 @@ export const state = {
     }
 }
 
-export const AddPost = (post:string) => {
-    const newPost = {id: v1(), text: post, likeCount: 0}
+export const AddPost = (text: string) => {
+    const newPost = {id: v1(), text: text, likeCount: 0}
     state.ProfilePage.postData.push(newPost)
-    rerender()
+    rerender(state)
+}
+
+export const newPostText = (text: string) => {
+    state.ProfilePage.newPostText = text
+    rerender(state)
 }

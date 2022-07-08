@@ -10,7 +10,8 @@ import {AddPost, stateType} from "./redux/state";
 
 export type AppPropsType = {
     state: stateType
-    AddPost:(p:string)=>void
+    AddPost:(text:string)=>void
+    newPostText:(text:string)=> void
 }
 
 
@@ -24,7 +25,7 @@ function App(props: AppPropsType) {
             <Navbar state={props.state}/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path={'/profile/'} element={<Profile state={props.state} AddPost={props.AddPost}/>}/>
+                    <Route path={'/profile/'} element={<Profile state={props.state} AddPost={props.AddPost} newPostText={props.newPostText}/>}/>
                     <Route path={'/dialogs/*'} element={<Dialogs state={props.state}/>}/>
                 </Routes>
             </div>
