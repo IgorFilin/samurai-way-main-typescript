@@ -1,4 +1,4 @@
-import {rerender} from "../Render";
+
 import {v1} from "uuid";
 
 export type stateType = {
@@ -75,26 +75,32 @@ export const state = {
     }
 }
 
+export let rerenderEntireTree:()=>void
+
 export const AddPost = () => {
     const newPost = {...state}
     newPost.ProfilePage.postData.push({id: v1(), text: state.ProfilePage.addNewPostText, likeCount: 0})
     state.ProfilePage.addNewPostText = ''
-    rerender(newPost)
+    rerenderEntireTree()
 }
 
 export const newPostText = (text: string) => {
     state.ProfilePage.addNewPostText = text
-    rerender(state)
+    rerenderEntireTree()
 }
 
 export const AddMessages = () => {
     let NewMessages = {...state}
     NewMessages.DialogPage.messagesData.push({id: v1(), messages: state.DialogPage.addMessage},)
-    rerender(NewMessages)
+    rerenderEntireTree()
     state.DialogPage.addMessage = ''
 }
 
 export const AddTextMessage = (text:string) => {
     state.DialogPage.addMessage = text
-    rerender(state)
+    rerenderEntireTree()
+}
+
+export const subscribe = (observer:()=> void) => {
+    rerenderEntireTree = observer
 }
