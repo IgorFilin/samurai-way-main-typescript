@@ -22,7 +22,7 @@ export type messagesDataType = {
 }
 
 export type ProfilePageType = {
-    newPostText: string
+    addNewPostText: string
     postData: Array<postDataType>
 }
 export type SidebarType = {
@@ -33,6 +33,7 @@ export type friendsDataType = {
     name: string
 }
 export type DialogPageType = {
+    addMessage:string
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
 }
@@ -40,6 +41,7 @@ export type DialogPageType = {
 
 export const state = {
     DialogPage: {
+        addMessage: '',
         dialogsData: [
             {id: v1(), name: 'Igor'},
             {id: v1(), name: 'Ivan'},
@@ -56,7 +58,7 @@ export const state = {
         ],
     },
     ProfilePage: {
-        newPostText: '',
+        addNewPostText: '',
         postData: [
             {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
             {id: v1(), text: 'yoyoyo', likeCount: 12},
@@ -73,13 +75,26 @@ export const state = {
     }
 }
 
-export const AddPost = (text: string) => {
-    const newPost = {id: v1(), text: text, likeCount: 0}
-    state.ProfilePage.postData.push(newPost)
-    rerender(state)
+export const AddPost = () => {
+    const newPost = {...state}
+    newPost.ProfilePage.postData.push({id: v1(), text: state.ProfilePage.addNewPostText, likeCount: 0})
+    state.ProfilePage.addNewPostText = ''
+    rerender(newPost)
 }
 
 export const newPostText = (text: string) => {
-    state.ProfilePage.newPostText = text
+    state.ProfilePage.addNewPostText = text
+    rerender(state)
+}
+
+export const AddMessages = () => {
+    let NewMessages = {...state}
+    NewMessages.DialogPage.messagesData.push({id: v1(), messages: state.DialogPage.addMessage},)
+    rerender(NewMessages)
+    state.DialogPage.addMessage = ''
+}
+
+export const AddTextMessage = (text:string) => {
+    state.DialogPage.addMessage = text
     rerender(state)
 }

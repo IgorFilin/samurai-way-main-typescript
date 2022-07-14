@@ -5,15 +5,16 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import {Route, Routes} from "react-router-dom";
-import {AddPost, stateType} from "./redux/state";
+import {AddMessages, AddPost, AddTextMessage, state, stateType} from "./redux/state";
 
 
 export type AppPropsType = {
     state: stateType
-    AddPost:(text:string)=>void
-    newPostText:(text:string)=> void
+    AddPost: () => void
+    NewPostText: (text: string) => void
+    AddMessages:()=>void
+    AddTextMessage:(t:string)=>void
 }
-
 
 
 function App(props: AppPropsType) {
@@ -25,8 +26,16 @@ function App(props: AppPropsType) {
             <Navbar state={props.state}/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path={'/profile/'} element={<Profile state={props.state} AddPost={props.AddPost} newPostText={props.newPostText}/>}/>
-                    <Route path={'/dialogs/*'} element={<Dialogs state={props.state}/>}/>
+                    <Route path={'/profile/'} element={<Profile ProfilePage={props.state.ProfilePage}
+                                                                AddPost={props.AddPost}
+                                                                NewPostText={props.NewPostText}/>}/>
+                    <Route path={'/dialogs/*'} element={
+                        <Dialogs
+                        DialogPage={props.state.DialogPage}
+                        AddMessages={AddMessages}
+                        AddTextMessage={AddTextMessage}
+                        />
+                    }/>
                 </Routes>
             </div>
         </div>

@@ -1,26 +1,30 @@
 import classes from './Dialogs.module.css'
 import DialogsItems from "./DialogsItem/DialogsItems";
 import Message from "./Message/Message";
-import {stateType} from "../../redux/state";
-import React from "react";
+import {AddMessages, AddTextMessage, DialogPageType, stateType} from "../../redux/state";
+import React, {ChangeEvent} from "react";
 
 
 type DialogsPropsType = {
-    state: stateType
+    DialogPage: DialogPageType
+    AddMessages: () => void
+    AddTextMessage:(s:string) => void
 }
 
 
-function Dialogs(props: DialogsPropsType) {
+const Dialogs: React.FC<DialogsPropsType> = ({DialogPage, AddMessages,AddTextMessage}) => {
 
-    const valueMessageRef = React.createRef<HTMLTextAreaElement>()
+    const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        AddTextMessage(e.currentTarget.value)
+    }
 
     const onClickHandler = () => {
-        alert(valueMessageRef.current?.value)
+        AddMessages()
     }
 
 
-    const addMessagesPage = props.state.DialogPage.messagesData.map(m => <Message messages={m.messages}/>)
-    const addDialogsPage = props.state.DialogPage.dialogsData.map(d => <DialogsItems name={d.name} id={d.id}/>)
+    const addMessagesPage = DialogPage.messagesData.map(m => <Message messages={m.messages}/>)
+    const addDialogsPage = DialogPage.dialogsData.map(d => <DialogsItems name={d.name} id={d.id}/>)
 
     return (<div>
             <div className={classes.dialogs}>
@@ -31,8 +35,12 @@ function Dialogs(props: DialogsPropsType) {
                     {addMessagesPage}
                 </div>
             </div>
-            <div className={classes.textAreaMessages}><textarea ref={valueMessageRef}></textarea><div>
-                <button onClick={onClickHandler}>Add Messages</button></div></div>
+            <div className={classes.textAreaMessages}>
+                <textarea value={DialogPage.addMessage} onChange={onChangeMessagesHandler}/>
+                <div>
+                    <button onClick={onClickHandler}>Add Messages</button>
+                </div>
+            </div>
 
         </div>
 
