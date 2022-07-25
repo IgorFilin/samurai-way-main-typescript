@@ -10,7 +10,6 @@ export type postDataType = {
     text: string
     likeCount: number
 }
-
 export type dialogsDataType = {
     id: string
     name: string
@@ -19,7 +18,6 @@ export type messagesDataType = {
     id: string
     messages: string
 }
-
 export type ProfilePageType = {
     addNewPostText: string
     postData: Array<postDataType>
@@ -63,6 +61,7 @@ export type StoreType = {
     subscribe: (fn: () => void) => void
     dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText | DispatchTypeAppAddTextMessage | DispatchTypeAppAddMessage) => void
 }
+
 
 export const store: StoreType = {
     _state: {
@@ -130,7 +129,7 @@ export const store: StoreType = {
         this._state.DialogPage.addMessage = ''
     },
     dispatch(action) {
-        debugger
+
         if (action.type === 'ADD-POST') {
             this._addPost()
         } else if (action.type === 'NEW-POST-TEXT') {
@@ -142,3 +141,14 @@ export const store: StoreType = {
         }
     }
 }
+
+export const ActionCreatorAddPost = (): DispatchTypeAppPost => ({type: 'ADD-POST'})
+
+export const ActionCreatorNewPostText = (text: string): DispatchTypeAppNewPostText => ({type: 'NEW-POST-TEXT', text})
+
+export const ActionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTextMessage => ({
+    type: "ADD-TEXT-MESSAGE",
+    text
+})
+
+export const ActionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
