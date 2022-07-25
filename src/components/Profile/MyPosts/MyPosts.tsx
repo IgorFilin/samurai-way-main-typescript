@@ -4,9 +4,10 @@ import {
     DispatchTypeAppNewPostText,
     DispatchTypeAppPost,
     ProfilePageType,
-    ActionCreatorAddPost, ActionCreatorNewPostText
+
 } from "../../../redux/state";
 import React, {ChangeEvent} from "react";
+import {actionCreatorAddPost, actionCreatorNewPostText} from "../../../redux/ProfileReducer";
 
 
 type MyPostsTypeProps = {
@@ -19,12 +20,14 @@ const MyPosts: React.FC<MyPostsTypeProps> = ({ProfilePage, dispatch}) => {
 
     const onClickHandler = () => {
         // AddPost()
-        dispatch(ActionCreatorAddPost())
+
+        dispatch(actionCreatorAddPost())
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+
         let text = e.currentTarget.value
         // NewPostText(text)
-        dispatch(ActionCreatorNewPostText(text))
+        dispatch(actionCreatorNewPostText(text))
     }
 
     const addNewPostPage = ProfilePage.postData.map(p =>

@@ -1,4 +1,7 @@
 import {v1} from "uuid";
+import ProfileReducer from "./ProfileReducer";
+import DialogsReducer from "./DialogsReducer";
+import SidebarReducer from "./SidebarReducer";
 
 export type stateType = {
     DialogPage: DialogPageType
@@ -61,6 +64,11 @@ export type StoreType = {
     subscribe: (fn: () => void) => void
     dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText | DispatchTypeAppAddTextMessage | DispatchTypeAppAddMessage) => void
 }
+export type AllActionsCreators =
+    DispatchTypeAppPost
+    | DispatchTypeAppNewPostText
+    | DispatchTypeAppAddTextMessage
+    | DispatchTypeAppAddMessage
 
 
 export const store: StoreType = {
@@ -129,26 +137,14 @@ export const store: StoreType = {
         this._state.DialogPage.addMessage = ''
     },
     dispatch(action) {
-
-        if (action.type === 'ADD-POST') {
-            this._addPost()
-        } else if (action.type === 'NEW-POST-TEXT') {
-            this._newPostText(action.text)
-        } else if (action.type === 'ADD-TEXT-MESSAGE') {
-            this._addTextMessage(action.text)
-        } else if (action.type === 'ADD-MESSAGE') {
-            this._addMessages()
-        }
+        this._state.ProfilePage = ProfileReducer(this._state.ProfilePage, action)
+        this._state.DialogPage = DialogsReducer(this._state.DialogPage, action)
+        this._state.sidebar = SidebarReducer(this._state.sidebar, action)
+        this._rerenderEntireTree()
     }
+
 }
 
-export const ActionCreatorAddPost = (): DispatchTypeAppPost => ({type: 'ADD-POST'})
 
-export const ActionCreatorNewPostText = (text: string): DispatchTypeAppNewPostText => ({type: 'NEW-POST-TEXT', text})
 
-export const ActionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTextMessage => ({
-    type: "ADD-TEXT-MESSAGE",
-    text
-})
 
-export const ActionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
