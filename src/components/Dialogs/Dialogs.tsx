@@ -1,18 +1,18 @@
 import classes from './Dialogs.module.css'
 import DialogsItems from "./DialogsItem/DialogsItems";
 import Message from "./Message/Message";
-import {AddMessages, AddTextMessage, DialogPageType, stateType} from "../../redux/state";
+import {DialogPageType} from "../../redux/state";
 import React, {ChangeEvent} from "react";
 
 
 type DialogsPropsType = {
     DialogPage: DialogPageType
     AddMessages: () => void
-    AddTextMessage:(s:string) => void
+    AddTextMessage: (s: string) => void
 }
 
 
-const Dialogs: React.FC<DialogsPropsType> = ({DialogPage, AddMessages,AddTextMessage}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({DialogPage, AddMessages, AddTextMessage}) => {
 
     const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         AddTextMessage(e.currentTarget.value)

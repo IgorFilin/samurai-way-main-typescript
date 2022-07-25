@@ -3,16 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
-import {AddMessages, AddPost, AddTextMessage, newPostText, state, subscribe} from './redux/state'
+import {store} from './redux/state'
 
 
 export const rerender = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} AddPost={AddPost} AddMessages={AddMessages} AddTextMessage={AddTextMessage} NewPostText={newPostText}/>
+            <App state={store.getState()} AddPost={store.AddPost.bind(store)}
+                 AddMessages={store.AddMessages.bind(store)}
+                 AddTextMessage={store.AddTextMessage.bind(store)} NewPostText={store.newPostText.bind(store)}/>
         </BrowserRouter>
         , document.getElementById('root')
     );
 }
-subscribe(rerender)
+store.subscribe(rerender)
 rerender()

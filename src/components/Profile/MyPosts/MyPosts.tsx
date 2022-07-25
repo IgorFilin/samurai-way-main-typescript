@@ -1,6 +1,6 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {newPostText, ProfilePageType, stateType} from "../../../redux/state";
+import {ProfilePageType, stateType} from "../../../redux/state";
 import React, {ChangeEvent} from "react";
 
 
