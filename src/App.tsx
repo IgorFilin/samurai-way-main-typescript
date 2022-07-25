@@ -5,15 +5,18 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import {Route, Routes} from "react-router-dom";
-import {stateType} from "./redux/state";
+import {
+    DispatchTypeAppAddMessage,
+    DispatchTypeAppAddTextMessage,
+    DispatchTypeAppNewPostText,
+    DispatchTypeAppPost,
+    stateType
+} from "./redux/state";
 
 
 export type AppPropsType = {
     state: stateType
-    AddPost: () => void
-    NewPostText: (text: string) => void
-    AddMessages: () => void
-    AddTextMessage: (t: string) => void
+    dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText | DispatchTypeAppAddTextMessage | DispatchTypeAppAddMessage) => void
 }
 
 
@@ -29,13 +32,12 @@ function App(props: AppPropsType) {
                     <Route path={'/profile/'} element={
                         <Profile
                             ProfilePage={props.state.ProfilePage}
-                            AddPost={props.AddPost}
-                            NewPostText={props.NewPostText}/>}/>
+                            dispatch={props.dispatch}
+                        />}/>
                     <Route path={'/dialogs/*'} element={
                         <Dialogs
                             DialogPage={props.state.DialogPage}
-                            AddMessages={props.AddMessages}
-                            AddTextMessage={props.AddTextMessage}
+                            dispatch={props.dispatch}
                         />
                     }/>
                 </Routes>

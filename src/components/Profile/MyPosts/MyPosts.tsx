@@ -1,24 +1,25 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {ProfilePageType, stateType} from "../../../redux/state";
+import {DispatchTypeAppNewPostText, DispatchTypeAppPost, ProfilePageType} from "../../../redux/state";
 import React, {ChangeEvent} from "react";
 
 
 type MyPostsTypeProps = {
     ProfilePage: ProfilePageType
-    AddPost: () => void
-    NewPostText: (text: string) => void
+    dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText) => void
 }
 
-const MyPosts: React.FC<MyPostsTypeProps> = ({ProfilePage, AddPost, NewPostText}) => {
+const MyPosts: React.FC<MyPostsTypeProps> = ({ProfilePage, dispatch}) => {
 
 
     const onClickHandler = () => {
-        AddPost()
+        // AddPost()
+        dispatch({type: 'ADD-POST'})
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text = e.currentTarget.value
-        NewPostText(text)
+        // NewPostText(text)
+        dispatch({type: 'NEW-POST-TEXT', text})
     }
 
     const addNewPostPage = ProfilePage.postData.map(p =>

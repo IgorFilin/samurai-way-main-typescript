@@ -36,15 +36,32 @@ export type DialogPageType = {
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
 }
+export type DispatchTypeAppPost = {
+    type: 'ADD-POST'
+
+}
+export type DispatchTypeAppNewPostText = {
+    type: 'NEW-POST-TEXT'
+    text: string
+}
+export type DispatchTypeAppAddTextMessage = {
+    type: 'ADD-TEXT-MESSAGE'
+    text: string
+}
+export type DispatchTypeAppAddMessage = {
+    type: 'ADD-MESSAGE'
+
+}
 export type StoreType = {
     _state: stateType
     getState: () => stateType
     _rerenderEntireTree: () => void
-    AddPost: () => void
-    newPostText: (t: string) => void
-    AddTextMessage: (t: string) => void
-    AddMessages: () => void
+    _addPost: () => void
+    _newPostText: (t: string) => void
+    _addTextMessage: (t: string) => void
+    _addMessages: () => void
     subscribe: (fn: () => void) => void
+    dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText | DispatchTypeAppAddTextMessage | DispatchTypeAppAddMessage) => void
 }
 
 export const store: StoreType = {
@@ -88,28 +105,40 @@ export const store: StoreType = {
     },
     _rerenderEntireTree() {
     },
-    AddPost() {
+    subscribe(observer: () => void) {
+        this._rerenderEntireTree = observer
+
+    },
+    _addPost() {
         const newPost = {...this._state}
         newPost.ProfilePage.postData.push({id: v1(), text: this._state.ProfilePage.addNewPostText, likeCount: 0})
         this._state.ProfilePage.addNewPostText = ''
         this._rerenderEntireTree()
     },
-    newPostText(text: string) {
+    _newPostText(text: string) {
         this._state.ProfilePage.addNewPostText = text
         this._rerenderEntireTree()
     },
-    AddTextMessage(text: string) {
+    _addTextMessage(text: string) {
         this._state.DialogPage.addMessage = text
         this._rerenderEntireTree()
     },
-    AddMessages() {
+    _addMessages() {
         let NewMessages = {...this._state}
         NewMessages.DialogPage.messagesData.push({id: v1(), messages: this._state.DialogPage.addMessage},)
         this._rerenderEntireTree()
         this._state.DialogPage.addMessage = ''
     },
-    subscribe(observer: () => void) {
-        this._rerenderEntireTree = observer
-
+    dispatch(action) {
+        debugger
+        if (action.type === 'ADD-POST') {
+            this._addPost()
+        } else if (action.type === 'NEW-POST-TEXT') {
+            this._newPostText(action.text)
+        } else if (action.type === 'ADD-TEXT-MESSAGE') {
+            this._addTextMessage(action.text)
+        } else if (action.type === 'ADD-MESSAGE') {
+            this._addMessages()
+        }
     }
 }
