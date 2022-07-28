@@ -17,15 +17,20 @@ export const actionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTex
 export const actionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
 
 const DialogsReducer = (state: DialogPageType, action: AllActionsCreators) => {
-  
+
     switch (action.type) {
         case 'ADD-TEXT-MESSAGE':
             state.addMessage = action.text
             return state
         case 'ADD-MESSAGE':
-            state.messagesData.push({id: v1(), messages: state.addMessage},)
-            state.addMessage = ''
-            return state
+            return {
+                ...state,
+                addMessage: '',
+                messagesData: [...state.messagesData, {id: v1(), messages: state.addMessage}]
+            }
+        // state.messagesData.push({id: v1(), messages: state.addMessage},)
+        // state.addMessage = ''
+        // return state
     }
     return state
 }

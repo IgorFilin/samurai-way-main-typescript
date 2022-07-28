@@ -8,9 +8,13 @@ export const actionCreatorNewPostText = (text: string): DispatchTypeAppNewPostTe
 const ProfileReducer = (state: ProfilePageType, action: AllActionsCreators) => {
     switch (action.type) {
         case 'ADD-POST':
-            state.postData.push({id: v1(), text: state.addNewPostText, likeCount: 0})
-            state.addNewPostText = ''
-            return state
+            return {
+                ...state,
+                addNewPostText: '',
+                postData: [...state.postData, {id: v1(), text: state.addNewPostText, likeCount: 0}]
+            }
+        // state.postData.push({id: v1(), text: state.addNewPostText, likeCount: 0})
+        // return state
         case 'NEW-POST-TEXT':
             state.addNewPostText = action.text
             return state
