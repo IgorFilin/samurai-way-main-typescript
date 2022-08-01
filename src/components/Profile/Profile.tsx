@@ -5,7 +5,7 @@ import {
     DispatchTypeAppNewPostText,
     DispatchTypeAppPost,
     ProfilePageType
-} from "../../redux/state";
+} from "../../redux/store";
 
 type ProfileTypeProps = {
     ProfilePage: ProfilePageType

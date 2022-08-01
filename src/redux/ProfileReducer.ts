@@ -1,11 +1,21 @@
-import {AllActionsCreators, DispatchTypeAppNewPostText, DispatchTypeAppPost, ProfilePageType} from "./state";
+import {AllActionsCreators, DispatchTypeAppNewPostText, DispatchTypeAppPost, ProfilePageType} from "./store";
 import {v1} from "uuid";
 
 export const actionCreatorAddPost = (): DispatchTypeAppPost => ({type: 'ADD-POST'})
 
 export const actionCreatorNewPostText = (text: string): DispatchTypeAppNewPostText => ({type: 'NEW-POST-TEXT', text})
 
-const ProfileReducer = (state: ProfilePageType, action: AllActionsCreators) => {
+let initialState: ProfilePageType = {
+    addNewPostText: '',
+    postData: [
+        {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
+        {id: v1(), text: 'yoyoyo', likeCount: 12},
+        {id: v1(), text: 'Welcome samurai', likeCount: 77},
+    ]
+}
+
+const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators) => {
+    debugger
     switch (action.type) {
         case 'ADD-POST':
             return {
@@ -18,7 +28,9 @@ const ProfileReducer = (state: ProfilePageType, action: AllActionsCreators) => {
         case 'NEW-POST-TEXT':
             state.addNewPostText = action.text
             return state
+        default:
+            return state
     }
-    return state
+
 }
 export default ProfileReducer

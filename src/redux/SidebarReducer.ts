@@ -1,6 +1,18 @@
-import {AllActionsCreators, SidebarType} from "./state";
+import {AllActionsCreators, SidebarType} from "./store";
+import {v1} from "uuid";
 
-const SidebarReducer = (state: SidebarType, action: AllActionsCreators) => {
+
+let initialState: SidebarType = {
+    friendsData: [
+        {id: v1(), name: 'Igor'},
+        {id: v1(), name: 'Sveta'},
+        {id: v1(), name: 'Sasha'},
+        {id: v1(), name: 'Max'}
+    ]
+}
+
+
+const SidebarReducer = (state: SidebarType = initialState, action: AllActionsCreators) => {
     return state
 }
 export default SidebarReducer

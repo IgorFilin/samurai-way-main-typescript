@@ -11,7 +11,7 @@ import {
     DispatchTypeAppNewPostText,
     DispatchTypeAppPost,
     stateType
-} from "./redux/state";
+} from "./redux/store";
 
 
 export type AppPropsType = {

@@ -5,7 +5,7 @@ import {
     DispatchTypeAppPost,
     ProfilePageType,
 
-} from "../../../redux/state";
+} from "../../../redux/store";
 import React, {ChangeEvent} from "react";
 import {actionCreatorAddPost, actionCreatorNewPostText} from "../../../redux/ProfileReducer";
 
