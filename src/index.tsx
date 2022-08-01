@@ -5,12 +5,15 @@ import App from './App';
 import {BrowserRouter} from 'react-router-dom';
 import {store} from './redux/redux-store'
 
+export const MyStore = React.createContext(store)
 
 export const rerender = () => {
     ReactDOM.render(
+        <MyStore.Provider value={store}>
         <BrowserRouter>
             <App store={store}/>
         </BrowserRouter>
+        </MyStore.Provider>
         , document.getElementById('root')
     );
 }
