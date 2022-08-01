@@ -1,40 +1,33 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {
-    DispatchTypeAppNewPostText,
-    DispatchTypeAppPost,
-    ProfilePageType,
-
-} from "../../../redux/state";
+import {postDataType, ProfilePageType,} from "../../../redux/store";
 import React, {ChangeEvent} from "react";
-import {actionCreatorAddPost, actionCreatorNewPostText} from "../../../redux/ProfileReducer";
 
 
 type MyPostsTypeProps = {
-    ProfilePage: ProfilePageType
-    dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText) => void
+    newPostText: (text: string) => void
+    addPost: () => void
+    //postData: Array<postDataType>
+    profilePage: ProfilePageType
 }
 
-const MyPosts: React.FC<MyPostsTypeProps> = ({ProfilePage, dispatch}) => {
+const MyPosts: React.FC<MyPostsTypeProps> = ({newPostText, addPost, profilePage}) => {
 
 
     const onClickHandler = () => {
-        // AddPost()
-
-        dispatch(actionCreatorAddPost())
+        addPost()
     }
+
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-
         let text = e.currentTarget.value
-        // NewPostText(text)
-        dispatch(actionCreatorNewPostText(text))
+        newPostText(text)
     }
 
-    const addNewPostPage = ProfilePage.postData.map(p =>
+    const addNewPostPage = profilePage.postData.map(p =>
         <Post id={p.id} text={p.text} likeCount={p.likeCount}/>)
     return (<div className={classes.Posts}>
         <div>
-            <textarea value={ProfilePage.addNewPostText} onChange={onChangeHandler}/>
+            <textarea value={profilePage.addNewPostText} onChange={onChangeHandler}/>
             <div>
                 <button onClick={onClickHandler}>Add Post</button>
             </div>

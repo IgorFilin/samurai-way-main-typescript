@@ -5,7 +5,7 @@ import {
     DispatchTypeAppAddTextMessage, DispatchTypeAppNewPostText,
     DispatchTypeAppPost,
     stateType
-} from "./state";
+} from "./store";
 import {v1} from "uuid";
 
 
@@ -16,7 +16,25 @@ export const actionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTex
 
 export const actionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
 
-const DialogsReducer = (state: DialogPageType, action: AllActionsCreators) => {
+
+let initialState: DialogPageType = {
+    addMessage: '',
+    dialogsData: [
+        {id: v1(), name: 'Igor'},
+        {id: v1(), name: 'Ivan'},
+        {id: v1(), name: 'Anya'},
+        {id: v1(), name: 'Valera'},
+        {id: v1(), name: 'Alisa'}
+    ],
+    messagesData: [
+        {id: v1(), messages: 'Hi Samurai'},
+        {id: v1(), messages: 'YO YO'},
+        {id: v1(), messages: 'What are you doing?'},
+        {id: v1(), messages: 'Im sleep :))'},
+        {id: v1(), messages: 'Hello samurai'}
+    ],
+}
+const DialogsReducer = (state: DialogPageType = initialState, action: AllActionsCreators) => {
 
     switch (action.type) {
         case 'ADD-TEXT-MESSAGE':
@@ -28,11 +46,13 @@ const DialogsReducer = (state: DialogPageType, action: AllActionsCreators) => {
                 addMessage: '',
                 messagesData: [...state.messagesData, {id: v1(), messages: state.addMessage}]
             }
+        default:
+            return state
         // state.messagesData.push({id: v1(), messages: state.addMessage},)
         // state.addMessage = ''
         // return state
     }
-    return state
+
 }
 
 export default DialogsReducer

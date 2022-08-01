@@ -1,21 +1,18 @@
 import classes from './Profile.module.css'
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import {
-    DispatchTypeAppNewPostText,
-    DispatchTypeAppPost,
-    ProfilePageType
-} from "../../redux/state";
+import {StoreType} from "../../redux/store";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {Store} from "redux";
+
 
 type ProfileTypeProps = {
-    ProfilePage: ProfilePageType
-    dispatch: (a: DispatchTypeAppPost | DispatchTypeAppNewPostText) => void
+    store: Store
 }
 
 function Profile(props: ProfileTypeProps) {
     return (<div className={classes.profile}>
         <ProfileInfo/>
-        <MyPosts ProfilePage={props.ProfilePage} dispatch={props.dispatch}/>
+        <MyPostsContainer store={props.store}/>
     </div>)
 }
 

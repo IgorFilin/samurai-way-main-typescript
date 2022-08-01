@@ -1,31 +1,27 @@
 import classes from './Dialogs.module.css'
 import DialogsItems from "./DialogsItem/DialogsItems";
 import Message from "./Message/Message";
-import {
-    DialogPageType, DispatchTypeAppAddMessage,
-    DispatchTypeAppAddTextMessage,
-} from "../../redux/state";
+import {DialogPageType} from "../../redux/store";
 import React, {ChangeEvent} from "react";
-import {actionCreatorAddMessages, actionCreatorAddTextMessage} from "../../redux/DialogsReducer";
 
 
 type DialogsPropsType = {
+    AddTextMessage: (text: string) => void
+    AddMessages: () => void
     DialogPage: DialogPageType
-    dispatch: (a: DispatchTypeAppAddTextMessage | DispatchTypeAppAddMessage) => void
 }
 
-
-const Dialogs: React.FC<DialogsPropsType> = ({DialogPage, dispatch}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({AddTextMessage, AddMessages, DialogPage}) => {
 
     const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // AddTextMessage(e.currentTarget.value)
         let text = e.currentTarget.value
-        dispatch(actionCreatorAddTextMessage(text))
+        AddTextMessage(text)
     }
 
     const onClickHandler = () => {
         // AddMessages()
-        dispatch(actionCreatorAddMessages())
+        AddMessages()
     }
 
 
