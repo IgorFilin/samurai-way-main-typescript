@@ -1,17 +1,13 @@
 import classes from './Profile.module.css'
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import MyPosts from "./MyPosts/MyPosts";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 
-
-type ProfileTypeProps = {
-    // store: Store
-}
-
-function Profile(props: ProfileTypeProps) {
+function Profile() {
     return (<div className={classes.profile}>
         <ProfileInfo/>
-        <MyPostsContainer />
+        <MyPostsContainer/>
     </div>)
 }
 

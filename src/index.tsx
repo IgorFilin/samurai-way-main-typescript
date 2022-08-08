@@ -4,16 +4,17 @@ import './index.css';
 import App from './App';
 import {BrowserRouter} from 'react-router-dom';
 import {store} from './redux/redux-store'
+import {Provider} from "react-redux";
 
 export const MyStore = React.createContext(store)
 
 export const rerender = () => {
     ReactDOM.render(
-        <MyStore.Provider value={store}>
+        <Provider store={store}>
         <BrowserRouter>
             <App store={store}/>
         </BrowserRouter>
-        </MyStore.Provider>
+        </Provider>
         , document.getElementById('root')
     );
 }

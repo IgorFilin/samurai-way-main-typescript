@@ -11,22 +11,22 @@ type DialogsPropsType = {
     DialogPage: DialogPageType
 }
 
-const Dialogs: React.FC<DialogsPropsType> = ({AddTextMessage, AddMessages, DialogPage}) => {
+const Dialogs = (props:DialogsPropsType) => {
 
     const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // AddTextMessage(e.currentTarget.value)
         let text = e.currentTarget.value
-        AddTextMessage(text)
+        props.AddTextMessage(text)
     }
 
     const onClickHandler = () => {
         // AddMessages()
-        AddMessages()
+        props.AddMessages()
     }
 
 
-    const addMessagesPage = DialogPage.messagesData.map(m => <Message messages={m.messages}/>)
-    const addDialogsPage = DialogPage.dialogsData.map(d => <DialogsItems name={d.name} id={d.id}/>)
+    const addMessagesPage = props.DialogPage.messagesData.map(m => <Message messages={m.messages}/>)
+    const addDialogsPage = props.DialogPage.dialogsData.map(d => <DialogsItems name={d.name} id={d.id}/>)
 
     return (<div>
             <div className={classes.dialogs}>
@@ -38,7 +38,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({AddTextMessage, AddMessages, Dialo
                 </div>
             </div>
             <div className={classes.textAreaMessages}>
-                <textarea value={DialogPage.addMessage} onChange={onChangeMessagesHandler}/>
+                <textarea value={props.DialogPage.addMessage} onChange={onChangeMessagesHandler}/>
                 <div>
                     <button onClick={onClickHandler}>Add Messages</button>
                 </div>

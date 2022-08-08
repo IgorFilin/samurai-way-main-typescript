@@ -39,7 +39,6 @@ export type DialogPageType = {
 }
 export type DispatchTypeAppPost = {
     type: 'ADD-POST'
-
 }
 export type DispatchTypeAppNewPostText = {
     type: 'NEW-POST-TEXT'
@@ -137,10 +136,11 @@ export const store: StoreType = {
         this._state.DialogPage.addMessage = ''
     },
     dispatch(action) {
+        debugger
         this._state.ProfilePage = ProfileReducer(this._state.ProfilePage, action)
         this._state.DialogPage = DialogsReducer(this._state.DialogPage, action)
         this._state.sidebar = SidebarReducer(this._state.sidebar, action)
-        this.subscribe
+
     }
 
 }

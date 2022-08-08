@@ -34,12 +34,15 @@ let initialState: DialogPageType = {
         {id: v1(), messages: 'Hello samurai'}
     ],
 }
+
+
 const DialogsReducer = (state: DialogPageType = initialState, action: AllActionsCreators) => {
 
     switch (action.type) {
         case 'ADD-TEXT-MESSAGE':
-            state.addMessage = action.text
-            return state
+            // state.addMessage = action.text
+            // return state
+            return {...state,addMessage: action.text}
         case 'ADD-MESSAGE':
             return {
                 ...state,

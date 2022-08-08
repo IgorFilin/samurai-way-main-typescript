@@ -11,23 +11,24 @@ type MyPostsTypeProps = {
     profilePage: ProfilePageType
 }
 
-const MyPosts: React.FC<MyPostsTypeProps> = ({newPostText, addPost, profilePage}) => {
+const MyPosts = (props:MyPostsTypeProps) => {
 
 
     const onClickHandler = () => {
-        addPost()
+        props.addPost()
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        debugger
         let text = e.currentTarget.value
-        newPostText(text)
+        props.newPostText(text)
     }
 
-    const addNewPostPage = profilePage.postData.map(p =>
+    const addNewPostPage = props.profilePage.postData.map(p =>
         <Post id={p.id} text={p.text} likeCount={p.likeCount}/>)
     return (<div className={classes.Posts}>
         <div>
-            <textarea value={profilePage.addNewPostText} onChange={onChangeHandler}/>
+            <textarea value={props.profilePage.addNewPostText} onChange={onChangeHandler}/>
             <div>
                 <button onClick={onClickHandler}>Add Post</button>
             </div>
