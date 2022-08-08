@@ -51,9 +51,7 @@ const DialogsReducer = (state: DialogPageType = initialState, action: AllActions
             }
         default:
             return state
-        // state.messagesData.push({id: v1(), messages: state.addMessage},)
-        // state.addMessage = ''
-        // return state
+
     }
 
 }

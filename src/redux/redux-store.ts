@@ -12,6 +12,8 @@ let reducers = combineReducers({
 
 export let store = createStore(reducers)
 
+
+
 const state = store.getState()
 const dispatch = store.dispatch
 export type StateType = typeof state

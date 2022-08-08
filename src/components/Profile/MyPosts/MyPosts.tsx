@@ -19,7 +19,7 @@ const MyPosts = (props:MyPostsTypeProps) => {
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        debugger
+
         let text = e.currentTarget.value
         props.newPostText(text)
     }
