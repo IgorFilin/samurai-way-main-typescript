@@ -1,23 +1,25 @@
 import {
     AllActionsCreators,
-    DialogPageType,
     DispatchTypeAppAddMessage,
-    DispatchTypeAppAddTextMessage, DispatchTypeAppNewPostText,
-    DispatchTypeAppPost,
-    stateType
+    DispatchTypeAppAddTextMessage
 } from "./store";
 import {v1} from "uuid";
 
+export type dialogsDataType = {
+    id: string
+    name: string
+}
+export type messagesDataType = {
+    id: string
+    messages: string
+}
+export type DialogPageType = {
+    addMessage: string
+    dialogsData: Array<dialogsDataType>
+    messagesData: Array<messagesDataType>
+}
 
-export const actionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTextMessage => ({
-    type: "ADD-TEXT-MESSAGE",
-    text
-})
-
-export const actionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
-
-
-let initialState: DialogPageType = {
+let initialState = {
     addMessage: '',
     dialogsData: [
         {id: v1(), name: 'Igor'},
@@ -25,24 +27,22 @@ let initialState: DialogPageType = {
         {id: v1(), name: 'Anya'},
         {id: v1(), name: 'Valera'},
         {id: v1(), name: 'Alisa'}
-    ],
+    ] as Array<dialogsDataType>,
     messagesData: [
         {id: v1(), messages: 'Hi Samurai'},
         {id: v1(), messages: 'YO YO'},
         {id: v1(), messages: 'What are you doing?'},
         {id: v1(), messages: 'Im sleep :))'},
         {id: v1(), messages: 'Hello samurai'}
-    ],
+    ] as Array<messagesDataType>,
 }
+export type initialStateType = typeof initialState
 
 
-const DialogsReducer = (state: DialogPageType = initialState, action: AllActionsCreators) => {
-
+export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreators): DialogPageType => {
     switch (action.type) {
         case 'ADD-TEXT-MESSAGE':
-            // state.addMessage = action.text
-            // return state
-            return {...state,addMessage: action.text}
+            return {...state, addMessage: action.text}
         case 'ADD-MESSAGE':
             return {
                 ...state,
@@ -56,4 +56,10 @@ const DialogsReducer = (state: DialogPageType = initialState, action: AllActions
 
 }
 
-export default DialogsReducer
+export const actionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTextMessage => ({
+    type: "ADD-TEXT-MESSAGE",
+    text
+})
+
+export const actionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
+

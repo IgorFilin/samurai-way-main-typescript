@@ -1,7 +1,12 @@
-import {AllActionsCreators, SidebarType} from "./store";
 import {v1} from "uuid";
 
-
+export type SidebarType = {
+    friendsData: Array<friendsDataType>
+}
+export type friendsDataType = {
+    id: string
+    name: string
+}
 let initialState: SidebarType = {
     friendsData: [
         {id: v1(), name: 'Igor'},
@@ -12,7 +17,6 @@ let initialState: SidebarType = {
 }
 
 
-const SidebarReducer = (state: SidebarType = initialState, action: AllActionsCreators) => {
+export const SidebarReducer = (state: SidebarType = initialState, action: any) => {
     return state
 }
-export default SidebarReducer

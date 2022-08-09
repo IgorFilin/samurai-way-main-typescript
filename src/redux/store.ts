@@ -1,42 +1,16 @@
 import {v1} from "uuid";
-import ProfileReducer from "./ProfileReducer";
-import DialogsReducer from "./DialogsReducer";
-import SidebarReducer from "./SidebarReducer";
+import {DialogPageType} from "./DialogsReducer";
+import {ProfilePageType} from "./ProfileReducer";
+import {SidebarType} from "./SidebarReducer";
+
 
 export type stateType = {
     DialogPage: DialogPageType
     ProfilePage: ProfilePageType
     sidebar: SidebarType
 }
-export type postDataType = {
-    id: string
-    text: string
-    likeCount: number
-}
-export type dialogsDataType = {
-    id: string
-    name: string
-}
-export type messagesDataType = {
-    id: string
-    messages: string
-}
-export type ProfilePageType = {
-    addNewPostText: string
-    postData: Array<postDataType>
-}
-export type SidebarType = {
-    friendsData: Array<friendsDataType>
-}
-export type friendsDataType = {
-    id: string
-    name: string
-}
-export type DialogPageType = {
-    addMessage: string
-    dialogsData: Array<dialogsDataType>
-    messagesData: Array<messagesDataType>
-}
+
+
 export type DispatchTypeAppPost = {
     type: 'ADD-POST'
 }
@@ -137,9 +111,9 @@ export const store: StoreType = {
     },
     dispatch(action) {
         debugger
-        this._state.ProfilePage = ProfileReducer(this._state.ProfilePage, action)
-        this._state.DialogPage = DialogsReducer(this._state.DialogPage, action)
-        this._state.sidebar = SidebarReducer(this._state.sidebar, action)
+        // this._state.ProfilePage = ProfileReducer(this._state.ProfilePage, action)
+        // this._state.DialogPage = DialogsReducer(this._state.DialogPage, action)
+        // this._state.sidebar = SidebarReducer(this._state.sidebar, action)
 
     }
 

@@ -1,13 +1,12 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {postDataType, ProfilePageType,} from "../../../redux/store";
 import React, {ChangeEvent} from "react";
+import {ProfilePageType} from "../../../redux/ProfileReducer";
 
 
 type MyPostsTypeProps = {
     newPostText: (text: string) => void
     addPost: () => void
-    //postData: Array<postDataType>
     profilePage: ProfilePageType
 }
 

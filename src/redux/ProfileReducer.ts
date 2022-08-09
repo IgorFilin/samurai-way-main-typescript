@@ -1,9 +1,18 @@
-import {AllActionsCreators, DispatchTypeAppNewPostText, DispatchTypeAppPost, ProfilePageType} from "./store";
 import {v1} from "uuid";
 
-export const actionCreatorAddPost = (): DispatchTypeAppPost => ({type: 'ADD-POST'})
+export type postDataType = {
+    id: string
+    text: string
+    likeCount: number
+}
+export type ProfilePageType = {
+    addNewPostText: string
+    postData: Array<postDataType>
+}
+export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
+export type actionCreatorNewPostTextType = ReturnType<typeof actionCreatorNewPostText>
+export type AllActionsCreators = actionCreatorAddPostType | actionCreatorNewPostTextType
 
-export const actionCreatorNewPostText = (text: string): DispatchTypeAppNewPostText => ({type: 'NEW-POST-TEXT', text})
 
 let initialState: ProfilePageType = {
     addNewPostText: '',
@@ -14,10 +23,7 @@ let initialState: ProfilePageType = {
     ]
 }
 
-
-
-const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators) => {
-
+export const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST':
             return {
@@ -25,15 +31,17 @@ const ProfileReducer = (state: ProfilePageType = initialState, action: AllAction
                 addNewPostText: '',
                 postData: [...state.postData, {id: v1(), text: state.addNewPostText, likeCount: 0}]
             }
-        // state.postData.push({id: v1(), text: state.addNewPostText, likeCount: 0})
-        // return state
         case 'NEW-POST-TEXT':
-            // state.addNewPostText = action.text
-            // return state
-            return {...state,addNewPostText: action.text}
+            return {...state, addNewPostText: action.text}
         default:
             return state
     }
 
 }
-export default ProfileReducer
+
+
+export const actionCreatorAddPost = () => ({type: 'ADD-POST'} as const)
+
+
+export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT', text}as const)
+
