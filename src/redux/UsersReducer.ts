@@ -2,10 +2,10 @@ import {v1} from "uuid";
 
 export type UserType = {
     id: string
-    statusFollow: boolean
+    followed: boolean
     status:string
-    avatarUser: string
-    firstName: string
+    photos: string
+    name: string
     location: {
         country: string
         city: string
@@ -27,9 +27,9 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
 
     switch (action.type) {
         case 'CHANGE-SUBSCRIPTION':
-            return {...state,users: state.users.map(user => user.id === action.idUser? {...user,statusFollow:!user.statusFollow}:user)}
+            return {...state,users: state.users.map(user => user.id === action.idUser? {...user,statusFollow:!user.followed}:user)}
         case "SET-USERS":
-            return {...state,users:[...state.users,...action.users]}
+            return { ...state, users: action.users }
         default:
             return state
     }

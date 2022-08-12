@@ -24,7 +24,7 @@ const MyPosts = (props:MyPostsTypeProps) => {
     }
 
     const addNewPostPage = props.profilePage.postData.map(p =>
-        <Post id={p.id} text={p.text} likeCount={p.likeCount}/>)
+        <Post id={p.id} key={p.id} text={p.text} likeCount={p.likeCount}/>)
     return (<div className={classes.Posts}>
         <div>
             <textarea value={props.profilePage.addNewPostText} onChange={onChangeHandler}/>
