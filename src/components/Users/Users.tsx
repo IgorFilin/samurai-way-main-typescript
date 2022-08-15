@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {UserTypePrope} from "./UsersContainer";
 import s from './Users.module.css'
 import axios from "axios";
@@ -7,21 +7,23 @@ import userPhotoDefault from './../../assets/images/user.png'
 
 
 class Users extends React.Component<UserTypePrope,UserTypePrope>{
-    constructor(props:UserTypePrope) {
-        super(props);
+
+    componentDidMount() {
         axios.get('https://social-network.samuraijs.com/api/1.0/users')
-                    .then(responseValue => props.setUsers(responseValue.data.items))
+            .then(responseValue => this.props.setUsers(responseValue.data.items))
     }
+
     render() {
         return (
             <>
                 {this.props.users.map(us => {
+                    debugger
                     return (
                         <div key={us.id} className={s.Content}>
                             <div className={s.userInfo}>
                                 <img className={s.Img} src={!!us.photos  ?userPhotoDefault : us.photos  }/>
                                 <div>{us.followed}</div>
-                                <button onClick={()=>this.props.changeSubscriptions(us.id)}>{us.followed ? 'Follow' : 'unFollow'}
+                                <button onClick={()=>this.props.changeSubscriptions(us.id)}>{!us.followed ? 'Follow' : 'unFollow'}
                                 </button>
                             </div>
                             <div className={s.blockTwo}>

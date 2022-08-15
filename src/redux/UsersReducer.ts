@@ -1,4 +1,4 @@
-import {v1} from "uuid";
+
 
 export type UserType = {
     id: string
@@ -24,17 +24,19 @@ let initialState = {
 
 
 export const UsersReducer = (state: InitialStateType = initialState, action: AllActionCreatorsType): InitialStateType => {
-
     switch (action.type) {
         case 'CHANGE-SUBSCRIPTION':
-            return {...state,users: state.users.map(user => user.id === action.idUser? {...user,statusFollow:!user.followed}:user)}
+            return {...state,users: state.users.map(user => user.id === action.idUser? {...user,followed:!user.followed}:user)}
         case "SET-USERS":
-            return { ...state, users: action.users }
+            state =  { ...state, users: action.users }
+            console.log(state)
+            return state
         default:
             return state
     }
 
 }
+
 
 export const ChangeSubscriptionAC =(idUser:string)=> {
     return {type:'CHANGE-SUBSCRIPTION',idUser} as const
