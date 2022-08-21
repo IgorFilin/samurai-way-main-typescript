@@ -14,16 +14,17 @@ export type ChangeSubscriptionACType = ReturnType<typeof ChangeSubscriptionAC>
 export type SetUserACType = ReturnType<typeof SetUserAC>
 export  type SetPageACType = ReturnType<typeof SetPageAC>
 export type SetUserCountACType = ReturnType<typeof SetUserCountAC>
+export type SetLoadingACType = ReturnType<typeof SetLoadingAC>
 
-
-export type AllActionCreatorsType = ChangeSubscriptionACType | SetUserACType | SetPageACType | SetUserCountACType
+export type AllActionCreatorsType = ChangeSubscriptionACType | SetUserACType | SetPageACType | SetUserCountACType | SetLoadingACType
 
 
 let initialState = {
     users: [] as Array<UserType>,
     currentPage: 1,
     pageSizeUsers: 5,
-    totalUserCount: 20
+    totalUserCount: 20,
+    isLoading:false
 }
 
 
@@ -46,6 +47,9 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
         case "SET-USER-COUNT": {
             return {...state, totalUserCount: action.userCount}
         }
+        case "SET-LOADING": {
+            return {...state,isLoading: action.status}
+        }
         default:
             return state
     }
@@ -64,4 +68,7 @@ export const SetPageAC = (pageNumber: number) => {
 }
 export const SetUserCountAC = (userCount: number) => {
     return {type: 'SET-USER-COUNT', userCount} as const
+}
+export const SetLoadingAC = (statusLoading:boolean) => {
+    return {type: 'SET-LOADING', status:statusLoading} as const
 }

@@ -1,11 +1,13 @@
-.app-wrapper{
+
+.app-wrapper {
     display: grid;
     grid-template-columns: 180px 1fr;
     grid-template-rows: 50px 1fr;
     grid-template-areas: 'header header' 'navbar content';
     grid-gap: 2px;
 }
-.app-wrapper-content{
+
+.app-wrapper-content {
     grid-area: content;
     background-color: aliceblue;
 }

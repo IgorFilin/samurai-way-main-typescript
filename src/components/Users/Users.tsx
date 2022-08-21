@@ -19,10 +19,11 @@ export const Users = (props:UsersTypeProps) => {
     for (let i = 1; i <= totalCountPages; i++) {
         totalCountPagesArray.push(i)
     }
+    let newTotalCountPagesArray = totalCountPagesArray.slice(0,10)
     return (
         <>
             <div className={s.pages}>
-                {totalCountPagesArray.map(page => <div className={page === props.currentPage ? s.activePage : s.page}
+                {newTotalCountPagesArray.map(page => <div className={page === props.currentPage ? s.activePage : s.page}
                                                        onClick={() => props.setPage(page)}>{page}</div>)}
             </div>
             {props.users.map(us => {
