@@ -5,26 +5,27 @@ import {UserType} from "../../redux/UsersReducer";
 
 
 type UsersTypeProps = {
-    totalCountPages:number
-    pageSizeUsers:number
-    currentPage:number
-    setPage:(page:number)=>void
-    users:UserType[]
-    changeSubscriptions:(id:string)=>void
+    totalCountPages: number
+    pageSizeUsers: number
+    currentPage: number
+    setPage: (page: number) => void
+    users: UserType[]
+    changeSubscriptions: (id: string) => void
 }
 
-export const Users = (props:UsersTypeProps) => {
+export const Users = (props: UsersTypeProps) => {
     let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
     let totalCountPagesArray = []
     for (let i = 1; i <= totalCountPages; i++) {
         totalCountPagesArray.push(i)
     }
-    let newTotalCountPagesArray = totalCountPagesArray.slice(0,10)
+    let newTotalCountPagesArray = totalCountPagesArray.slice(0, 10)
     return (
         <>
             <div className={s.pages}>
-                {newTotalCountPagesArray.map(page => <div className={page === props.currentPage ? s.activePage : s.page}
-                                                       onClick={() => props.setPage(page)}>{page}</div>)}
+                {newTotalCountPagesArray.map(page =>
+                    <div className={page === props.currentPage ? s.activePage : s.page}
+                         onClick={() => props.setPage(page)}>{page}</div>)}
             </div>
             {props.users.map(us => {
                 return (

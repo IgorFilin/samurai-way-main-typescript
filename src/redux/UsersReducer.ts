@@ -10,11 +10,11 @@ export type UserType = {
     }
 }
 export type InitialStateType = typeof initialState
-export type ChangeSubscriptionACType = ReturnType<typeof ChangeSubscriptionAC>
-export type SetUserACType = ReturnType<typeof SetUserAC>
-export  type SetPageACType = ReturnType<typeof SetPageAC>
-export type SetUserCountACType = ReturnType<typeof SetUserCountAC>
-export type SetLoadingACType = ReturnType<typeof SetLoadingAC>
+export type ChangeSubscriptionACType = ReturnType<typeof ChangeSubscription>
+export type SetUserACType = ReturnType<typeof SetUser>
+export  type SetPageACType = ReturnType<typeof SetPage>
+export type SetUserCountACType = ReturnType<typeof SetUserCount>
+export type SetLoadingACType = ReturnType<typeof SetLoading>
 
 export type AllActionCreatorsType = ChangeSubscriptionACType | SetUserACType | SetPageACType | SetUserCountACType | SetLoadingACType
 
@@ -57,18 +57,18 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
 }
 
 
-export const ChangeSubscriptionAC = (idUser: string) => {
+export const ChangeSubscription = (idUser: string) => {
     return {type: 'CHANGE-SUBSCRIPTION', idUser} as const
 }
-export const SetUserAC = (users: Array<UserType>) => {
+export const SetUser = (users: Array<UserType>) => {
     return {type: 'SET-USERS', users} as const
 }
-export const SetPageAC = (pageNumber: number) => {
+export const SetPage = (pageNumber: number) => {
     return {type: 'SET-PAGE', pageNumber} as const
 }
-export const SetUserCountAC = (userCount: number) => {
+export const SetUserCount = (userCount: number) => {
     return {type: 'SET-USER-COUNT', userCount} as const
 }
-export const SetLoadingAC = (statusLoading:boolean) => {
+export const SetLoading = (statusLoading:boolean) => {
     return {type: 'SET-LOADING', status:statusLoading} as const
 }

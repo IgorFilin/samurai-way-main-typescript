@@ -1,13 +1,6 @@
 import {connect} from "react-redux";
 import {DispatchType, StateType} from "../../redux/redux-store";
-import {
-    ChangeSubscriptionAC,
-    SetLoadingAC,
-    SetPageAC,
-    SetUserAC,
-    SetUserCountAC,
-    UserType
-} from "../../redux/UsersReducer";
+import {ChangeSubscription, SetLoading, SetPage, SetUser, SetUserCount, UserType} from "../../redux/UsersReducer";
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
@@ -23,42 +16,24 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToPropsType = {
-    changeSubscriptions: (idUser: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setPage: (pageNumber: number) => void
-    setUserCount: (userCount: number) => void
-    setLoading:(status:boolean)=> void
+    ChangeSubscription: (idUser: string) => void
+    SetUser: (users: Array<UserType>) => void
+    SetPage: (pageNumber: number) => void
+    SetUserCount: (userCount: number) => void
+    SetLoading:(status:boolean)=> void
 }
 
 export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
 
-const mapStateToProps = (state: StateType): mapStateToPropsType => {
-    return {
-        users: state.userPage.users,
-        currentPage: state.userPage.currentPage,
-        pageSizeUsers: state.userPage.pageSizeUsers,
-        totalCountPages: state.userPage.totalUserCount,
-        isLoading:state.userPage.isLoading
-    }
-}
-const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
-    return {
-        changeSubscriptions: (idUser: string) => dispatch(ChangeSubscriptionAC(idUser)),
-        setUsers: (users: Array<UserType>) => dispatch(SetUserAC(users)),
-        setPage: (pageNumber: number) => dispatch(SetPageAC(pageNumber)),
-        setUserCount: (userCount: number) => dispatch(SetUserCountAC(userCount)),
-        setLoading:(statusLoading:boolean)=> dispatch(SetLoadingAC(statusLoading))
-    }
-}
 
-class UsersApiConponent extends React.Component<UserTypeProps> {
+class UsersApiComponent extends React.Component<UserTypeProps> {
     componentDidMount() {
-        this.props.setLoading(true)
+        this.props.SetLoading(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${this.props.currentPage}`)
             .then(responseValue => {
-                this.props.setLoading(false)
-                this.props.setUsers(responseValue.data.items)
-                this.props.setUserCount(responseValue.data.totalCount)
+                this.props.SetLoading(false)
+                this.props.SetUser(responseValue.data.items)
+                this.props.SetUserCount(responseValue.data.totalCount)
             })
     }
 
@@ -70,14 +45,14 @@ class UsersApiConponent extends React.Component<UserTypeProps> {
     //         })
     // }
     setPage = (page: number) => {
-        this.props.setLoading(true)
+        this.props.SetLoading(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${page}`)
             .then(responseValue => {
-                this.props.setLoading(false)
-                this.props.setUsers(responseValue.data.items)
-                this.props.setUserCount(responseValue.data.totalCount)
+                this.props.SetLoading(false)
+                this.props.SetUser(responseValue.data.items)
+                this.props.SetUserCount(responseValue.data.totalCount)
             })
-        this.props.setPage(page)
+        this.props.SetPage(page)
     }
 
     render() {
@@ -86,7 +61,7 @@ class UsersApiConponent extends React.Component<UserTypeProps> {
             <Users users={this.props.users}
                    currentPage={this.props.currentPage}
                    setPage={this.setPage}
-                   changeSubscriptions={this.props.changeSubscriptions}
+                   changeSubscriptions={this.props.ChangeSubscription}
                    pageSizeUsers={this.props.pageSizeUsers}
                    totalCountPages={this.props.totalCountPages}/>}
         </>
@@ -95,6 +70,25 @@ class UsersApiConponent extends React.Component<UserTypeProps> {
 
 }
 
+const mapStateToProps = (state: StateType): mapStateToPropsType => {
+    return {
+        users: state.userPage.users,
+        currentPage: state.userPage.currentPage,
+        pageSizeUsers: state.userPage.pageSizeUsers,
+        totalCountPages: state.userPage.totalUserCount,
+        isLoading:state.userPage.isLoading
+    }
+}
+// const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
+//     return {
+//         changeSubscriptions: (idUser: string) => dispatch(ChangeSubscriptionAC(idUser)),
+//         setUsers: (users: Array<UserType>) => dispatch(SetUserAC(users)),
+//         setPage: (pageNumber: number) => dispatch(SetPageAC(pageNumber)),
+//         setUserCount: (userCount: number) => dispatch(SetUserCountAC(userCount)),
+//         setLoading:(statusLoading:boolean)=> dispatch(SetLoadingAC(statusLoading))
+//     }
+// }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersApiConponent)
+
+export const UsersContainer = connect(mapStateToProps, {ChangeSubscription, SetUser, SetPage, SetUserCount, SetLoading})(UsersApiComponent)
 
