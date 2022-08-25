@@ -2,7 +2,10 @@ export type UserType = {
     id: string
     followed: boolean
     status: string
-    photos: string
+    photos: {
+        small:null | string
+        large:null | string
+    }
     name: string
     location: {
         country: string
@@ -38,7 +41,7 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
             }
         }
         case "SET-USERS": {
-            return {...state, users: [...action.users]}//!![]
+            return {...state, users: [...action.users]}
         }
         case "SET-PAGE": {
             return   {...state, currentPage: action.pageNumber}

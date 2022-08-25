@@ -3,6 +3,10 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 
+export type ProfilePropsType = {
+
+}
+
 function Profile() {
     return (<div className={classes.profile}>
         <ProfileInfo/>

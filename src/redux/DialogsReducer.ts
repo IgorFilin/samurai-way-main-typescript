@@ -1,8 +1,3 @@
-import {
-    AllActionsCreators,
-    DispatchTypeAppAddMessage,
-    DispatchTypeAppAddTextMessage
-} from "./store";
 import {v1} from "uuid";
 
 export type dialogsDataType = {
@@ -18,6 +13,9 @@ export type DialogPageType = {
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
 }
+export type actionCreatorAddTextMessageType = ReturnType<typeof actionCreatorAddTextMessage>
+export type actionCreatorAddMessagesType = ReturnType<typeof actionCreatorAddMessages>
+export type AllActionsCreatorsType = actionCreatorAddTextMessageType | actionCreatorAddMessagesType
 
 let initialState = {
     addMessage: '',
@@ -39,7 +37,7 @@ let initialState = {
 export type initialStateType = typeof initialState
 
 
-export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreators): DialogPageType => {
+export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreatorsType): DialogPageType => {
     switch (action.type) {
         case 'ADD-TEXT-MESSAGE':
             return {...state, addMessage: action.text}
@@ -56,10 +54,10 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
 
 }
 
-export const actionCreatorAddTextMessage = (text: string): DispatchTypeAppAddTextMessage => ({
+export const actionCreatorAddTextMessage = (text: string) => ({
     type: "ADD-TEXT-MESSAGE",
     text
-})
+}as const )
 
-export const actionCreatorAddMessages = (): DispatchTypeAppAddMessage => ({type: "ADD-MESSAGE"})
+export const actionCreatorAddMessages = () => ({type: "ADD-MESSAGE"}as const)
 

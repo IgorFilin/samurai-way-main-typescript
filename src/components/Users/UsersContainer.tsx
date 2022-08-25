@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import {DispatchType, StateType} from "../../redux/redux-store";
+import {StateType} from "./../../redux/reduxStore";
 import {ChangeSubscription, SetLoading, SetPage, SetUser, SetUserCount, UserType} from "../../redux/UsersReducer";
 import React from "react";
 import axios from "axios";
