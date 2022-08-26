@@ -5,14 +5,17 @@ import {ProfileUserType} from "../../../redux/ProfileReducer";
 
 export type ProfileInfoTypeProps = {
     profile:ProfileUserType
+    isLoading:boolean
 }
 
 function ProfileInfo(props:ProfileInfoTypeProps) {
-
+     if (!props.profile || props.isLoading){
+       return <Loading/>
+     }
 
 
     return (
-        !props.profile ? <Loading/> :
+        props.profile &&
             <div className={classes.profileInfo}>
                 <div className={classes.mainInfoContainer}>
                    <div className={classes.imgContainer}>
@@ -32,8 +35,8 @@ function ProfileInfo(props:ProfileInfoTypeProps) {
                     <div><h3>looking for a job description: {props.profile.lookingForAJobDescription}</h3></div>
                     <hr/>
                     <h3>My contacts:</h3>
-                    <div>{Object.values(props.profile.contacts).map(c => {
-                        return <h5><a href={'#'}>{c}</a></h5>
+                    <div>{Object.values(props.profile.contacts).map((c,i) => {
+                        return <h5 key={i}><a target={'_blank'} href={c?c:'#'}>{c}</a></h5>
                     })}</div>
                 </div>
 

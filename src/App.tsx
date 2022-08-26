@@ -8,6 +8,7 @@ import {Store} from "redux";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import {ProfileContainer} from "./components/Profile/ProfileContainer";
+import {ProfileMainComponent} from "./components/Profile/ProfileMainComponent";
 
 
 export type AppPropsType = {
@@ -22,9 +23,11 @@ function App(props: AppPropsType) {
             <Navbar state={props.store.getState()}/>
             <div className="app-wrapper-content">
                 <Routes>
-                    <Route path={'/'} element={<ProfileContainer/>}/>
-                    <Route path={'/profile/*'} element={
-                        <ProfileContainer/>}/>
+                    <Route path={'/profile/:userId'} element={
+                        <ProfileMainComponent/>}/>
+                    <Route path={'/profile/'} element={
+                        <ProfileMainComponent/>}/>
+
                     <Route path={'/dialogs/*'} element={
                         <DialogsContainer/>}/>
                     <Route path={'/users/*'} element={
@@ -33,7 +36,10 @@ function App(props: AppPropsType) {
                 </Routes>
             </div>
         </div>
-
+    // <Route path="/page/:friendlyName">
+    //     <Route path=":sort" element={<Page />} />
+    //     <Route path="" element={<Page />} />
+    // </Route>
 
     );
 }

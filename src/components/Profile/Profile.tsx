@@ -6,12 +6,12 @@ import {ProfileUserType} from "../../redux/ProfileReducer";
 
 export type profilePropsType = {
     profile:ProfileUserType
+    isLoading:boolean
 }
 
 function Profile(props:profilePropsType) {
-
     return (<div className={classes.profile}>
-        <ProfileInfo profile={props.profile}/>
+        <ProfileInfo isLoading={props.isLoading} profile={props.profile}/>
         <MyPostsContainer/>
     </div>)
 }

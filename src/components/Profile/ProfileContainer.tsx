@@ -2,16 +2,20 @@ import React from "react";
 import Profile from "./Profile";
 import axios from "axios";
 import {connect} from "react-redux";
-import {ProfileUserType, setProfileUser} from "../../redux/ProfileReducer";
+import {ProfileUserType, SetIsLoading, setProfileUser} from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
+
 
 
 
 export type mapStateToPropsType = {
     profile:ProfileUserType
+    isLoading:boolean
+    params:any
 }
 export type mapDispatchToPropsType = {
     setProfileUser:(profileUser:object)=>void
+    SetIsLoading:(status:boolean)=> void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType
@@ -20,18 +24,18 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 
 class ProfileContainerApi extends React.Component<ProfileContainerApiType,StateType>{
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/profile/2')
+        this.props.SetIsLoading(true)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.params}` )
             .then(resolve => {
-                console.log(resolve.data)
+                this.props.SetIsLoading(false)
                 this.props.setProfileUser(resolve.data)
             })
             .catch((err)=> console.log(err))
     }
 
     render(){
-
             return <div>
-                <Profile profile={this.props.profile} />
+                <Profile profile={this.props.profile} isLoading={this.props.isLoading} />
             </div>
         }
 
@@ -43,9 +47,11 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType,StateT
 
 
 const mapStateToProps = (state:StateType) => ({
-     profile:state.ProfilePage.profileUser
+     profile:state.ProfilePage.profileUser,
+    isLoading:state.ProfilePage.isLoading
 })
 
 
-export const ProfileContainer = connect(mapStateToProps,{setProfileUser})(ProfileContainerApi)
+
+export const ProfileContainer = connect(mapStateToProps,{setProfileUser,SetIsLoading})(ProfileContainerApi)
 

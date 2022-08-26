@@ -6,6 +6,7 @@ export type postDataType = {
     likeCount: number
 }
 export type ProfilePageType = {
+    isLoading:boolean
     profileUser: ProfileUserType
     addNewPostText: string
     postData: Array<postDataType>
@@ -35,10 +36,12 @@ export type ProfileUserType = {
 export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
 export type actionCreatorNewPostTextType = ReturnType<typeof actionCreatorNewPostText>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
-export type AllActionsCreators = actionCreatorAddPostType | actionCreatorNewPostTextType | setProfileUserType
+export type SetIsLoadingType = ReturnType<typeof SetIsLoading>
+export type AllActionsCreators = actionCreatorAddPostType | actionCreatorNewPostTextType | setProfileUserType | SetIsLoadingType
 
 
 let initialState: ProfilePageType = {
+    isLoading:false,
     profileUser: null,
     addNewPostText: '',
     postData: [
@@ -58,8 +61,12 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
             }
         case 'NEW-POST-TEXT':
             return {...state, addNewPostText: action.text}
-        case "SET-PROFILE-USER":
-        return {...state,profileUser:{...action.profileUser}}
+        case "SET-PROFILE-USER":{
+            return {...state,profileUser:{...action.profileUser}}
+        }
+        case "SET-IS-LOADING-PROFILE":{
+            return {...state,isLoading:action.status}
+        }
         default:
             return state
     }
@@ -75,3 +82,8 @@ export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT
 export const setProfileUser = (profileUser:any) => {
     return { type: 'SET-PROFILE-USER',profileUser}as const
 }
+export const SetIsLoading = (status:boolean) => {
+    return { type: 'SET-IS-LOADING-PROFILE',status}as const
+}
+
+
