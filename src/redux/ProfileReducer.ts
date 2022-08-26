@@ -6,10 +6,32 @@ export type postDataType = {
     likeCount: number
 }
 export type ProfilePageType = {
-    profileUser: {}
+    profileUser: ProfileUserType
     addNewPostText: string
     postData: Array<postDataType>
 }
+
+export type ProfileUserType = {
+    aboutMe:string
+    contacts:{
+        facebook:null | string
+        website:null | string
+        vk:null | string
+        twitter:null | string
+        instagram:null | string
+        youtube:null | string
+        github: null | string
+        mainLink: null |string
+    }
+    lookingForAJob:boolean
+    lookingForAJobDescription:string
+    fullName:string
+    userId:number
+    photos:{
+        small:string
+        large:string
+    }
+} | null
 export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
 export type actionCreatorNewPostTextType = ReturnType<typeof actionCreatorNewPostText>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
@@ -17,7 +39,7 @@ export type AllActionsCreators = actionCreatorAddPostType | actionCreatorNewPost
 
 
 let initialState: ProfilePageType = {
-    profileUser:{},
+    profileUser: null,
     addNewPostText: '',
     postData: [
         {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
@@ -50,6 +72,6 @@ export const actionCreatorAddPost = () => ({type: 'ADD-POST'} as const)
 
 export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT', text}as const)
 
-export const setProfileUser = (profileUser:Object) => {
+export const setProfileUser = (profileUser:any) => {
     return { type: 'SET-PROFILE-USER',profileUser}as const
 }

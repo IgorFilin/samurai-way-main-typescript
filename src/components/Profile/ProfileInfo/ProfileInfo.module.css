@@ -1,9 +1,26 @@
 .img {
     margin-left: 20px;
     padding-top: 10px;
-    width: 120px;
-    border-radius: 50%;
 }
 .profileInfo {
     margin: 15px;
+    max-width:1000px;
+}
+
+.mainInfoContainer{
+    border: 2px solid aqua;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.imgContainer{
+    align-self: center;
+}
+.contactsContainer{
+    padding: 10px;
+    border: 2px solid aqua;
+    max-width:1000px;
+    border-radius: 10px;
 }
