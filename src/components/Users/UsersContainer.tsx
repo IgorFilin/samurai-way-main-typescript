@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
-import {ChangeSubscription, SetLoading, SetPage, SetUser, SetUserCount, UserType} from "../../redux/UsersReducer";
+import {follow, SetLoading, SetPage, SetUser, SetUserCount, unFollow, UserType} from "../../redux/UsersReducer";
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
@@ -16,11 +16,13 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToPropsType = {
-    ChangeSubscription: (idUser: string) => void
     SetUser: (users: Array<UserType>) => void
     SetPage: (pageNumber: number) => void
     SetUserCount: (userCount: number) => void
     SetLoading:(status:boolean)=> void
+    follow:(id:string)=>void
+    unFollow:(id:string)=>void
+
 }
 
 export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
@@ -29,7 +31,9 @@ export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
 class UsersApiComponent extends React.Component<UserTypeProps> {
     componentDidMount() {
         this.props.SetLoading(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${this.props.currentPage}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${this.props.currentPage}`,{
+            withCredentials:true
+        })
             .then(responseValue => {
                 this.props.SetLoading(false)
                 this.props.SetUser(responseValue.data.items)
@@ -46,7 +50,9 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
     // }
     setPage = (page: number) => {
         this.props.SetLoading(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${page}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSizeUsers}&page=${page}`,{
+            withCredentials:true
+        })
             .then(responseValue => {
                 this.props.SetLoading(false)
                 this.props.SetUser(responseValue.data.items)
@@ -61,7 +67,8 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
             <Users users={this.props.users}
                    currentPage={this.props.currentPage}
                    setPage={this.setPage}
-                   changeSubscriptions={this.props.ChangeSubscription}
+                   follow={this.props.follow}
+                   unFollow={this.props.unFollow}
                    pageSizeUsers={this.props.pageSizeUsers}
                    totalCountPages={this.props.totalCountPages}/>}
         </>
@@ -90,5 +97,5 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 // }
 
 
-export const UsersContainer = connect(mapStateToProps, {ChangeSubscription, SetUser, SetPage, SetUserCount, SetLoading})(UsersApiComponent)
+export const UsersContainer = connect(mapStateToProps, {follow, unFollow, SetUser, SetPage, SetUserCount, SetLoading})(UsersApiComponent)
 
