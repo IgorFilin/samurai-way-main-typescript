@@ -11,10 +11,10 @@ import {StateType} from "../../redux/reduxStore";
 export type mapStateToPropsType = {
     profile:ProfileUserType
     isLoading:boolean
-    params:any
+    params:string
 }
 export type mapDispatchToPropsType = {
-    setProfileUser:(profileUser:object)=>void
+    setProfileUser:(profileUser:ProfileUserType)=>void
     SetIsLoading:(status:boolean)=> void
 }
 
@@ -42,13 +42,9 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType,StateT
 
 }
 
-
-
-
-
 const mapStateToProps = (state:StateType) => ({
-     profile:state.ProfilePage.profileUser,
-    isLoading:state.ProfilePage.isLoading
+     profile:state.profilePage.profileUser,
+    isLoading:state.profilePage.isLoading
 })
 
 

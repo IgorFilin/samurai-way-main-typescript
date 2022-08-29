@@ -62,7 +62,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
         case 'NEW-POST-TEXT':
             return {...state, addNewPostText: action.text}
         case "SET-PROFILE-USER":{
-            return {...state,profileUser:{...action.profileUser}}
+            return {...state,profileUser:action.profileUser}
         }
         case "SET-IS-LOADING-PROFILE":{
             return {...state,isLoading:action.status}
@@ -79,8 +79,8 @@ export const actionCreatorAddPost = () => ({type: 'ADD-POST'} as const)
 
 export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT', text}as const)
 
-export const setProfileUser = (profileUser:any) => {
-    return { type: 'SET-PROFILE-USER',profileUser}as const
+export const setProfileUser = (profileUser:ProfileUserType) => {
+    return { type: 'SET-PROFILE-USER',profileUser} as const
 }
 export const SetIsLoading = (status:boolean) => {
     return { type: 'SET-IS-LOADING-PROFILE',status}as const
