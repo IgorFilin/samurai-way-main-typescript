@@ -33,7 +33,6 @@ let initialState = {
 
 
 export const UsersReducer = (state: InitialStateType = initialState, action: AllActionCreatorsType): InitialStateType => {
-debugger
     switch (action.type) {
         case 'FOLLOW': {
             return {

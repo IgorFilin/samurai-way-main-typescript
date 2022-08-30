@@ -4,6 +4,7 @@ import axios from "axios";
 import {connect} from "react-redux";
 import {ProfileUserType, SetIsLoading, setProfileUser} from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
+import {profileApi} from "../../api/api";
 
 
 
@@ -25,12 +26,12 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType,StateType>{
     componentDidMount() {
         this.props.SetIsLoading(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${this.props.params}` )
-            .then(resolve => {
+       profileApi.setProfileUser(this.props.params)
+            .then(data => {
                 this.props.SetIsLoading(false)
-                this.props.setProfileUser(resolve.data)
+                this.props.setProfileUser(data)
             })
-            .catch((err)=> console.log(err))
+
     }
 
     render(){
