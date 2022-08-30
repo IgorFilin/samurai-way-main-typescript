@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhotoDefault from "../../assets/images/user.png";
-import {UserType} from "../../redux/UsersReducer";
+import {follow, SetLoadingFollowUnFollow, UserType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {userApi} from "../../api/api";
@@ -15,7 +15,9 @@ type UsersTypeProps = {
     users: UserType[]
     follow: (id: string) => void
     unFollow: (id: string) => void
-
+    isLoadingFollowUnFollow:boolean
+    SetLoadingFollowUnFollow:(status:boolean,id:string)=>void
+    arrayUsersIdForDisabledButton:Array<string>
 }
 
 export const Users = (props: UsersTypeProps) => {
@@ -39,24 +41,28 @@ export const Users = (props: UsersTypeProps) => {
                             <NavLink to={'/profile/' + us.id}><img className={s.Img}
                                                                    src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/></NavLink>
                             <div>{us.followed}</div>
-                            {us.followed ? <button
+                            {us.followed ? <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
                                     onClick={() => {
-                                       userApi.unFolow(us.id)
+                                        props.SetLoadingFollowUnFollow(true,us.id)
+                                       userApi.unFollow(us.id)
                                             .then(data => {
                                                 if (data.resultCode === 0) {
                                                     props.unFollow(us.id)
+                                                    props.SetLoadingFollowUnFollow(false,us.id)
                                                 }
                                             })
 
                                     }}>{'unFollow'}
                                 </button> :
-                                <button
+                                <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
                                     onClick={() => {
-                                        userApi.folow(us.id)
+                                        props.SetLoadingFollowUnFollow(true,us.id)
+                                        userApi.follow(us.id)
                                             .then(data => {
                                                 if (data.resultCode === 0) {
                                                     props.follow(us.id)
                                                 }
+                                                props.SetLoadingFollowUnFollow(false,us.id)
                                             })
 
                                     }}>{'Follow'}

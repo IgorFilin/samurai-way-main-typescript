@@ -3,8 +3,8 @@ export type UserType = {
     followed: boolean
     status: string
     photos: {
-        small:null | string
-        large:null | string
+        small: null | string
+        large: null | string
     }
     name: string
     location: {
@@ -19,8 +19,16 @@ export type SetUserACType = ReturnType<typeof SetUser>
 export  type SetPageACType = ReturnType<typeof SetPage>
 export type SetUserCountACType = ReturnType<typeof SetUserCount>
 export type SetLoadingACType = ReturnType<typeof SetLoading>
+export type SetLoadingFollowUnFollowType = ReturnType<typeof SetLoadingFollowUnFollow>
 
-export type AllActionCreatorsType = follow | unFollow | SetUserACType | SetPageACType | SetUserCountACType | SetLoadingACType
+export type AllActionCreatorsType =
+    follow
+    | unFollow
+    | SetUserACType
+    | SetPageACType
+    | SetUserCountACType
+    | SetLoadingACType
+    | SetLoadingFollowUnFollowType
 
 
 let initialState = {
@@ -28,7 +36,9 @@ let initialState = {
     currentPage: 1,
     pageSizeUsers: 5,
     totalUserCount: 20,
-    isLoading:false
+    isLoading: false,
+    isLoadingFollowUnFollow: false,
+    arrayUsersIdForDisabledButton: ['']
 }
 
 
@@ -37,27 +47,38 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
         case 'FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.idUser ? {...user, followed: true} : user)
+                users: state.users.map(user => user.id === action.idUser ? {...user, followed: true} : user),
+
             }
         }
         case 'UN-FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.idUser ? {...user, followed: false} : user)
+                users: state.users.map(user => user.id === action.idUser ? {...user, followed: false} : user),
+
             }
         }
         case "SET-USERS": {
             return {...state, users: [...action.users]}
         }
         case "SET-PAGE": {
-            return   {...state, currentPage: action.pageNumber}
+            return {...state, currentPage: action.pageNumber}
 
         }
         case "SET-USER-COUNT": {
             return {...state, totalUserCount: action.userCount}
         }
         case "SET-LOADING": {
-            return {...state,isLoading: action.status}
+            return {...state, isLoading: action.status}
+        }
+        case "SET-LOADING-FOLLOW-UNFOLLOW": {
+            return {
+                ...state,
+                arrayUsersIdForDisabledButton: action.status ?
+                    [...state.arrayUsersIdForDisabledButton, action.idUser] :
+                    state.arrayUsersIdForDisabledButton.filter(id => id !== action.idUser)
+
+            }
         }
         default:
             return state
@@ -81,6 +102,9 @@ export const SetPage = (pageNumber: number) => {
 export const SetUserCount = (userCount: number) => {
     return {type: 'SET-USER-COUNT', userCount} as const
 }
-export const SetLoading = (statusLoading:boolean) => {
-    return {type: 'SET-LOADING', status:statusLoading} as const
+export const SetLoading = (statusLoading: boolean) => {
+    return {type: 'SET-LOADING', status: statusLoading} as const
+}
+export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
+    return {type: 'SET-LOADING-FOLLOW-UNFOLLOW',  status, idUser} as const
 }

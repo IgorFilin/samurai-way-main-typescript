@@ -18,11 +18,11 @@ export const userApi = {
         return instance.get(`users?count=${pageSizeUsers}&page=${page}`)
             .then(response => response.data)
     },
-    folow(id:string){
+    follow(id:string){
         return  instance.post(`follow/${id}`)
             .then(response => response.data)
     },
-    unFolow(id:string){
+    unFollow(id:string){
         return  instance.delete(`follow/${id}`)
             .then(response => response.data)
     }

@@ -1,6 +1,15 @@
 import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
-import {follow, SetLoading, SetPage, SetUser, SetUserCount, unFollow, UserType} from "../../redux/UsersReducer";
+import {
+    follow,
+    SetLoading,
+    SetLoadingFollowUnFollow,
+    SetPage,
+    SetUser,
+    SetUserCount,
+    unFollow,
+    UserType
+} from "../../redux/UsersReducer";
 import React from "react";
 import axios from "axios";
 import {Users} from "./Users";
@@ -14,6 +23,8 @@ type mapStateToPropsType = {
     totalCountPages: number
     pageSizeUsers: number
     isLoading: boolean
+    isLoadingFollowUnFollow:boolean
+    arrayUsersIdForDisabledButton:Array<string>
 }
 
 type mapDispatchToPropsType = {
@@ -23,7 +34,7 @@ type mapDispatchToPropsType = {
     SetLoading: (status: boolean) => void
     follow: (id: string) => void
     unFollow: (id: string) => void
-
+    SetLoadingFollowUnFollow:(status:boolean,id:string)=>void
 }
 
 export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
@@ -60,7 +71,11 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
                        follow={this.props.follow}
                        unFollow={this.props.unFollow}
                        pageSizeUsers={this.props.pageSizeUsers}
-                       totalCountPages={this.props.totalCountPages}/>}
+                       totalCountPages={this.props.totalCountPages}
+                       isLoadingFollowUnFollow={this.props.isLoadingFollowUnFollow}
+                       SetLoadingFollowUnFollow={this.props.SetLoadingFollowUnFollow}
+                       arrayUsersIdForDisabledButton={this.props.arrayUsersIdForDisabledButton}
+                />}
         </>
 
     }
@@ -73,7 +88,9 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
         currentPage: state.userPage.currentPage,
         pageSizeUsers: state.userPage.pageSizeUsers,
         totalCountPages: state.userPage.totalUserCount,
-        isLoading: state.userPage.isLoading
+        isLoading: state.userPage.isLoading,
+        isLoadingFollowUnFollow:state.userPage.isLoadingFollowUnFollow,
+        arrayUsersIdForDisabledButton:state.userPage.arrayUsersIdForDisabledButton
     }
 }
 // const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
@@ -87,12 +104,14 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 // }
 
 
+
 export const UsersContainer = connect(mapStateToProps, {
     follow,
     unFollow,
     SetUser,
     SetPage,
     SetUserCount,
-    SetLoading
+    SetLoading,
+    SetLoadingFollowUnFollow
 })(UsersApiComponent)
 
