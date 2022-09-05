@@ -3,7 +3,7 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {ProfileUserType, setProfileThunkCreator} from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 
 
 export type BookDetailProps = RouteComponentProps<WithRouteType>;
@@ -13,6 +13,7 @@ export type WithRouteType = {
 export type mapStateToPropsType = {
     profile: ProfileUserType
     isLoading: boolean
+    isAuth:boolean
 }
 export type mapDispatchToPropsType = {
     setProfileThunkCreator: (params: string) => void
@@ -24,13 +25,15 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if(!userId){
-            userId = String(25406)
-        }
+        console.log(userId)
         this.props.setProfileThunkCreator(userId)
     }
 
     render() {
+        if(!this.props.isAuth){
+           return <Redirect to={'/login'}/>
+        }
+
         return <div>
             <Profile profile={this.props.profile} isLoading={this.props.isLoading}/>
 
@@ -42,7 +45,8 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 
 const mapStateToProps = (state: StateType) => ({
     profile: state.profilePage.profileUser,
-    isLoading: state.profilePage.isLoading
+    isLoading: state.profilePage.isLoading,
+    isAuth:state.auth.isAuth
 })
 
 const ContainerProfileContainer = withRouter(ProfileContainerApi)

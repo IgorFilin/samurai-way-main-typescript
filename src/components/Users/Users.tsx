@@ -38,7 +38,6 @@ export const Users = (props: UserTypeProps) => {
                                 </button> :
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
                                         onClick={() => {
-                                            debugger
                                             props.followThunkCreator(us.id)}}>{'Follow'}
                                 </button>}
 

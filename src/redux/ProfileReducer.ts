@@ -8,42 +8,46 @@ export type postDataType = {
     likeCount: number
 }
 export type ProfilePageType = {
-    isLoading:boolean
+    isLoading: boolean
     profileUser: ProfileUserType
     addNewPostText: string
     postData: Array<postDataType>
 }
 
 export type ProfileUserType = {
-    aboutMe:string
-    contacts:{
-        facebook:null | string
-        website:null | string
-        vk:null | string
-        twitter:null | string
-        instagram:null | string
-        youtube:null | string
+    aboutMe: string
+    contacts: {
+        facebook: null | string
+        website: null | string
+        vk: null | string
+        twitter: null | string
+        instagram: null | string
+        youtube: null | string
         github: null | string
-        mainLink: null |string
+        mainLink: null | string
     }
-    lookingForAJob:boolean
-    lookingForAJobDescription:string
-    fullName:string
-    userId:number
-    photos:{
-        small:string
-        large:string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: {
+        small: string
+        large: string
     }
 } | null
 export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
 export type actionCreatorNewPostTextType = ReturnType<typeof actionCreatorNewPostText>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
 export type SetIsLoadingType = ReturnType<typeof SetIsLoading>
-export type AllActionsCreators = actionCreatorAddPostType | actionCreatorNewPostTextType | setProfileUserType | SetIsLoadingType
+export type AllActionsCreators =
+    actionCreatorAddPostType
+    | actionCreatorNewPostTextType
+    | setProfileUserType
+    | SetIsLoadingType
 
 
 let initialState: ProfilePageType = {
-    isLoading:false,
+    isLoading: false,
     profileUser: null,
     addNewPostText: '',
     postData: [
@@ -63,11 +67,11 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
             }
         case 'NEW-POST-TEXT':
             return {...state, addNewPostText: action.text}
-        case "SET-PROFILE-USER":{
-            return {...state,profileUser:action.profileUser}
+        case "SET-PROFILE-USER": {
+            return {...state, profileUser: action.profileUser}
         }
-        case "SET-IS-LOADING-PROFILE":{
-            return {...state,isLoading:action.status}
+        case "SET-IS-LOADING-PROFILE": {
+            return {...state, isLoading: action.status}
         }
         default:
             return state
@@ -79,17 +83,17 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
 export const actionCreatorAddPost = () => ({type: 'ADD-POST'} as const)
 
 
-export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT', text}as const)
+export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT', text} as const)
 
-export const setProfileUser = (profileUser:ProfileUserType) => {
-    return { type: 'SET-PROFILE-USER',profileUser} as const
+export const setProfileUser = (profileUser: ProfileUserType) => {
+    return {type: 'SET-PROFILE-USER', profileUser} as const
 }
-export const SetIsLoading = (status:boolean) => {
-    return { type: 'SET-IS-LOADING-PROFILE',status}as const
+export const SetIsLoading = (status: boolean) => {
+    return {type: 'SET-IS-LOADING-PROFILE', status} as const
 }
 
-export const setProfileThunkCreator = (params:string) => {
-    return (dispatch:Dispatch) => {
+export const setProfileThunkCreator = (params: string) => {
+    return (dispatch: Dispatch) => {
         dispatch(SetIsLoading(true))
         profileApi.setProfileUser(params)
             .then(data => {

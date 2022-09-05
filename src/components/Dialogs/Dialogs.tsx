@@ -3,6 +3,7 @@ import DialogsItems from "./DialogsItem/DialogsItems";
 import Message from "./Message/Message";
 import React, {ChangeEvent} from "react";
 import {dialogsDataType, messagesDataType} from "../../redux/DialogsReducer";
+import {Redirect} from "react-router-dom";
 
 
 type DialogsPropsType = {
@@ -11,10 +12,13 @@ type DialogsPropsType = {
     messagesData:messagesDataType[]
     dialogsData:dialogsDataType[]
     addMessage:string
+    isAuth:boolean
 }
 
 const Dialogs = (props:DialogsPropsType) => {
-
+if(!props.isAuth){
+    return <Redirect to={'/login'}/>
+}
     const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // AddTextMessage(e.currentTarget.value)
         let text = e.currentTarget.value
