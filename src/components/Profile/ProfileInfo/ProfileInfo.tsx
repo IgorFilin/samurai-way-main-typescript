@@ -1,6 +1,7 @@
 import classes from "./ProfileInfo.module.css";
 import {Loading} from "../../common/Loading";
 import {ProfileUserType} from "../../../redux/ProfileReducer";
+import avatarTemp from './../../../assets/images/user.png'
 
 
 export type ProfileInfoTypeProps = {
@@ -20,7 +21,7 @@ function ProfileInfo(props:ProfileInfoTypeProps) {
                 <div className={classes.mainInfoContainer}>
                    <div className={classes.imgContainer}>
                        <img className={classes.img}
-                              src={props.profile.photos.small}
+                              src={props.profile.photos.small?props.profile.photos.small:avatarTemp}
                               alt={'avatar'}/>
                    </div>
                     <div className={classes.nameContainer}>

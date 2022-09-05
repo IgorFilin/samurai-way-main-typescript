@@ -1,3 +1,6 @@
+import {headerApi, userApi} from "../api/api";
+import {Dispatch} from "redux";
+
 export type UserType = {
     id: string
     followed: boolean
@@ -38,7 +41,7 @@ let initialState = {
     totalUserCount: 20,
     isLoading: false,
     isLoadingFollowUnFollow: false,
-    arrayUsersIdForDisabledButton: ['']
+    arrayUsersIdForDisabledButton: [] as Array<string>
 }
 
 
@@ -107,4 +110,57 @@ export const SetLoading = (statusLoading: boolean) => {
 }
 export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
     return {type: 'SET-LOADING-FOLLOW-UNFOLLOW',  status, idUser} as const
+}
+
+export const getUserThunkCreator = (pageSizeUsers:number,currentPage:number) => {
+    return (dispatch:Dispatch) => {
+        dispatch(SetLoading(true))
+        userApi.getUsers(pageSizeUsers, currentPage)
+            .then(data => {
+                dispatch(SetLoading(false))
+                dispatch(SetUser(data.items))
+                dispatch(SetUserCount(data.totalCount))
+            })
+    }
+}
+
+export const followThunkCreator = (userID:string) => {
+    return (dispatch:Dispatch) => {
+        dispatch(SetLoadingFollowUnFollow(true,userID))
+        userApi.follow(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(follow(userID))
+                    dispatch(SetLoadingFollowUnFollow(false, userID))
+                }
+            })
+    }
+}
+
+export const unFollowThunkCreator = (userID:string) => {
+    return (dispatch:Dispatch) => {
+        dispatch(SetLoadingFollowUnFollow(true,userID))
+        userApi.unFollow(userID)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(unFollow(userID))
+                    dispatch(SetLoadingFollowUnFollow(false, userID))
+                }
+            })
+    }
+}
+
+
+export const setPageThunkCreator = (pageSizeUsers:number,page:number) => {
+    return (dispatch:Dispatch)=> {
+        dispatch(SetLoading(true))
+        userApi.setPage(pageSizeUsers, page)
+            .then(data => {
+                dispatch(SetLoading(false))
+                dispatch(SetUser(data.items))
+                dispatch(SetUserCount(data.totalCount))
+            })
+        dispatch(SetPage(page))
+    }
+
 }

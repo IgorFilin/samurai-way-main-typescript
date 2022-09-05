@@ -1,7 +1,7 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhotoDefault from "../../assets/images/user.png";
-import {follow, SetLoadingFollowUnFollow, UserType} from "../../redux/UsersReducer";
+import {follow, followThunkCreator, SetLoadingFollowUnFollow, UserType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
 import axios from "axios";
 import {userApi} from "../../api/api";
@@ -13,11 +13,10 @@ type UsersTypeProps = {
     currentPage: number
     setPage: (page: number) => void
     users: UserType[]
-    follow: (id: string) => void
-    unFollow: (id: string) => void
-    isLoadingFollowUnFollow:boolean
-    SetLoadingFollowUnFollow:(status:boolean,id:string)=>void
-    arrayUsersIdForDisabledButton:Array<string>
+    isLoadingFollowUnFollow: boolean
+    arrayUsersIdForDisabledButton: Array<string>
+    followThunkCreator:(userId:string)=>void
+    unFollowThunkCreator:(userId:string)=>void
 }
 
 export const Users = (props: UsersTypeProps) => {
@@ -38,34 +37,16 @@ export const Users = (props: UsersTypeProps) => {
                 return (
                     <div key={us.id} className={s.Content}>
                         <div className={s.userInfo}>
-                            <NavLink to={'/profile/' + us.id}><img className={s.Img}
-                                                                   src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/></NavLink>
+                            <NavLink to={'/profile/' + us.id}>
+                                <img className={s.Img}
+                                     src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/></NavLink>
                             <div>{us.followed}</div>
-                            {us.followed ? <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                    onClick={() => {
-                                        props.SetLoadingFollowUnFollow(true,us.id)
-                                       userApi.unFollow(us.id)
-                                            .then(data => {
-                                                if (data.resultCode === 0) {
-                                                    props.unFollow(us.id)
-                                                    props.SetLoadingFollowUnFollow(false,us.id)
-                                                }
-                                            })
-
-                                    }}>{'unFollow'}
+                            {us.followed ?
+                                <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
+                                        onClick={()=> props.unFollowThunkCreator(us.id)}>{'unFollow'}
                                 </button> :
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                    onClick={() => {
-                                        props.SetLoadingFollowUnFollow(true,us.id)
-                                        userApi.follow(us.id)
-                                            .then(data => {
-                                                if (data.resultCode === 0) {
-                                                    props.follow(us.id)
-                                                }
-                                                props.SetLoadingFollowUnFollow(false,us.id)
-                                            })
-
-                                    }}>{'Follow'}
+                                        onClick={() => {props.followThunkCreator(us.id)}}>{'Follow'}
                                 </button>}
 
                         </div>

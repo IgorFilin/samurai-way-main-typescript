@@ -1,8 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
-import {ProfileUserType, SetIsLoading, setProfileUser} from "../../redux/ProfileReducer";
+import {ProfileUserType, setProfileThunkCreator} from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
 import {profileApi} from "../../api/api";
 
@@ -15,8 +14,7 @@ export type mapStateToPropsType = {
     params:string
 }
 export type mapDispatchToPropsType = {
-    setProfileUser:(profileUser:ProfileUserType)=>void
-    SetIsLoading:(status:boolean)=> void
+    setProfileThunkCreator:(params:string)=>void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType
@@ -25,13 +23,7 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 
 class ProfileContainerApi extends React.Component<ProfileContainerApiType,StateType>{
     componentDidMount() {
-        this.props.SetIsLoading(true)
-       profileApi.setProfileUser(this.props.params)
-            .then(data => {
-                this.props.SetIsLoading(false)
-                this.props.setProfileUser(data)
-            })
-
+    this.props.setProfileThunkCreator(this.props.params)
     }
 
     render(){
@@ -50,5 +42,5 @@ const mapStateToProps = (state:StateType) => ({
 
 
 
-export const ProfileContainer = connect(mapStateToProps,{setProfileUser,SetIsLoading})(ProfileContainerApi)
+export const ProfileContainer = connect(mapStateToProps,{setProfileThunkCreator})(ProfileContainerApi)
 

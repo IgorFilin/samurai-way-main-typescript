@@ -1,17 +1,16 @@
 import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
-    follow,
+    follow, followThunkCreator, getUserThunkCreator,
     SetLoading,
     SetLoadingFollowUnFollow,
-    SetPage,
+    SetPage, setPageThunkCreator,
     SetUser,
     SetUserCount,
-    unFollow,
+    unFollow, unFollowThunkCreator,
     UserType
 } from "../../redux/UsersReducer";
 import React from "react";
-import axios from "axios";
 import {Users} from "./Users";
 import {Loading} from "../common/Loading";
 import {userApi} from "../../api/api";
@@ -28,13 +27,11 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToPropsType = {
-    SetUser: (users: Array<UserType>) => void
-    SetPage: (pageNumber: number) => void
-    SetUserCount: (userCount: number) => void
-    SetLoading: (status: boolean) => void
-    follow: (id: string) => void
-    unFollow: (id: string) => void
-    SetLoadingFollowUnFollow:(status:boolean,id:string)=>void
+    setPageThunkCreator:(pageSizeUsers:number,page:number)=>void
+    getUserThunkCreator:(pageSizeUsers:number,currentPage:number)=> void
+    unFollowThunkCreator:(userId:string) => void
+    followThunkCreator:(userId:string) => void
+
 }
 
 export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
@@ -42,24 +39,11 @@ export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
 
 class UsersApiComponent extends React.Component<UserTypeProps> {
     componentDidMount() {
-        this.props.SetLoading(true)
-        userApi.getUsers(this.props.pageSizeUsers, this.props.currentPage)
-            .then(data => {
-                this.props.SetLoading(false)
-                this.props.SetUser(data.items)
-                this.props.SetUserCount(data.totalCount)
-            })
+        this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage)
     }
 
     setPage(page: number){
-        this.props.SetLoading(true)
-        userApi.setPage(this.props.pageSizeUsers, page)
-            .then(data => {
-                this.props.SetLoading(false)
-                this.props.SetUser(data.items)
-                this.props.SetUserCount(data.totalCount)
-            })
-        this.props.SetPage(page)
+      this.props.setPageThunkCreator(this.props.pageSizeUsers,page)
     }
 
     render() {
@@ -68,13 +52,12 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
                 <Users users={this.props.users}
                        currentPage={this.props.currentPage}
                        setPage={this.setPage.bind(this)}
-                       follow={this.props.follow}
-                       unFollow={this.props.unFollow}
                        pageSizeUsers={this.props.pageSizeUsers}
                        totalCountPages={this.props.totalCountPages}
                        isLoadingFollowUnFollow={this.props.isLoadingFollowUnFollow}
-                       SetLoadingFollowUnFollow={this.props.SetLoadingFollowUnFollow}
                        arrayUsersIdForDisabledButton={this.props.arrayUsersIdForDisabledButton}
+                       followThunkCreator={this.props.followThunkCreator}
+                       unFollowThunkCreator={this.props.unFollowThunkCreator}
                 />}
         </>
 
@@ -106,12 +89,9 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 
 
 export const UsersContainer = connect(mapStateToProps, {
-    follow,
-    unFollow,
-    SetUser,
-    SetPage,
-    SetUserCount,
-    SetLoading,
-    SetLoadingFollowUnFollow
+    getUserThunkCreator,
+    unFollowThunkCreator,
+    followThunkCreator,
+    setPageThunkCreator
 })(UsersApiComponent)
 

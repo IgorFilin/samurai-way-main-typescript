@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {headerApi} from "../api/api";
+
 export type authReducerStateType = {
     id: string | null
     login: string | null
@@ -32,5 +35,14 @@ export const AuthReducer = (state:authReducerStateType  = initialState, action: 
 
 export const setAuthUser = (idUser:string,login:string,email:string) => {
   return {type:'SET-AUTH-USER', payload:{idUser,login,email}} as const
+}
+export const AuthUserThunkCreator = () => {
+    return (dispatch:Dispatch) => {
+        headerApi.AuthUser()
+            .then(data => {
+                const {id,login,email} = data
+                dispatch(setAuthUser(id,login,email))
+            })
+    }
 }
 
