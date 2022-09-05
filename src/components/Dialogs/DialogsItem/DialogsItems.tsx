@@ -12,8 +12,8 @@ type DialogsUserTypeProps = {
 function DialogsItems(props: DialogsUserTypeProps) {
     return (
         <div className={classes.item}>
-         <NavLink to={'/dialogs/' + props.id} className={({ isActive }) =>
-             isActive ? classes.active : undefined
+         <NavLink to={'/dialogs/' + props.id} className={isActive =>
+             (isActive ? classes.active : "")
          }>{props.name}</NavLink>
          </div>
     )

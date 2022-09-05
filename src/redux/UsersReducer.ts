@@ -48,6 +48,7 @@ let initialState = {
 export const UsersReducer = (state: InitialStateType = initialState, action: AllActionCreatorsType): InitialStateType => {
     switch (action.type) {
         case 'FOLLOW': {
+            debugger
             return {
                 ...state,
                 users: state.users.map(user => user.id === action.idUser ? {...user, followed: true} : user),
@@ -55,6 +56,7 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
             }
         }
         case 'UN-FOLLOW': {
+            debugger
             return {
                 ...state,
                 users: state.users.map(user => user.id === action.idUser ? {...user, followed: false} : user),

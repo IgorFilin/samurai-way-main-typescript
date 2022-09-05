@@ -40,8 +40,10 @@ export const AuthUserThunkCreator = () => {
     return (dispatch:Dispatch) => {
         headerApi.AuthUser()
             .then(data => {
-                const {id,login,email} = data
-                dispatch(setAuthUser(id,login,email))
+                if(data.resultCode === 0){
+                    const {id,login,email} = data.data
+                    dispatch(setAuthUser(id,login,email))
+                }
             })
     }
 }

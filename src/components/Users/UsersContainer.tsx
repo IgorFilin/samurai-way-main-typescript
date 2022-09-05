@@ -1,19 +1,15 @@
 import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
-    follow, followThunkCreator, getUserThunkCreator,
-    SetLoading,
-    SetLoadingFollowUnFollow,
-    SetPage, setPageThunkCreator,
-    SetUser,
-    SetUserCount,
-    unFollow, unFollowThunkCreator,
+    followThunkCreator, getUserThunkCreator, SetPage,
+    setPageThunkCreator,
+    unFollowThunkCreator,
     UserType
 } from "../../redux/UsersReducer";
 import React from "react";
 import {Users} from "./Users";
 import {Loading} from "../common/Loading";
-import {userApi} from "../../api/api";
+
 
 
 type mapStateToPropsType = {
@@ -49,22 +45,12 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
     render() {
         return <>
             {this.props.isLoading ? <Loading/> :
-                <Users users={this.props.users}
-                       currentPage={this.props.currentPage}
-                       setPage={this.setPage.bind(this)}
-                       pageSizeUsers={this.props.pageSizeUsers}
-                       totalCountPages={this.props.totalCountPages}
-                       isLoadingFollowUnFollow={this.props.isLoadingFollowUnFollow}
-                       arrayUsersIdForDisabledButton={this.props.arrayUsersIdForDisabledButton}
-                       followThunkCreator={this.props.followThunkCreator}
-                       unFollowThunkCreator={this.props.unFollowThunkCreator}
+                <Users {...this.props}
                 />}
         </>
 
     }
-
 }
-
 const mapStateToProps = (state: StateType): mapStateToPropsType => {
     return {
         users: state.userPage.users,

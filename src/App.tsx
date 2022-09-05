@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import {Route, Routes} from "react-router-dom";
+import {Route} from "react-router-dom";
 import {Store} from "redux";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
-import {ProfileMainComponent} from "./components/Profile/ProfileMainComponent";
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
+import {Login} from "./components/Login";
+import {ProfileContainer} from "./components/Profile/ProfileContainer";
 
 
 export type AppPropsType = {
@@ -20,17 +21,16 @@ function App(props: AppPropsType) {
             <HeaderContainerApi/>
             <Navbar state={props.store.getState()}/>
             <div className="app-wrapper-content">
-                <Routes>
-                    <Route path={'/profile/:userId'} element={
-                        <ProfileMainComponent/>}/>
-                    <Route path={'/profile/'} element={
-                        <ProfileMainComponent/>}/>
-                    <Route path={'/dialogs/*'} element={
-                        <DialogsContainer/>}/>
-                    <Route path={'/users/*'} element={
-                        <UsersContainer/>
-                    }/>
-                </Routes>
+                <Route path={'/login'} render={() => <Login/>}/>
+                <Route path={'/profile/:userId'} render={
+                    () => <ProfileContainer/>}/>
+                <Route path={'/profile/'} render={
+                    () => <ProfileContainer/>}/>
+                <Route path={'/dialogs/*'} render={
+                    () => <DialogsContainer/>}/>
+                <Route path={'/users/*'} render={
+                    () => <UsersContainer/>
+                }/>
             </div>
         </div>
         // <Route path="/page/:friendlyName">

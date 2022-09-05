@@ -1,37 +1,25 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhotoDefault from "../../assets/images/user.png";
-import {follow, followThunkCreator, SetLoadingFollowUnFollow, UserType} from "../../redux/UsersReducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {userApi} from "../../api/api";
+import {UserTypeProps} from "./UsersContainer";
 
 
-type UsersTypeProps = {
-    totalCountPages: number
-    pageSizeUsers: number
-    currentPage: number
-    setPage: (page: number) => void
-    users: UserType[]
-    isLoadingFollowUnFollow: boolean
-    arrayUsersIdForDisabledButton: Array<string>
-    followThunkCreator:(userId:string)=>void
-    unFollowThunkCreator:(userId:string)=>void
-}
 
-export const Users = (props: UsersTypeProps) => {
+
+export const Users = (props: UserTypeProps) => {
     let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
     let totalCountPagesArray = []
     for (let i = 1; i <= totalCountPages; i++) {
         totalCountPagesArray.push(i)
     }
-    let newTotalCountPagesArray = totalCountPagesArray.slice(0, 10)
+    let newTotalCountPagesArray = totalCountPagesArray.slice(0, 15)
     return (
         <>
             <div className={s.pages}>
                 {newTotalCountPagesArray.map(page =>
                     <div key={page} className={page === props.currentPage ? s.activePage : s.page}
-                         onClick={() => props?.setPage(page)}>{page}</div>)}
+                         onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}
             </div>
             {props.users.map(us => {
                 return (
@@ -39,14 +27,19 @@ export const Users = (props: UsersTypeProps) => {
                         <div className={s.userInfo}>
                             <NavLink to={'/profile/' + us.id}>
                                 <img className={s.Img}
-                                     src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/></NavLink>
+                                     src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/>
+                            </NavLink>
                             <div>{us.followed}</div>
                             {us.followed ?
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                        onClick={()=> props.unFollowThunkCreator(us.id)}>{'unFollow'}
+                                        onClick={()=> {
+                                            props.unFollowThunkCreator(us.id)
+                                        }}>{'unFollow'}
                                 </button> :
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                        onClick={() => {props.followThunkCreator(us.id)}}>{'Follow'}
+                                        onClick={() => {
+                                            debugger
+                                            props.followThunkCreator(us.id)}}>{'Follow'}
                                 </button>}
 
                         </div>

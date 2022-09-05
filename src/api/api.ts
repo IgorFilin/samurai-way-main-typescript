@@ -31,7 +31,7 @@ export const userApi = {
 export const headerApi = {
     AuthUser(){
        return  instance.get('auth/me')
-           .then(response => response.data.data)
+           .then(response => response.data)
     }
 }
 
