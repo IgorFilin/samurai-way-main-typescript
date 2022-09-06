@@ -22,9 +22,7 @@ function App(props: AppPropsType) {
             <Navbar state={props.store.getState()}/>
             <div className="app-wrapper-content">
                 <Route path={'/login'} render={() => <Login/>}/>
-                <Route path={'/profile/:userId'} render={
-                    () => <ProfileContainer/>}/>
-                <Route path={'/profile/'} render={
+                <Route path={'/profile/:userId?'} render={
                     () => <ProfileContainer/>}/>
                 <Route path={'/dialogs/*'} render={
                     () => <DialogsContainer/>}/>

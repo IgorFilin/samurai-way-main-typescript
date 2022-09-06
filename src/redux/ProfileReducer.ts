@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
+import {log} from "util";
 
 export type postDataType = {
     id: string
@@ -92,14 +93,19 @@ export const SetIsLoading = (status: boolean) => {
     return {type: 'SET-IS-LOADING-PROFILE', status} as const
 }
 
-export const setProfileThunkCreator = (params: string) => {
+export const setProfileThunkCreator = (idUserProfile: string) => {
     return (dispatch: Dispatch) => {
         dispatch(SetIsLoading(true))
-        profileApi.setProfileUser(params)
+        profileApi.setProfileUser(idUserProfile)
             .then(data => {
                 dispatch(SetIsLoading(false))
                 dispatch(setProfileUser(data))
             })
+            .catch(err => {
+                    return console.warn(err)
+                }
+            )
+
     }
 }
 

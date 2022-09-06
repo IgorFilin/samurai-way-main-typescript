@@ -38,7 +38,9 @@ export const headerApi = {
 export const profileApi = {
     setProfileUser(params:string){
        return  axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${params}`)
-            .then(response => response.data)
+            .then(response => {
+                return  response.data
+            })
     }
 
 }

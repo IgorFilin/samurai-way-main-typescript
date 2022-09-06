@@ -13,7 +13,7 @@ export type WithRouteType = {
 export type mapStateToPropsType = {
     profile: ProfileUserType
     isLoading: boolean
-    isAuth:boolean
+    isAuth: boolean
 }
 export type mapDispatchToPropsType = {
     setProfileThunkCreator: (params: string) => void
@@ -25,18 +25,18 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        console.log(userId)
+        if(userId === undefined){
+            userId = String(25406)
+        }
         this.props.setProfileThunkCreator(userId)
     }
 
     render() {
-        if(!this.props.isAuth){
-           return <Redirect to={'/login'}/>
+        if (!this.props.isAuth) {
+            return <Redirect to={'/login'}/>
         }
-
         return <div>
             <Profile profile={this.props.profile} isLoading={this.props.isLoading}/>
-
         </div>
     }
 
@@ -46,7 +46,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 const mapStateToProps = (state: StateType) => ({
     profile: state.profilePage.profileUser,
     isLoading: state.profilePage.isLoading,
-    isAuth:state.auth.isAuth
+    isAuth: state.auth.isAuth
 })
 
 const ContainerProfileContainer = withRouter(ProfileContainerApi)
