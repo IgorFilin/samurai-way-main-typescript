@@ -30,6 +30,14 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
         }
         this.props.setProfileThunkCreator(userId)
     }
+   componentDidUpdate(prevProps: Readonly<ProfileContainerApiType>, prevState: Readonly<StateType>, snapshot?: any) {
+        if(this.props.profile !== null ){
+            document.title = this.props.profile.fullName
+        }
+   }
+   componentWillUnmount() {
+       document.title = 'Social network'
+   }
 
     render() {
         if (!this.props.isAuth) {
