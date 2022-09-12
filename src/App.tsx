@@ -3,12 +3,11 @@ import './App.css';
 import Navbar from "./components/Navbar/Navbar";
 import {Route} from "react-router-dom";
 import {Store} from "redux";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {UsersContainer} from "./components/Users/UsersContainer";
+import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
+import UsersComposeComponent from  './components/Users/UsersContainer'
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
 import {Login} from "./components/Login";
-import {ProfileContainer} from "./components/Profile/ProfileContainer";
-
+import ProfileComposeComponent from './components/Profile/ProfileContainer'
 
 export type AppPropsType = {
     store: Store
@@ -23,11 +22,11 @@ function App(props: AppPropsType) {
             <div className="app-wrapper-content">
                 <Route path={'/login'} render={() => <Login/>}/>
                 <Route path={'/profile/:userId?'} render={
-                    () => <ProfileContainer/>}/>
+                    () => <ProfileComposeComponent/>}/>
                 <Route path={'/dialogs/*'} render={
-                    () => <DialogsContainer/>}/>
+                    () => <DialogsComposeComponent/>}/>
                 <Route path={'/users/*'} render={
-                    () => <UsersContainer/>
+                    () => <UsersComposeComponent/>
                 }/>
             </div>
         </div>

@@ -11,6 +11,7 @@ import {Users} from "./Users";
 import {Loading} from "../common/Loading";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import Dialogs from "../Dialogs/Dialogs";
+import {compose} from "redux";
 
 
 
@@ -74,12 +75,15 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 //     }
 // }
 
-const WithAuthRedirectComponent = WithAuthRedirect(UsersApiComponent)
 
-export const UsersContainer = connect(mapStateToProps, {
-    getUserThunkCreator,
-    unFollowThunkCreator,
-    followThunkCreator,
-    setPageThunkCreator
-})(WithAuthRedirectComponent)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        getUserThunkCreator,
+        unFollowThunkCreator,
+        followThunkCreator,
+        setPageThunkCreator
+    }),
+    WithAuthRedirect
+)(UsersApiComponent)
+
 

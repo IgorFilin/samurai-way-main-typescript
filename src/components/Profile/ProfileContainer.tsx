@@ -5,6 +5,7 @@ import {ProfileUserType, setProfileThunkCreator} from "../../redux/ProfileReduce
 import {StateType} from "../../redux/reduxStore";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 export type BookDetailProps = RouteComponentProps<WithRouteType>;
@@ -53,7 +54,11 @@ const mapStateToProps = (state: StateType) => ({
     isLoading: state.profilePage.isLoading,
 })
 
-const ContainerProfileContainer = withRouter(ProfileContainerApi)
-const WithAuthRedirectComponent = WithAuthRedirect(ContainerProfileContainer)
-export const ProfileContainer = connect(mapStateToProps, {setProfileThunkCreator})(WithAuthRedirectComponent)
+export  default  compose <React.ComponentType>(
+    connect(mapStateToProps,{setProfileThunkCreator}),
+    withRouter,
+    WithAuthRedirect
+)(ProfileContainerApi)
+
+
 
