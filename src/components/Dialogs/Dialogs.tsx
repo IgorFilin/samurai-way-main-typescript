@@ -16,9 +16,6 @@ type DialogsPropsType = {
 }
 
 const Dialogs = (props:DialogsPropsType) => {
-if(!props.isAuth){
-    return <Redirect to={'/login'}/>
-}
     const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         // AddTextMessage(e.currentTarget.value)
         let text = e.currentTarget.value

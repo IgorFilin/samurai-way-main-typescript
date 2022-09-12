@@ -1,10 +1,9 @@
 import React from "react";
 import Header from "./Header";
 import {connect} from "react-redux";
-import {AuthUserThunkCreator, setAuthUser} from "../../redux/authReducer";
+import {AuthUserThunkCreator} from "../../redux/authReducer";
 import {StateType} from "../../redux/reduxStore";
 import { ProfileUserType} from "../../redux/ProfileReducer";
-import {headerApi} from "../../api/api";
 
 
 class HeaderContainerApi extends React.Component<HeaderContainerApiType, StateType>{
@@ -19,9 +18,9 @@ class HeaderContainerApi extends React.Component<HeaderContainerApiType, StateTy
 
 const mapStateToProps = (state:StateType) => {
        return {
-           isAuth:state.auth.isAuth,
            login:state.auth.login,
-           profile:state.profilePage.profileUser
+           profile:state.profilePage.profileUser,
+           isAuth: state.auth.isAuth
        }
 }
 

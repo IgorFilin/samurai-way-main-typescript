@@ -9,6 +9,8 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {Loading} from "../common/Loading";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import Dialogs from "../Dialogs/Dialogs";
 
 
 
@@ -72,12 +74,12 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 //     }
 // }
 
-
+const WithAuthRedirectComponent = WithAuthRedirect(UsersApiComponent)
 
 export const UsersContainer = connect(mapStateToProps, {
     getUserThunkCreator,
     unFollowThunkCreator,
     followThunkCreator,
     setPageThunkCreator
-})(UsersApiComponent)
+})(WithAuthRedirectComponent)
 
