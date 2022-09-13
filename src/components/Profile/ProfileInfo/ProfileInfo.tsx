@@ -10,7 +10,7 @@ export type ProfileInfoTypeProps = {
     isLoading: boolean
     status:string
     updateStatusThunkCreator:(status:string)=>void
-    getStatusThunkCreator:(id:string)=>void
+    userId:string
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
@@ -28,7 +28,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                          src={props.profile.photos.small ? props.profile.photos.small : avatarTemp}
                          alt={'avatar'}/>
                     <div>
-                        <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator} getStatusThunkCreator={props.getStatusThunkCreator}/>
+                        <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
                     </div>
                 </div>
                 <div className={classes.nameContainer}>

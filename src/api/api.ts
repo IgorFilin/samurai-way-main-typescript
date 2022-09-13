@@ -50,7 +50,7 @@ export const profileApi = {
     },
     updateStatusUser(status:string) {
         return instance.put(`/profile/status`,{status:status})
-            .then(response => response.data.data)
+            .then(response => response.data)
     }
 
 }

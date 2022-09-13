@@ -66,7 +66,6 @@ let initialState: ProfilePageType = {
     ]
 }
 export const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators): ProfilePageType => {
-    console.log(state.statusUser)
     switch (action.type) {
         case 'ADD-POST':
             return {
@@ -88,7 +87,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
             return {...state, statusUser: action.status}
         }
         case "UPDATE-AUTH-USER-STATUS":{
-            return {...state,statusAuthUser:action.status}
+            return {...state,statusUser:action.status}
         }
         default:
             return state
@@ -138,7 +137,6 @@ export const getStatusThunkCreator = (userId: string) => {
 }
 
 export const updateStatusThunkCreator = (status: string) => {
-    debugger
     return (dispatch: DispatchType) => {
         profileApi.updateStatusUser(status)
             .then(data => {

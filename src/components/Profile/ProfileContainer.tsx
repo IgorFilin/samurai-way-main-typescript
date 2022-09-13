@@ -54,7 +54,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
     render() {
         return <div>
             <Profile profile={this.props.profile} isLoading={this.props.isLoading}
-                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} getStatusThunkCreator={this.props.getStatusThunkCreator}/>
+                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId}/>
         </div>
     }
 
