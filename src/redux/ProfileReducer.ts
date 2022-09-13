@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {profileApi} from "../api/api";
-import {log} from "util";
+import {DispatchType} from "./reduxStore";
 
 export type postDataType = {
     id: string
@@ -12,6 +12,8 @@ export type ProfilePageType = {
     isLoading: boolean
     profileUser: ProfileUserType
     addNewPostText: string
+    statusUser: string
+    statusAuthUser:string
     postData: Array<postDataType>
 }
 
@@ -39,26 +41,32 @@ export type ProfileUserType = {
 export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
 export type actionCreatorNewPostTextType = ReturnType<typeof actionCreatorNewPostText>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
-export type SetIsLoadingType = ReturnType<typeof SetIsLoading>
+export type setIsLoadingType = ReturnType<typeof setIsLoading>
+export type getStatusUserType = ReturnType<typeof getStatusUser>
+export type updateAuthUserStatusType = ReturnType<typeof updateAuthUserStatus>
 export type AllActionsCreators =
     actionCreatorAddPostType
     | actionCreatorNewPostTextType
     | setProfileUserType
-    | SetIsLoadingType
+    | setIsLoadingType
+    | getStatusUserType
+    | updateAuthUserStatusType
 
 
 let initialState: ProfilePageType = {
     isLoading: false,
     profileUser: null,
     addNewPostText: '',
+    statusUser: '',
+    statusAuthUser:'',
     postData: [
         {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
         {id: v1(), text: 'yoyoyo', likeCount: 12},
         {id: v1(), text: 'Welcome samurai!!', likeCount: 77},
     ]
 }
-
 export const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators): ProfilePageType => {
+    console.log(state.statusUser)
     switch (action.type) {
         case 'ADD-POST':
             return {
@@ -66,13 +74,21 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
                 addNewPostText: '',
                 postData: [...state.postData, {id: v1(), text: state.addNewPostText, likeCount: 0}]
             }
-        case 'NEW-POST-TEXT':
+        case 'NEW-POST-TEXT': {
             return {...state, addNewPostText: action.text}
+        }
+
         case "SET-PROFILE-USER": {
             return {...state, profileUser: action.profileUser}
         }
         case "SET-IS-LOADING-PROFILE": {
             return {...state, isLoading: action.status}
+        }
+        case "GET-STATUS-USER": {
+            return {...state, statusUser: action.status}
+        }
+        case "UPDATE-AUTH-USER-STATUS":{
+            return {...state,statusAuthUser:action.status}
         }
         default:
             return state
@@ -89,16 +105,21 @@ export const actionCreatorNewPostText = (text: string) => ({type: 'NEW-POST-TEXT
 export const setProfileUser = (profileUser: ProfileUserType) => {
     return {type: 'SET-PROFILE-USER', profileUser} as const
 }
-export const SetIsLoading = (status: boolean) => {
+export const setIsLoading = (status: boolean) => {
     return {type: 'SET-IS-LOADING-PROFILE', status} as const
 }
-
+export const getStatusUser = (status: string) => {
+    return {type: 'GET-STATUS-USER', status} as const
+}
+export const updateAuthUserStatus = (status: string) => {
+    return {type: 'UPDATE-AUTH-USER-STATUS', status} as const
+}
 export const setProfileThunkCreator = (idUserProfile: string) => {
     return (dispatch: Dispatch) => {
-        dispatch(SetIsLoading(true))
+        dispatch(setIsLoading(true))
         profileApi.setProfileUser(idUserProfile)
             .then(data => {
-                dispatch(SetIsLoading(false))
+                dispatch(setIsLoading(false))
                 dispatch(setProfileUser(data))
             })
             .catch(err => {
@@ -106,6 +127,25 @@ export const setProfileThunkCreator = (idUserProfile: string) => {
                 }
             )
 
+    }
+}
+
+export const getStatusThunkCreator = (userId: string) => {
+    return (dispatch: DispatchType) => {
+        profileApi.getStatusUser(userId)
+            .then(status => dispatch(getStatusUser(status)))
+    }
+}
+
+export const updateStatusThunkCreator = (status: string) => {
+    debugger
+    return (dispatch: DispatchType) => {
+        profileApi.updateStatusUser(status)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(updateAuthUserStatus(status))
+                }
+            })
     }
 }
 

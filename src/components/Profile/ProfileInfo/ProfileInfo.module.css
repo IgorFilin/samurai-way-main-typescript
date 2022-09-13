@@ -1,5 +1,4 @@
 .img {
-    margin-left: 20px;
     padding-top: 10px;
     width: 150px;
     height: 150px;
@@ -20,10 +19,16 @@
 }
 .imgContainer{
     align-self: center;
+    text-align: center;
 }
 .contactsContainer{
     padding: 10px;
     border: 2px solid aqua;
     max-width:1000px;
     border-radius: 10px;
+}
+.statusUser{
+ font-weight: bold;
+    font-size: 20px;
+    width: 200px;
 }

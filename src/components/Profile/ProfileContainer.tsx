@@ -1,9 +1,14 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {ProfileUserType, setProfileThunkCreator} from "../../redux/ProfileReducer";
+import {
+    getStatusThunkCreator,
+    ProfileUserType,
+    setProfileThunkCreator,
+    updateStatusThunkCreator
+} from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
@@ -15,9 +20,12 @@ export type WithRouteType = {
 export type mapStateToPropsType = {
     profile: ProfileUserType
     isLoading: boolean
+    status:string
 }
 export type mapDispatchToPropsType = {
     setProfileThunkCreator: (params: string) => void
+    getStatusThunkCreator: (id: string) => void
+    updateStatusThunkCreator:()=>void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType & BookDetailProps
@@ -26,23 +34,27 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if(userId === undefined){
+        if (userId === undefined) {
             userId = String(25406)
         }
         this.props.setProfileThunkCreator(userId)
+        this.props.getStatusThunkCreator(userId)
     }
-   componentDidUpdate(prevProps: Readonly<ProfileContainerApiType>, prevState: Readonly<StateType>, snapshot?: any) {
-        if(this.props.profile !== null ){
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerApiType>, prevState: Readonly<StateType>, snapshot?: any) {
+        if (this.props.profile !== null) {
             document.title = this.props.profile.fullName
         }
-   }
-   componentWillUnmount() {
-       document.title = 'Social network'
-   }
+    }
+
+    componentWillUnmount() {
+        document.title = 'Social network'
+    }
 
     render() {
         return <div>
-            <Profile profile={this.props.profile} isLoading={this.props.isLoading}/>
+            <Profile profile={this.props.profile} isLoading={this.props.isLoading}
+                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} getStatusThunkCreator={this.props.getStatusThunkCreator}/>
         </div>
     }
 
@@ -52,10 +64,11 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 const mapStateToProps = (state: StateType) => ({
     profile: state.profilePage.profileUser,
     isLoading: state.profilePage.isLoading,
+    status:state.profilePage.statusUser
 })
 
-export  default  compose <React.ComponentType>(
-    connect(mapStateToProps,{setProfileThunkCreator}),
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator}),
     withRouter,
     WithAuthRedirect
 )(ProfileContainerApi)
