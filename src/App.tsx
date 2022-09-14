@@ -6,7 +6,7 @@ import {Store} from "redux";
 import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
 import UsersComposeComponent from  './components/Users/UsersContainer'
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
-import {Login} from "./components/Login";
+import Login from "./components/Login";
 import ProfileComposeComponent from './components/Profile/ProfileContainer'
 
 export type AppPropsType = {

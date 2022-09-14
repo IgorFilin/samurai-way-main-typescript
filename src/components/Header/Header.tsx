@@ -12,9 +12,9 @@ type headerTypeProps = {
 function Header(props:headerTypeProps){
     
     return(<div className={classes.header}>
-        <img src={'./../Logo.png'}/>
+        <img src={'./../Logo.png'} alt={'Logo'}/>
         {props.isAuth ? <div className={classes.profileAuthData}>
-            <img src={props.profile?.photos.small} alt="Photo"/>
+            <img src={props.profile?.photos.small} alt="Photo" />
             <div className={classes.loginText}>{props.login}</div>
         </div> :
             <NavLink className={classes.loginText} to={'/login'}>Login</NavLink>}

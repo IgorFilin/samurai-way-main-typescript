@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
+import {FormDataType} from "../components/Login";
 
 export type authReducerStateType = {
     id: string | null
@@ -9,7 +10,8 @@ export type authReducerStateType = {
 
 }
 export type setAuthUserType = ReturnType<typeof setAuthUser>
-export type AllActionsCreatorsType = setAuthUserType
+export type setAuthLoginUserType = ReturnType<typeof setAuthLoginUser>
+export type AllActionsCreatorsType = setAuthUserType | setAuthLoginUserType
 
 
 const initialState: authReducerStateType = {
@@ -31,6 +33,9 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
                 isAuth: true
             }
         }
+        case "SET-AUTH-LOGIN-USER":{
+            return {...state,isAuth:true}
+        }
         default: {
             return state
         }
@@ -39,6 +44,9 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
 
 export const setAuthUser = (idUser: string, login: string, email: string) => {
     return {type: 'SET-AUTH-USER', payload: {idUser, login, email}} as const
+}
+export const setAuthLoginUser = () => {
+    return {type: 'SET-AUTH-LOGIN-USER'} as const
 }
 export const AuthUserThunkCreator = () => {
     return (dispatch: Dispatch) => {
@@ -52,3 +60,14 @@ export const AuthUserThunkCreator = () => {
     }
 }
 
+export const AuthorizeUserThunkCreator = (dataForm:FormDataType) => {
+    return (dispatch: Dispatch) => {
+        headerApi.AuthorizeUser(dataForm)
+            .then(data => {
+                if(data.resultCode === 0){
+                    setAuthLoginUser()
+                }
+            })
+    }
+}
+// {"data":{"userId":25406},"messages":[],"fieldsErrors":[],"resultCode":0}

@@ -1,5 +1,14 @@
 import axios from "axios";
-import {log} from "util";
+import {FormDataType} from "../components/Login";
+
+type AuthorizeUserResponseType = {
+    data: {
+        userId: number
+    },
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    resultCode: number
+}
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -34,7 +43,12 @@ export const headerApi = {
     AuthUser() {
         return instance.get('auth/me')
             .then(response => response.data)
+    },
+    AuthorizeUser(dataForm: FormDataType) {
+        return instance.post<AuthorizeUserResponseType>('/auth/login', {...dataForm})
+            .then(resolve => resolve.data)
     }
+
 }
 
 export const profileApi = {
@@ -48,8 +62,8 @@ export const profileApi = {
         return instance.get(`/profile/status/${userId}`)
             .then(response => response.data)
     },
-    updateStatusUser(status:string) {
-        return instance.put(`/profile/status`,{status:status})
+    updateStatusUser(status: string) {
+        return instance.put(`/profile/status`, {status: status})
             .then(response => response.data)
     }
 
