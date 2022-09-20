@@ -9,16 +9,14 @@ export type messagesDataType = {
     messages: string
 }
 export type DialogPageType = {
-    addMessage: string
+    // addMessage: string
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
 }
-export type actionCreatorAddTextMessageType = ReturnType<typeof actionCreatorAddTextMessage>
 export type actionCreatorAddMessagesType = ReturnType<typeof actionCreatorAddMessages>
-export type AllActionsCreatorsType = actionCreatorAddTextMessageType | actionCreatorAddMessagesType
+export type AllActionsCreatorsType =  actionCreatorAddMessagesType
 
 let initialState = {
-    addMessage: '',
     dialogsData: [
         {id: v1(), name: 'Igor'},
         {id: v1(), name: 'Ivan'},
@@ -39,13 +37,10 @@ export type initialStateType = typeof initialState
 
 export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreatorsType): DialogPageType => {
     switch (action.type) {
-        case 'ADD-TEXT-MESSAGE':
-            return {...state, addMessage: action.text}
         case 'ADD-MESSAGE':
             return {
                 ...state,
-                addMessage: '',
-                messagesData: [...state.messagesData, {id: v1(), messages: state.addMessage}]
+                messagesData: [...state.messagesData, {id: v1(), messages: action.messages}]
             }
         default:
             return state
@@ -54,10 +49,6 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
 
 }
 
-export const actionCreatorAddTextMessage = (text: string) => ({
-    type: "ADD-TEXT-MESSAGE",
-    text
-}as const )
 
-export const actionCreatorAddMessages = () => ({type: "ADD-MESSAGE"}as const)
+export const actionCreatorAddMessages = (messages:string) => ({type: "ADD-MESSAGE",messages}as const)
 

@@ -15,7 +15,7 @@ export type profilePropsType = {
 function Profile(props:profilePropsType) {
     return (<div className={classes.profile}>
         <ProfileInfo status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
-        <MyPostsContainer/>
+        <MyPostsContainer />
     </div>)
 }
 
