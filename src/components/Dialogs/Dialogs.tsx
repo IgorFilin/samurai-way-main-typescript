@@ -1,10 +1,11 @@
 import classes from './Dialogs.module.css'
 import DialogsItems from "./DialogsItem/DialogsItems";
 import Message from "./Message/Message";
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {dialogsDataType, messagesDataType} from "../../redux/DialogsReducer";
-import {Redirect} from "react-router-dom";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Textarea} from "../../common/FormsControls/FormsControls";
+import {maxLengthCreator, requaredField} from "../../utils/validators/validators";
 
 
 type DialogsPropsType = {
@@ -20,17 +21,11 @@ type FormDataMessagesType = {
     messages:string
 }
 
+
+const maxLength20 = maxLengthCreator(20)
+
+
 const Dialogs = (props:DialogsPropsType) => {
-    // const onChangeMessagesHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    //     // AddTextMessage(e.currentTarget.value)
-    //     let text = e.currentTarget.value
-    //     props.AddTextMessage(text)
-    // }
-    //
-    // const onClickHandler = () => {
-    //     // AddMessages()
-    //     props.AddMessages()
-    // }
     const onSubmit = (formData:FormDataMessagesType) => {
         props.AddMessages(formData.messages)
     }
@@ -55,10 +50,15 @@ const Dialogs = (props:DialogsPropsType) => {
     )
 }
 
+
+
+
+
 const textAreaFormMessages = (props:InjectedFormProps<FormDataMessagesType>) => {
+
     return (<form onSubmit={props.handleSubmit}>
         <div>
-            <Field name={'messages'} component={'textarea'}/>
+            <Field name={'messages'} component={Textarea} placeholder={'add message'} validate={[requaredField,maxLength20]}/>
         </div>
         <div>
             <button>Add Messages</button>

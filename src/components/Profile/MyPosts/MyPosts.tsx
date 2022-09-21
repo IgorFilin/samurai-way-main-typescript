@@ -3,7 +3,10 @@ import Post from "./Post/Post";
 import React from "react";
 import {ProfilePageType} from "../../../redux/ProfileReducer";
 import {Field, InjectedFormProps, reduxForm, reset} from "redux-form";
+import {maxLengthCreator, requaredField} from "../../../utils/validators/validators";
+import {Textarea} from "../../../common/FormsControls/FormsControls";
 
+const maxLength20 = maxLengthCreator(20)
 
 type MyPostsTypeProps = {
     addPost: (post:string) => void
@@ -13,14 +16,6 @@ type FormDataTypePost = {
     post:string
 }
 export const MyPosts = (props: MyPostsTypeProps) => {
-    // const onClickHandler = () => {
-    //     props.addPost()
-    // }
-    //
-    // const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    //     let text = e.currentTarget.value
-    //     props.newPostText(text)
-    // }
     const addNewPostPage = props.profilePage.postData.map(p =>
         <Post id={p.id} key={p.id} text={p.text} likeCount={p.likeCount}/>)
 
@@ -40,7 +35,7 @@ const textAreaFormPost = (props:InjectedFormProps<FormDataTypePost>) => {
     return (
         <form  onSubmit={props.handleSubmit}>
             <div>
-                <Field name={'post'} component={'textarea'}/>
+                <Field name={'post'} component={Textarea} validate={[requaredField,maxLength20]} placeholder={'added post message'}/>
             </div>
             <div>
                 <button>Add Post</button>
