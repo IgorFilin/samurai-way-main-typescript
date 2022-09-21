@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FormDataType} from "../components/Login";
+import {FormDataTypeLogin} from "../components/Login";
 
 type AuthorizeUserResponseType = {
     data: {
@@ -9,7 +9,11 @@ type AuthorizeUserResponseType = {
     fieldsErrors: Array<string>
     resultCode: number
 }
-
+type DeleteLoginMe = {
+    resultCode: number
+    messages: Array<string>
+        data: {}
+}
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
@@ -44,9 +48,13 @@ export const headerApi = {
         return instance.get('auth/me')
             .then(response => response.data)
     },
-    AuthorizeUser(dataForm: FormDataType) {
+    login(dataForm: FormDataTypeLogin) {
         return instance.post<AuthorizeUserResponseType>('/auth/login', {...dataForm})
             .then(resolve => resolve.data)
+    },
+    logOut() {
+        return instance.delete<DeleteLoginMe>('/auth/login')
+            .then(response => response.data)
     }
 
 }

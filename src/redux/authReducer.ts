@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
-import {FormDataType} from "../components/Login";
+import {FormDataTypeLogin} from "../components/Login";
 
 export type authReducerStateType = {
     id: string | null
@@ -10,8 +10,7 @@ export type authReducerStateType = {
 
 }
 export type setAuthUserType = ReturnType<typeof setAuthUser>
-export type setAuthLoginUserType = ReturnType<typeof setAuthLoginUser>
-export type AllActionsCreatorsType = setAuthUserType | setAuthLoginUserType
+export type AllActionsCreatorsType = setAuthUserType
 
 
 const initialState: authReducerStateType = {
@@ -30,42 +29,50 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
                 email: action.payload.email,
                 id: action.payload.idUser,
                 login: action.payload.login,
-                isAuth: true
+                isAuth: action.payload.valueIsAuth
             }
         }
-        case "SET-AUTH-LOGIN-USER":{
-            return {...state,isAuth:true}
-        }
+
         default: {
             return state
         }
     }
 };
 
-export const setAuthUser = (idUser: string, login: string, email: string) => {
-    return {type: 'SET-AUTH-USER', payload: {idUser, login, email}} as const
+export const setAuthUser = (idUser: string, login: string, email: string,valueIsAuth:boolean) => {
+    return {type: 'SET-AUTH-USER', payload: {idUser, login, email,valueIsAuth}} as const
 }
-export const setAuthLoginUser = () => {
-    return {type: 'SET-AUTH-LOGIN-USER'} as const
-}
+
 export const AuthUserThunkCreator = () => {
     return (dispatch: Dispatch) => {
         headerApi.AuthUser()
             .then(data => {
                 if (data.resultCode === 0) {
                     const {id, login, email} = data.data
-                    dispatch(setAuthUser(id, login, email))
+                    dispatch(setAuthUser(id, login, email,true))
                 }
             })
     }
 }
 
-export const AuthorizeUserThunkCreator = (dataForm:FormDataType) => {
+export const loginUserThunkCreator = (dataForm:FormDataTypeLogin) => {
     return (dispatch: Dispatch) => {
-        headerApi.AuthorizeUser(dataForm)
+        headerApi.login(dataForm)
             .then(data => {
                 if(data.resultCode === 0){
-                    setAuthLoginUser()
+                    // @ts-ignore
+                    dispatch(AuthUserThunkCreator())
+                }
+            })
+    }
+}
+export const loginOutUserThunkCreator = () => {
+    return (dispatch: Dispatch) => {
+        headerApi.logOut()
+            .then(data => {
+                if(data.resultCode === 0){
+                    // @ts-ignore
+                    dispatch(setAuthUser(null,null,null,false))
                 }
             })
     }
