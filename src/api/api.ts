@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FormDataTypeLogin} from "../components/Login";
+import {FormDataTypeLogin} from "../components/Login/Login";
 
 type AuthorizeUserResponseType = {
     data: {

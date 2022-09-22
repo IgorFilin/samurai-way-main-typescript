@@ -1,7 +1,6 @@
 import classes from './Header.module.css'
 import {NavLink} from "react-router-dom";
-import { ProfileUserType} from "../../redux/ProfileReducer";
-import {loginOutUserThunkCreator} from "../../redux/authReducer";
+import {ProfileUserType} from "../../redux/ProfileReducer";
 
 
 type headerTypeProps = {

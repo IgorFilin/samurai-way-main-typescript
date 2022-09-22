@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
-import {FormDataTypeLogin} from "../components/Login";
+import {FormDataTypeLogin} from "../components/Login/Login";
+import {stopSubmit} from "redux-form";
 
 export type authReducerStateType = {
     id: string | null
@@ -62,6 +63,9 @@ export const loginUserThunkCreator = (dataForm:FormDataTypeLogin) => {
                 if(data.resultCode === 0){
                     // @ts-ignore
                     dispatch(AuthUserThunkCreator())
+                }else {
+                    let messages = data.messages.length > 0 ? data.messages[0] : 'Some error'
+                    dispatch(stopSubmit('login',{_error:messages}))
                 }
             })
     }
