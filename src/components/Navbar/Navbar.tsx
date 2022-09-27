@@ -1,11 +1,10 @@
 import classes from './Navbar.module.css'
 import {NavLink} from "react-router-dom";
-import {StateType} from "../../redux/reduxStore";
 
 
 
 type NavbarPropsType = {
-    state: StateType
+
 }
 
 function Navbar(props: NavbarPropsType) {
@@ -36,17 +35,17 @@ function Navbar(props: NavbarPropsType) {
             } to="/settings/">Settings</NavLink></div>
 
         </div>
-        <div className={classes.friends}>
-            {props.state.sidebar.friendsData.map(el => {
-                return (
-                    <div key={el.id} className={classes.friend}>
-                        <div><img src={"https://cs6.pikabu.ru/avatars/1121/x1121129-2144512139.png"}/></div>
-                        <NavLink className={isActive =>
-                            (isActive ? classes.active : "")
-                        } to={"/friend/" + el.id}>{el.name}</NavLink></div>
-                )
-            })}
-        </div>
+        {/*<div className={classes.friends}>*/}
+        {/*    {props.state.sidebar.friendsData.map(el => {*/}
+        {/*        return (*/}
+        {/*            <div key={el.id} className={classes.friend}>*/}
+        {/*                <div><img src={"https://cs6.pikabu.ru/avatars/1121/x1121129-2144512139.png"}/></div>*/}
+        {/*                <NavLink className={isActive =>*/}
+        {/*                    (isActive ? classes.active : "")*/}
+        {/*                } to={"/friend/" + el.id}>{el.name}</NavLink></div>*/}
+        {/*        )*/}
+        {/*    })}*/}
+        {/*</div>*/}
     </div>)
 }
 

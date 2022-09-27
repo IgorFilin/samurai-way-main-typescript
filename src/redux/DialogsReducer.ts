@@ -14,7 +14,7 @@ export type DialogPageType = {
     messagesData: Array<messagesDataType>
 }
 export type actionCreatorAddMessagesType = ReturnType<typeof actionCreatorAddMessages>
-export type AllActionsCreatorsType =  actionCreatorAddMessagesType
+export type AllActionsCreatorsTypeDialogs =  actionCreatorAddMessagesType
 
 let initialState = {
     dialogsData: [
@@ -35,7 +35,7 @@ let initialState = {
 export type initialStateType = typeof initialState
 
 
-export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreatorsType): DialogPageType => {
+export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreatorsTypeDialogs): DialogPageType => {
     switch (action.type) {
         case 'ADD-MESSAGE':
             return {

@@ -24,7 +24,7 @@ export type SetUserCountACType = ReturnType<typeof SetUserCount>
 export type SetLoadingACType = ReturnType<typeof SetLoading>
 export type SetLoadingFollowUnFollowType = ReturnType<typeof SetLoadingFollowUnFollow>
 
-export type AllActionCreatorsType =
+export type AllActionCreatorsTypeUser =
     follow
     | unFollow
     | SetUserACType
@@ -45,7 +45,7 @@ let initialState = {
 }
 
 
-export const UsersReducer = (state: InitialStateType = initialState, action: AllActionCreatorsType): InitialStateType => {
+export const UsersReducer = (state: InitialStateType = initialState, action: AllActionCreatorsTypeUser): InitialStateType => {
     switch (action.type) {
         case 'FOLLOW': {
             return {

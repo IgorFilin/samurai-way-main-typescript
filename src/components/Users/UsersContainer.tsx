@@ -82,8 +82,7 @@ export default compose<React.ComponentType>(
         unFollowThunkCreator,
         followThunkCreator,
         setPageThunkCreator
-    }),
-    WithAuthRedirect
+    })
 )(UsersApiComponent)
 
 

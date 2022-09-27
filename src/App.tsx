@@ -1,41 +1,64 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import {Route} from "react-router-dom";
-import {Store} from "redux";
+import {Route, withRouter} from "react-router-dom";
+import {compose} from "redux";
 import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
-import UsersComposeComponent from  './components/Users/UsersContainer'
+import UsersComposeComponent from './components/Users/UsersContainer'
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
 import Login from "./components/Login/Login";
 import ProfileComposeComponent from './components/Profile/ProfileContainer'
+import {connect} from "react-redux";
+import {initializationMeThunkCreator} from "./redux/appReducer";
+import {StateType} from "./redux/reduxStore";
+import {Loading} from "./components/common/Loading";
 
-export type AppPropsType = {
-    store: Store
+type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
+
+class App extends React.Component<AppPropsType> {
+    componentDidMount() {
+        this.props.initializationMeThunkCreator()
+    }
+
+    render() {
+        return (
+            !this.props.initialValue ?
+                <Loading/>
+                :
+                <div className='app-wrapper'>
+                    <HeaderContainerApi/>
+                    <Navbar/>
+                    <div className="app-wrapper-content">
+                        <Route path={'/login'} render={() => <Login/>}/>
+                        <Route path={'/profile/:userId?'} render={
+                            () => <ProfileComposeComponent/>}/>
+                        <Route path={'/dialogs/*'} render={
+                            () => <DialogsComposeComponent/>}/>
+                        <Route path={'/users/*'} render={
+                            () => <UsersComposeComponent/>
+                        }/>
+                    </div>
+                </div>
+
+        );
+    }
+}
+
+type mapStateToPropsType = {
+    initialValue:boolean
+}
+type mapDispatchToPropsType = {
+    initializationMeThunkCreator:()=>void
 }
 
 
-function App(props: AppPropsType) {
-    return (
-        <div className='app-wrapper'>
-            <HeaderContainerApi/>
-            <Navbar state={props.store.getState()}/>
-            <div className="app-wrapper-content">
-                <Route path={'/login'} render={() => <Login/>}/>
-                <Route path={'/profile/:userId?'} render={
-                    () => <ProfileComposeComponent/>}/>
-                <Route path={'/dialogs/*'} render={
-                    () => <DialogsComposeComponent/>}/>
-                <Route path={'/users/*'} render={
-                    () => <UsersComposeComponent/>
-                }/>
-            </div>
-        </div>
-        // <Route path="/page/:friendlyName">
-        //     <Route path=":sort" element={<Page />} />
-        //     <Route path="" element={<Page />} />
-        // </Route>
-
-    );
+const mapStateToProps = (state: StateType):mapStateToPropsType => {
+    return {
+        initialValue: state.app.initializationValue
+    }
 }
 
-export default App;
+export default compose<React.ComponentType>(
+    withRouter,
+    connect(mapStateToProps, {initializationMeThunkCreator}))
+(App);

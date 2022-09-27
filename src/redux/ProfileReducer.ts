@@ -42,7 +42,7 @@ export type setProfileUserType = ReturnType<typeof setProfileUser>
 export type setIsLoadingType = ReturnType<typeof setIsLoading>
 export type getStatusUserType = ReturnType<typeof getStatusUser>
 export type updateAuthUserStatusType = ReturnType<typeof updateAuthUserStatus>
-export type AllActionsCreators =
+export type AllActionsCreatorsProfile =
     actionCreatorAddPostType
     | setProfileUserType
     | setIsLoadingType
@@ -61,7 +61,7 @@ let initialState: ProfilePageType = {
         {id: v1(), text: 'Welcome samurai!!', likeCount: 77},
     ]
 }
-export const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreators): ProfilePageType => {
+export const ProfileReducer = (state: ProfilePageType = initialState, action: AllActionsCreatorsProfile): ProfilePageType => {
     switch (action.type) {
         case 'ADD-POST':
             return {

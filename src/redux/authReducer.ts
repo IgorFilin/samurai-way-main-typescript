@@ -11,7 +11,7 @@ export type authReducerStateType = {
 
 }
 export type setAuthUserType = ReturnType<typeof setAuthUser>
-export type AllActionsCreatorsType = setAuthUserType
+export type AllActionsCreatorsTypeAuth = setAuthUserType
 
 
 const initialState: authReducerStateType = {
@@ -22,7 +22,7 @@ const initialState: authReducerStateType = {
 }
 
 
-export const AuthReducer = (state: authReducerStateType = initialState, action: AllActionsCreatorsType): authReducerStateType => {
+export const AuthReducer = (state: authReducerStateType = initialState, action: AllActionsCreatorsTypeAuth): authReducerStateType => {
     switch (action.type) {
         case 'SET-AUTH-USER': {
             return {
@@ -46,7 +46,7 @@ export const setAuthUser = (idUser: string, login: string, email: string,valueIs
 
 export const AuthUserThunkCreator = () => {
     return (dispatch: Dispatch) => {
-        headerApi.AuthUser()
+      return   headerApi.AuthUser()
             .then(data => {
                 if (data.resultCode === 0) {
                     const {id, login, email} = data.data
