@@ -12,6 +12,15 @@ import {Loading} from "../common/Loading";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import Dialogs from "../Dialogs/Dialogs";
 import {compose} from "redux";
+import {
+    arrayUsersIdForDisabledButton,
+    currentPage,
+    getUsers,
+    isLoading,
+    isLoadingFollowUnFollow,
+    pageSizeUsers,
+    totalCountPages
+} from "../../redux/users-selectors";
 
 
 
@@ -56,13 +65,13 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
 }
 const mapStateToProps = (state: StateType): mapStateToPropsType => {
     return {
-        users: state.userPage.users,
-        currentPage: state.userPage.currentPage,
-        pageSizeUsers: state.userPage.pageSizeUsers,
-        totalCountPages: state.userPage.totalUserCount,
-        isLoading: state.userPage.isLoading,
-        isLoadingFollowUnFollow:state.userPage.isLoadingFollowUnFollow,
-        arrayUsersIdForDisabledButton:state.userPage.arrayUsersIdForDisabledButton
+        users: getUsers(state),
+        currentPage: currentPage(state),
+        pageSizeUsers: pageSizeUsers(state),
+        totalCountPages: totalCountPages(state),
+        isLoading: isLoading(state),
+        isLoadingFollowUnFollow:isLoadingFollowUnFollow(state),
+        arrayUsersIdForDisabledButton:arrayUsersIdForDisabledButton(state)
     }
 }
 // const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
