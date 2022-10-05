@@ -12,7 +12,7 @@ export type ProfilePageType = {
     isLoading: boolean
     profileUser: ProfileUserType
     statusUser: string
-    statusAuthUser:string
+    statusAuthUser: string
     postData: Array<postDataType>
 }
 
@@ -54,7 +54,7 @@ let initialState: ProfilePageType = {
     isLoading: false,
     profileUser: null,
     statusUser: '',
-    statusAuthUser:'',
+    statusAuthUser: '',
     postData: [
         {id: v1(), text: 'Hello,Its my first post', likeCount: 10},
         {id: v1(), text: 'yoyoyo', likeCount: 12},
@@ -78,8 +78,8 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
         case "GET-STATUS-USER": {
             return {...state, statusUser: action.status}
         }
-        case "UPDATE-AUTH-USER-STATUS":{
-            return {...state,statusUser:action.status}
+        case "UPDATE-AUTH-USER-STATUS": {
+            return {...state, statusUser: action.status}
         }
         default:
             return state
@@ -88,7 +88,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
 }
 
 
-export const actionCreatorAddPost = (post:string) => ({type: 'ADD-POST',post} as const)
+export const actionCreatorAddPost = (post: string) => ({type: 'ADD-POST', post} as const)
 
 export const setProfileUser = (profileUser: ProfileUserType) => {
     return {type: 'SET-PROFILE-USER', profileUser} as const
@@ -111,7 +111,7 @@ export const setProfileThunkCreator = (idUserProfile: string) => {
                 dispatch(setProfileUser(data))
             })
             .catch(err => {
-                    return console.warn(err)
+                    console.warn(err)
                 }
             )
 

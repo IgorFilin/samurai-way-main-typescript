@@ -1,5 +1,5 @@
 import classes from "../ProfileInfo.module.css";
-import React, {ChangeEvent, KeyboardEventHandler, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
 type StatusUserPropsType = {
     status: string
@@ -10,6 +10,10 @@ type StatusUserPropsType = {
 export const StatusUser = (props: StatusUserPropsType) => {
     const [editMode, setEditMode] = useState(false)
     const [status, setStatus] = useState(props.status)
+
+    useEffect(()=> {
+        setStatus(props.status)
+    },[props.status])
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)

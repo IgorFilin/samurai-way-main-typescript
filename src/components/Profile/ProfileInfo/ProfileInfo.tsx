@@ -14,6 +14,7 @@ export type ProfileInfoTypeProps = {
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
+
     if (!props.profile || props.isLoading) {
         return <Loading/>
     }
