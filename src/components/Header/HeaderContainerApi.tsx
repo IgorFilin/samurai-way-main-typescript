@@ -1,15 +1,13 @@
 import React from "react";
 import Header from "./Header";
 import {connect} from "react-redux";
-import {AuthUserThunkCreator, loginOutUserThunkCreator} from "../../redux/authReducer";
+import {loginOutUserThunkCreator} from "../../redux/authReducer";
 import {StateType} from "../../redux/reduxStore";
-import { ProfileUserType} from "../../redux/ProfileReducer";
+import {ProfileUserType} from "../../redux/ProfileReducer";
 
 
 class HeaderContainerApi extends React.Component<HeaderContainerApiType, StateType>{
-    componentDidMount() {
-        this.props.AuthUserThunkCreator()
-    }
+
 
     render() {
         return <Header {...this.props}/>
@@ -30,10 +28,10 @@ export type mapStateToProps = {
     profile:ProfileUserType
 }
 export type mapDispatchToProps = {
-    AuthUserThunkCreator:() => void
+    loginOutUserThunkCreator:()=>void
 }
 
 export type HeaderContainerApiType = mapStateToProps & mapDispatchToProps
 
 
-export default connect (mapStateToProps,{AuthUserThunkCreator,loginOutUserThunkCreator})(HeaderContainerApi)
+export default connect (mapStateToProps,{loginOutUserThunkCreator})(HeaderContainerApi)

@@ -7,11 +7,12 @@ type headerTypeProps = {
     isAuth:boolean
     login:string | null
     profile: ProfileUserType | null
+    loginOutUserThunkCreator:()=>void
 }
 
 function Header(props:headerTypeProps){
+
     const onClickHandlerLogOut = () => {
-        // @ts-ignore
         props.loginOutUserThunkCreator()
     }
 

@@ -3,11 +3,22 @@ import s from "./Users.module.css";
 import userPhotoDefault from "../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
 import {UserTypeProps} from "./UsersContainer";
+import type { PaginationProps } from 'antd';
+import { Pagination } from 'antd';
 
 
 
 
 export const Users = (props: UserTypeProps) => {
+
+
+
+    // const onChange: PaginationProps['onChange'] = pageNumber => {
+    //     console.log('Page: ', pageNumber);
+    // };
+
+
+
     let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
     let totalCountPagesArray = []
     for (let i = 1; i <= totalCountPages; i++) {
@@ -21,6 +32,11 @@ export const Users = (props: UserTypeProps) => {
                     <div key={page} className={page === props.currentPage ? s.activePage : s.page}
                          onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}
             </div>
+            {/*<div>*/}
+            {/*    <Pagination showQuickJumper  showSizeChanger*/}
+            {/*                 defaultCurrent={2} total={500} onChange={onChange} />*/}
+            {/*    <br />*/}
+            {/*</div>*/}
             {props.users.map(us => {
                 return (
                     <div key={us.id} className={s.Content}>

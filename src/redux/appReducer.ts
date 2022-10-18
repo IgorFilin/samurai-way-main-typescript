@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {AuthUserThunkCreator} from "./authReducer";
 import {AppDispatch} from "./reduxStore";
 
@@ -31,7 +30,12 @@ export const initializationMeAC = () => {
 export const initializationMeThunkCreator = () => (dispatch:AppDispatch) => {
     const resultDispatch = dispatch(AuthUserThunkCreator())
     resultDispatch
-        .then(()=>dispatch(initializationMeAC()))
+        .then(()=>{
+            dispatch(initializationMeAC())
+        })
+        .finally(()=> {
+            dispatch(initializationMeAC())
+        })
 
 }
 

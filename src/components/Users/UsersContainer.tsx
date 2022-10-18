@@ -1,7 +1,8 @@
 import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
-    followThunkCreator, getUserThunkCreator, SetPage,
+    followThunkCreator,
+    getUserThunkCreator,
     setPageThunkCreator,
     unFollowThunkCreator,
     UserType
@@ -9,8 +10,6 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {Loading} from "../common/Loading";
-import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
-import Dialogs from "../Dialogs/Dialogs";
 import {compose} from "redux";
 import {
     arrayUsersIdForDisabledButton,
@@ -21,7 +20,6 @@ import {
     pageSizeUsers,
     totalCountPages
 } from "../../redux/users-selectors";
-
 
 
 type mapStateToPropsType = {
@@ -74,15 +72,7 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
         arrayUsersIdForDisabledButton:arrayUsersIdForDisabledButton(state)
     }
 }
-// const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
-//     return {
-//         changeSubscriptions: (idUser: string) => dispatch(ChangeSubscriptionAC(idUser)),
-//         setUsers: (users: Array<UserType>) => dispatch(SetUserAC(users)),
-//         setPage: (pageNumber: number) => dispatch(SetPageAC(pageNumber)),
-//         setUserCount: (userCount: number) => dispatch(SetUserCountAC(userCount)),
-//         setLoading:(statusLoading:boolean)=> dispatch(SetLoadingAC(statusLoading))
-//     }
-// }
+
 
 
 export default compose<React.ComponentType>(
@@ -95,3 +85,12 @@ export default compose<React.ComponentType>(
 )(UsersApiComponent)
 
 
+// const mapDispatchToProps = (dispatch: DispatchType): mapDispatchToPropsType => {
+//     return {
+//         changeSubscriptions: (idUser: string) => dispatch(ChangeSubscriptionAC(idUser)),
+//         setUsers: (users: Array<UserType>) => dispatch(SetUserAC(users)),
+//         setPage: (pageNumber: number) => dispatch(SetPageAC(pageNumber)),
+//         setUserCount: (userCount: number) => dispatch(SetUserCountAC(userCount)),
+//         setLoading:(statusLoading:boolean)=> dispatch(SetLoadingAC(statusLoading))
+//     }
+// }
