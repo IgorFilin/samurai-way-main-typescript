@@ -8,17 +8,20 @@ export type authReducerStateType = {
     login: string | null
     email: string | null
     isAuth: boolean
+    errorMessages: null | string
 
 }
 export type setAuthUserType = ReturnType<typeof setAuthUser>
-export type AllActionsCreatorsTypeAuth = setAuthUserType
+export type setErrorMessageType = ReturnType<typeof setErrorMessage>
+export type AllActionsCreatorsTypeAuth = setAuthUserType | setErrorMessageType
 
 
 const initialState: authReducerStateType = {
     id: null,
     login: null,
     email: null,
-    isAuth: false
+    isAuth: false,
+    errorMessages:null
 }
 
 
@@ -33,6 +36,9 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
                 isAuth: action.payload.valueIsAuth
             }
         }
+        case "SET-ERROR-MESSAGE":{
+            return {...state,errorMessages:action.message}
+        }
 
         default: {
             return state
@@ -42,6 +48,9 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
 
 export const setAuthUser = (idUser: string, login: string, email: string,valueIsAuth:boolean) => {
     return {type: 'SET-AUTH-USER', payload: {idUser, login, email,valueIsAuth}} as const
+}
+export const setErrorMessage = (message:string) => {
+    return {type: 'SET-ERROR-MESSAGE', message } as const
 }
 
 export const AuthUserThunkCreator = () => {
@@ -65,7 +74,7 @@ export const loginUserThunkCreator = (dataForm:FormDataTypeLogin) => {
                     dispatch(AuthUserThunkCreator())
                 }else {
                     let messages = data.messages.length > 0 ? data.messages[0] : 'Some error'
-                    dispatch(stopSubmit('login',{_error:messages}))
+                    dispatch(setErrorMessage(messages))
                 }
             })
     }

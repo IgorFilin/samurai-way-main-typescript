@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {initializationMeThunkCreator} from "./redux/appReducer";
 import {StateType} from "./redux/reduxStore";
 import {Loading} from "./components/common/Loading";
+import Login2 from "./components/Login/Login2";
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -29,7 +30,7 @@ class App extends React.Component<AppPropsType> {
                     <HeaderContainerApi/>
                     <Navbar/>
                     <div className="app-wrapper-content">
-                        <Route path={'/login'} render={() => <Login/>}/>
+                        <Route path={'/login'} render={() => <Login2/>}/>
                         <Route path={'/profile/:userId?'} render={
                             () => <ProfileComposeComponent/>}/>
                         <Route path={'/dialogs/*'} render={

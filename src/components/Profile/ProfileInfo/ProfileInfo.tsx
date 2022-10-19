@@ -3,6 +3,7 @@ import {Loading} from "../../common/Loading";
 import {ProfileUserType} from "../../../redux/ProfileReducer";
 import avatarTemp from './../../../assets/images/user.png'
 import {StatusUser} from "./StatusUser/StatusUser";
+import {Spin} from "antd";
 
 
 export type ProfileInfoTypeProps = {
@@ -16,7 +17,7 @@ export type ProfileInfoTypeProps = {
 function ProfileInfo(props: ProfileInfoTypeProps) {
 
     if (!props.profile || props.isLoading) {
-        return <Loading/>
+        return <Spin />
     }
 
 
