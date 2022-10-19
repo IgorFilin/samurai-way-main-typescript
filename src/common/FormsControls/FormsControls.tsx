@@ -1,5 +1,6 @@
 import React from "react";
 import classes from './FormsControls.module.css'
+import { Input as InputAnt } from 'antd';
 
 
 const FormControlCreator = ({input, meta, ...props}: any) => {
@@ -23,6 +24,6 @@ export const Textarea = (props: any) => {
 export const Input = (props: any) => {
     const {input, meta, ...restProps} = props
     return (
-        <FormControlCreator {...props} ><input {...input} {...restProps}></input></FormControlCreator>
+        <FormControlCreator {...props} ><InputAnt style={{width:'200px'}} {...input} {...restProps}></InputAnt></FormControlCreator>
     )
 }

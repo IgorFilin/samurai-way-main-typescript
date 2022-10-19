@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
     followThunkCreator,
-    getUserThunkCreator,
+    getUserThunkCreator, SetPageSizeUsers,
     setPageThunkCreator,
     unFollowThunkCreator,
     UserType
@@ -37,6 +37,7 @@ type mapDispatchToPropsType = {
     getUserThunkCreator:(pageSizeUsers:number,currentPage:number)=> void
     unFollowThunkCreator:(userId:string) => void
     followThunkCreator:(userId:string) => void
+    SetPageSizeUsers:(PageSizeUsers:number)=> void
 
 }
 
@@ -48,9 +49,7 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
         this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage)
     }
 
-    setPage(page: number){
-      this.props.setPageThunkCreator(this.props.pageSizeUsers,page)
-    }
+
 
     render() {
         return <>
@@ -80,7 +79,8 @@ export default compose<React.ComponentType>(
         getUserThunkCreator,
         unFollowThunkCreator,
         followThunkCreator,
-        setPageThunkCreator
+        setPageThunkCreator,
+        SetPageSizeUsers
     })
 )(UsersApiComponent)
 

@@ -3,40 +3,45 @@ import s from "./Users.module.css";
 import userPhotoDefault from "../../assets/images/user.png";
 import {NavLink} from "react-router-dom";
 import {UserTypeProps} from "./UsersContainer";
-import type { PaginationProps } from 'antd';
-import { Pagination } from 'antd';
-
-
+import {Pagination} from 'antd';
 
 
 export const Users = (props: UserTypeProps) => {
 
-
-
-    // const onChange: PaginationProps['onChange'] = pageNumber => {
-    //     console.log('Page: ', pageNumber);
-    // };
-
-
-
-    let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
-    let totalCountPagesArray = []
-    for (let i = 1; i <= totalCountPages; i++) {
-        totalCountPagesArray.push(i)
+    const onChange = (page: number, pageSize: number) => {
+        props.setPageThunkCreator(pageSize, page)
     }
-    let newTotalCountPagesArray = totalCountPagesArray.slice(0, 15)
+
+    // const onShowSizeChangeHandler = (current: number, pageSize: number) => {
+    //     debugger
+    //     props.setPageThunkCreator(pageSize, current)
+    // }
+
+    // let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
+    // let totalCountPagesArray = []
+    // for (let i = 1; i <= totalCountPages; i++) {
+    //     totalCountPagesArray.push(i)
+    // }
+    // let newTotalCountPagesArray = totalCountPagesArray
+
     return (
         <>
-            <div className={s.pages}>
-                {newTotalCountPagesArray.map(page =>
-                    <div key={page} className={page === props.currentPage ? s.activePage : s.page}
-                         onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}
-            </div>
-            {/*<div>*/}
-            {/*    <Pagination showQuickJumper  showSizeChanger*/}
-            {/*                 defaultCurrent={2} total={500} onChange={onChange} />*/}
-            {/*    <br />*/}
+            {/*<div className={s.pages}>*/}
+            {/*    {newTotalCountPagesArray.map(page =>*/}
+            {/*        <div key={page} className={page === props.currentPage ? s.activePage : s.page}*/}
+            {/*             onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}*/}
             {/*</div>*/}
+            <div>
+                <Pagination
+                    onShowSizeChange={onChange}
+                    showLessItems
+                    pageSizeOptions={['5', '10', '20']}
+                    pageSize={props.pageSizeUsers}
+                    current={props.currentPage}
+                    total={props.totalCountPages}
+                    showQuickJumper
+                    onChange={onChange}/>
+            </div>
             {props.users.map(us => {
                 return (
                     <div key={us.id} className={s.Content}>
@@ -48,13 +53,14 @@ export const Users = (props: UserTypeProps) => {
                             <div>{us.followed}</div>
                             {us.followed ?
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                        onClick={()=> {
+                                        onClick={() => {
                                             props.unFollowThunkCreator(us.id)
                                         }}>{'unFollow'}
                                 </button> :
                                 <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
                                         onClick={() => {
-                                            props.followThunkCreator(us.id)}}>{'Follow'}
+                                            props.followThunkCreator(us.id)
+                                        }}>{'Follow'}
                                 </button>}
 
                         </div>

@@ -7,6 +7,7 @@ import {requaredField} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
 import {StateType} from "../../redux/reduxStore";
 import classes from './Login.module.css'
+import {Form} from "antd";
 
 export type FormDataTypeLogin = {
     login:string
@@ -15,6 +16,7 @@ export type FormDataTypeLogin = {
 }
 export const LoginForm = (props:InjectedFormProps<FormDataTypeLogin>) => {
     return (
+
         <form onSubmit={props.handleSubmit}>
             <div><Field name={'email'}  type="text" placeholder={'email'} component={Input} validate={[requaredField]}/></div>
             <div><Field name={'password'} type="password" placeholder={'password'} component={Input} validate={[requaredField]}/></div>
@@ -22,6 +24,7 @@ export const LoginForm = (props:InjectedFormProps<FormDataTypeLogin>) => {
             {props.error && <div className={classes.errorSubmit}>{props.error}</div>}
             <div><button>Login</button></div>
         </form>
+
     )
 }
 

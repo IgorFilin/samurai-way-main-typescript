@@ -23,6 +23,7 @@ export  type SetPageACType = ReturnType<typeof SetPage>
 export type SetUserCountACType = ReturnType<typeof SetUserCount>
 export type SetLoadingACType = ReturnType<typeof SetLoading>
 export type SetLoadingFollowUnFollowType = ReturnType<typeof SetLoadingFollowUnFollow>
+export type SetPageSizeUsersType = ReturnType<typeof SetPageSizeUsers>
 
 export type AllActionCreatorsTypeUser =
     follow
@@ -32,13 +33,14 @@ export type AllActionCreatorsTypeUser =
     | SetUserCountACType
     | SetLoadingACType
     | SetLoadingFollowUnFollowType
+    | SetPageSizeUsersType
 
 
 let initialState = {
     users: [] as Array<UserType>,
     currentPage: 1,
     pageSizeUsers: 5,
-    totalUserCount: 20,
+    totalUserCount: 0,
     isLoading: false,
     isLoadingFollowUnFollow: false,
     arrayUsersIdForDisabledButton: [] as Array<string>
@@ -66,6 +68,10 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
         }
         case "SET-PAGE": {
             return {...state, currentPage: action.pageNumber}
+
+        }
+        case "SET-PAGE-SIZE": {
+            return {...state, pageSizeUsers: action.pageSizeUsers}
 
         }
         case "SET-USER-COUNT": {
@@ -108,12 +114,15 @@ export const SetUserCount = (userCount: number) => {
 export const SetLoading = (statusLoading: boolean) => {
     return {type: 'SET-LOADING', status: statusLoading} as const
 }
+export const SetPageSizeUsers = (pageSizeUsers: number) => {
+    return {type: 'SET-PAGE-SIZE', pageSizeUsers} as const
+}
 export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
-    return {type: 'SET-LOADING-FOLLOW-UNFOLLOW',  status, idUser} as const
+    return {type: 'SET-LOADING-FOLLOW-UNFOLLOW', status, idUser} as const
 }
 
-export const getUserThunkCreator = (pageSizeUsers:number,currentPage:number) => {
-    return (dispatch:Dispatch) => {
+export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number) => {
+    return (dispatch: Dispatch) => {
         dispatch(SetLoading(true))
         userApi.getUsers(pageSizeUsers, currentPage)
             .then(data => {
@@ -124,9 +133,9 @@ export const getUserThunkCreator = (pageSizeUsers:number,currentPage:number) => 
     }
 }
 
-export const followThunkCreator = (userID:string) => {
-    return (dispatch:Dispatch) => {
-        dispatch(SetLoadingFollowUnFollow(true,userID))
+export const followThunkCreator = (userID: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(SetLoadingFollowUnFollow(true, userID))
         userApi.follow(userID)
             .then(data => {
                 if (data.resultCode === 0) {
@@ -137,9 +146,9 @@ export const followThunkCreator = (userID:string) => {
     }
 }
 
-export const unFollowThunkCreator = (userID:string) => {
-    return (dispatch:Dispatch) => {
-        dispatch(SetLoadingFollowUnFollow(true,userID))
+export const unFollowThunkCreator = (userID: string) => {
+    return (dispatch: Dispatch) => {
+        dispatch(SetLoadingFollowUnFollow(true, userID))
         userApi.unFollow(userID)
             .then(data => {
                 if (data.resultCode === 0) {
@@ -151,16 +160,17 @@ export const unFollowThunkCreator = (userID:string) => {
 }
 
 
-export const setPageThunkCreator = (pageSizeUsers:number,page:number) => {
-    return (dispatch:Dispatch)=> {
+export const setPageThunkCreator = (pageSizeUsers: number, page: number) => {
+    return (dispatch: Dispatch) => {
         dispatch(SetLoading(true))
         userApi.setPage(pageSizeUsers, page)
             .then(data => {
-                dispatch(SetLoading(false))
-                dispatch(SetUser(data.items))
+                dispatch(SetPage(page))
                 dispatch(SetUserCount(data.totalCount))
+                dispatch(SetPageSizeUsers(pageSizeUsers))
+                dispatch(SetUser(data.items))
+                dispatch(SetLoading(false))
             })
-        dispatch(SetPage(page))
     }
 
 }
