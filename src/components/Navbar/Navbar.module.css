@@ -1,6 +1,8 @@
 .navbar {
     min-width: 150px;
-    background-color: darkturquoise;
+    background-color: #2c4141;
+    height: 250px;
+    margin-right: 10px;
 }
 
 .items {
@@ -13,8 +15,8 @@
 }
 
 .item a {
-    font-family: "Microsoft YaHei Light";
-    color: black;
+    font-size: 17px;
+    color: #ce7878;
     text-decoration: none;
 }
 
