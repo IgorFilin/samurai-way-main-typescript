@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {FormDataTypeLogin} from "../components/Login/Login";
+import {ProfileUserType} from "../redux/ProfileReducer";
 
 type AuthorizeUserResponseType = {
     data: {
@@ -61,7 +62,7 @@ export const headerApi = {
 
 export const profileApi = {
     setProfileUser(userId: string) {
-        return instance.get(`profile/${userId}`)
+        return instance.get<ProfileUserType>(`profile/${userId}`)
             .then(response => {
                 return response.data
             })
@@ -73,6 +74,14 @@ export const profileApi = {
     updateStatusUser(status: string) {
         return instance.put(`/profile/status`, {status: status})
             .then(response => response.data)
+    },
+    uploadPhoto(file:any){
+        const form = new FormData()
+        form.append('image',file)
+        console.log(form.getAll('image'))
+        return instance.put('/profile/photo',form, { headers: {
+                'content-type': 'multipart/form-data'
+        }})
     }
 
 }

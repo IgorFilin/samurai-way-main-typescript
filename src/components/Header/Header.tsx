@@ -9,6 +9,7 @@ type headerTypeProps = {
     login:string | null
     profile: ProfileUserType | null
     loginOutUserThunkCreator:()=>void
+    logoAuthUser:string | null
 }
 
 function Header(props:headerTypeProps){
@@ -18,10 +19,10 @@ function Header(props:headerTypeProps){
     }
 
     return(<div className={classes.header}>
-        <img src={Logo} alt={'Logo'}/>
+        <img className={classes.logoApp} src={Logo} alt={'Logo'}/>
         {props.isAuth ?
             <div className={classes.profileAuthData}>
-            <img src={props.profile?.photos.small} alt="Photo" />
+            <img className={classes.smallLogoAvatar} src={props.logoAuthUser!} alt="Photo" />
             <div className={classes.loginText}>{props.login}</div>
                 <div><button onClick={onClickHandlerLogOut}>Log out</button></div>
             </div>

@@ -67,7 +67,7 @@ export const Users = (props: UserTypeProps) => {
                         <div className={s.blockTwo}>
                             <div className={s.nameStatus}>
                                 <div>{us.name}</div>
-                                <div>{us.status}</div>
+                                <div className={s.status}>{us.status}</div>
                             </div>
                             <div className={s.location}>
                                 <div>{"us.location.country"}</div>

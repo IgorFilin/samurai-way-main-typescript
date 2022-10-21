@@ -5,7 +5,7 @@ import {
     getStatusThunkCreator,
     ProfileUserType,
     setProfileThunkCreator,
-    updateStatusThunkCreator
+    updateStatusThunkCreator, uploadPhotoThunkCreator
 } from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
 import {RouteComponentProps, withRouter} from "react-router-dom";
@@ -18,7 +18,7 @@ export type WithRouteType = {
     userId: string
 }
 export type mapStateToPropsType = {
-    id:string | null
+    id:number | null
     profile: ProfileUserType
     isLoading: boolean
     status:string
@@ -27,6 +27,7 @@ export type mapDispatchToPropsType = {
     setProfileThunkCreator: (params: string) => void
     getStatusThunkCreator: (id: string) => void
     updateStatusThunkCreator:()=>void
+    uploadPhotoThunkCreator:(file:any)=>void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType & BookDetailProps
@@ -35,8 +36,9 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
+        console.log(userId,this.props.id)
         if (!userId && this.props.id) {
-            userId = this.props.id
+            userId = String(this.props.id)
         }
         this.props.setProfileThunkCreator(userId)
         this.props.getStatusThunkCreator(userId)
@@ -55,7 +57,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
     render() {
         return <div>
             <Profile profile={this.props.profile} isLoading={this.props.isLoading}
-                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId}/>
+                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId} uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
         </div>
     }
 
@@ -70,7 +72,7 @@ const mapStateToProps = (state: StateType):mapStateToPropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator}),
+    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator,uploadPhotoThunkCreator}),
     withRouter,
     WithAuthRedirect
 )(ProfileContainerApi)

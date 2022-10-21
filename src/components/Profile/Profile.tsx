@@ -10,11 +10,12 @@ export type profilePropsType = {
     status:string
     updateStatusThunkCreator:(status:string)=>void
     userId:string
+    uploadPhotoThunkCreator:(file:any)=>void
 }
 
 function Profile(props:profilePropsType) {
     return (<div className={classes.profile}>
-        <ProfileInfo status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
+        <ProfileInfo uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
         <MyPostsContainer />
     </div>)
 }

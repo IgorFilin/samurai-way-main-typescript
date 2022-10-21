@@ -1,10 +1,10 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
 import {FormDataTypeLogin} from "../components/Login/Login";
-import {stopSubmit} from "redux-form";
+
 
 export type authReducerStateType = {
-    id: string | null
+    id: number | null
     login: string | null
     email: string | null
     isAuth: boolean
@@ -40,13 +40,14 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
             return {...state,errorMessages:action.message}
         }
 
+
         default: {
             return state
         }
     }
 };
 
-export const setAuthUser = (idUser: string, login: string, email: string,valueIsAuth:boolean) => {
+export const setAuthUser = (idUser: number, login: string, email: string,valueIsAuth:boolean) => {
     return {type: 'SET-AUTH-USER', payload: {idUser, login, email,valueIsAuth}} as const
 }
 export const setErrorMessage = (message:string) => {

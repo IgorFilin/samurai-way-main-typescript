@@ -1,9 +1,10 @@
 import classes from "./ProfileInfo.module.css";
-import {Loading} from "../../common/Loading";
-import {ProfileUserType} from "../../../redux/ProfileReducer";
+import {UploadOutlined} from '@ant-design/icons';
+import {ProfileUserType, uploadPhotoThunkCreator} from "../../../redux/ProfileReducer";
 import avatarTemp from './../../../assets/images/user.png'
 import {StatusUser} from "./StatusUser/StatusUser";
-import {Spin} from "antd";
+import {Button, Spin, Upload} from "antd";
+import {ChangeEvent} from "react";
 
 
 export type ProfileInfoTypeProps = {
@@ -12,6 +13,7 @@ export type ProfileInfoTypeProps = {
     status:string
     updateStatusThunkCreator:(status:string)=>void
     userId:string
+    uploadPhotoThunkCreator:(file:any)=>void
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
@@ -20,6 +22,10 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
         return <Spin />
     }
 
+    const uploadFileHandler = (file:any) => {
+        console.log(file)
+        props.uploadPhotoThunkCreator(file.file.originFileObj)
+    }
 
     return (
         props.profile &&
@@ -27,9 +33,12 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
             <div className={classes.mainInfoContainer}>
                 <div className={classes.imgContainer}>
                     <img className={classes.img}
-                         src={props.profile.photos.small ? props.profile.photos.small : avatarTemp}
+                         src={props.profile.photos.large ? props.profile.photos.large : avatarTemp}
                          alt={'avatar'}/>
                     <div>
+                        <Upload showUploadList={false} onChange={uploadFileHandler}>
+                            <Button icon={<UploadOutlined />}>Upload your photo</Button>
+                        </Upload>
                         <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
                     </div>
                 </div>
