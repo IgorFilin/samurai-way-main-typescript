@@ -33,7 +33,7 @@ export const Users = (props: UserTypeProps) => {
             {/*</div>*/}
             <div>
                 <Pagination
-                    onShowSizeChange={onChange}
+                    className={s.paginationBar} onShowSizeChange={onChange}
                     showLessItems
                     pageSizeOptions={['5', '10', '20']}
                     pageSize={props.pageSizeUsers}

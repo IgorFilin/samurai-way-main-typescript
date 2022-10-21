@@ -1,5 +1,5 @@
 .navbar {
-    grid-area: navbar;
+    min-width: 150px;
     background-color: darkturquoise;
 }
 
@@ -13,7 +13,6 @@
 }
 
 .item a {
-
     font-family: "Microsoft YaHei Light";
     color: black;
     text-decoration: none;
@@ -21,42 +20,9 @@
 
 .item a:hover {
     transition: 1s;
-    text-align: center;
-    width: 100px;
-    display: block;
-    background-color: aliceblue;
-    border-radius: 5px;
-    color: black;
+    color: lavender;
 }
 
 a.active {
     color: gold;
-}
-
-.friends {
-    margin-left: 5px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.friend img {
-    width: 50px;
-    border-radius: 50%;
-}
-
-.friend {
-    padding: 5px;
-    text-align: center;
-}
-
-.friend a {
-    text-decoration: none;
-    font-family: "Microsoft YaHei Light";
-    color: black;
-}
-
-.friend a:hover {
-    color: gold;
-    transition: 0.8s;
-
 }

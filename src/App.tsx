@@ -26,10 +26,12 @@ class App extends React.Component<AppPropsType> {
             !this.props.initialValue ?
                 <Loading/>
                 :
+                <div className='container'>
                 <div className='app-wrapper'>
                     <HeaderContainerApi/>
-                    <Navbar/>
                     <div className="app-wrapper-content">
+                    <Navbar/>
+                        <div className="app-main-content">
                         <Route path={'/login'} render={() => <Login2/>}/>
                         <Route path={'/profile/:userId?'} render={
                             () => <ProfileComposeComponent/>}/>
@@ -38,9 +40,10 @@ class App extends React.Component<AppPropsType> {
                         <Route path={'/users/*'} render={
                             () => <UsersComposeComponent/>
                         }/>
+                        </div>
                     </div>
                 </div>
-
+    </div>
         );
     }
 }

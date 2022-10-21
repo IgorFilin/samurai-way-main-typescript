@@ -15,9 +15,6 @@ export const LoginForm2 = (props: LoginType) => {
         console.log('Success:', values);
         props.loginUserThunkCreator(values)
     };
-    // const onFinishFailed = (errorInfo: any) => {
-    //     console.log('Failed:', errorInfo);
-    // }
 
     return (
         <div style={{marginTop: '50px',display:'flex',justifyContent:'center'}}>
@@ -62,11 +59,6 @@ export const LoginForm2 = (props: LoginType) => {
 
 
 const Login2 = (props: LoginPropsType) => {
-    console.log(props.errorMessages)
-    // const onSubmit = (formData:FormDataTypeLogin) => {
-    //     props.AuthorizeUserThunkCreator(formData)
-    // }
-
     const afterCloseHandler = () => {
         props.setError(null)
     }

@@ -1,13 +1,18 @@
 @import '~antd/dist/antd.css';
-.app-wrapper {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    grid-template-rows: 50px 1fr;
-    grid-template-areas: 'header header' 'navbar content';
-    grid-gap: 2px;
-}
 
-.app-wrapper-content {
-    grid-area: content;
-    background-color: aliceblue;
+.container{
+    display: flex;
+    justify-content: center;
+}
+.app-wrapper{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+.app-wrapper-content{
+    display: flex;
+}
+.app-main-content{
+    display: flex;
+    flex-direction: column;
 }
