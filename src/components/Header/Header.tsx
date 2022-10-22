@@ -37,6 +37,7 @@ function Header(props: headerTypeProps) {
                 </Link>
                 <div className={classes.btnLogout}>
                     <button onClick={onClickHandlerLogOut}>Log out</button>
+
                 </div>
             </div>
             :
