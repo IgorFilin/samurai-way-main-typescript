@@ -18,7 +18,7 @@ export type WithRouteType = {
     userId: string
 }
 export type mapStateToPropsType = {
-    id:number | null
+    authUserId:number | null
     profile: ProfileUserType
     isLoading: boolean
     status:string
@@ -36,9 +36,8 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
-        console.log(userId,this.props.id)
-        if (!userId && this.props.id) {
-            userId = String(this.props.id)
+        if (!userId && this.props.authUserId) {
+            userId = String(this.props.authUserId)
         }
         this.props.setProfileThunkCreator(userId)
         this.props.getStatusThunkCreator(userId)
@@ -56,7 +55,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 
     render() {
         return <div>
-            <Profile profile={this.props.profile} isLoading={this.props.isLoading}
+            <Profile authUserId={this.props.authUserId} profile={this.props.profile} isLoading={this.props.isLoading}
                      status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId} uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
         </div>
     }
@@ -65,7 +64,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 }
 
 const mapStateToProps = (state: StateType):mapStateToPropsType => ({
-    id:state.auth.id,
+    authUserId:state.auth.id,
     profile: state.profilePage.profileUser,
     isLoading: state.profilePage.isLoading,
     status:state.profilePage.statusUser

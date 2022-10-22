@@ -16,7 +16,7 @@ input {
     min-height:100vh
 }
 .app-wrapper{
-    width: 60%;
+    width: 1200px;
     display: flex;
     flex-direction: column;
 }

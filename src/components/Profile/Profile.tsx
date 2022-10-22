@@ -5,6 +5,7 @@ import {ProfileUserType} from "../../redux/ProfileReducer";
 
 
 export type profilePropsType = {
+    authUserId:number | null
     profile:ProfileUserType
     isLoading:boolean
     status:string
@@ -15,7 +16,7 @@ export type profilePropsType = {
 
 function Profile(props:profilePropsType) {
     return (<div className={classes.profile}>
-        <ProfileInfo uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
+        <ProfileInfo authUserId={props.authUserId} uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
         <MyPostsContainer />
     </div>)
 }

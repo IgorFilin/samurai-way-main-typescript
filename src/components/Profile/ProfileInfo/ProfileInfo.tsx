@@ -1,29 +1,33 @@
 import classes from "./ProfileInfo.module.css";
 import {UploadOutlined} from '@ant-design/icons';
-import {ProfileUserType, uploadPhotoThunkCreator} from "../../../redux/ProfileReducer";
+import {ProfileUserType} from "../../../redux/ProfileReducer";
 import avatarTemp from './../../../assets/images/user.png'
 import {StatusUser} from "./StatusUser/StatusUser";
 import {Button, Spin, Upload} from "antd";
-import {ChangeEvent} from "react";
 
 
 export type ProfileInfoTypeProps = {
+    authUserId: number | null
     profile: ProfileUserType
     isLoading: boolean
-    status:string
-    updateStatusThunkCreator:(status:string)=>void
-    userId:string
-    uploadPhotoThunkCreator:(file:any)=>void
+    status: string
+    updateStatusThunkCreator: (status: string) => void
+    userId: string
+    uploadPhotoThunkCreator: (file: any) => void
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
-
-    if (!props.profile || props.isLoading) {
-        return <Spin />
+    let isDisplayUploadInput = true
+    if (props.profile) {
+        isDisplayUploadInput = props.authUserId === props.profile.userId
     }
 
-    const uploadFileHandler = (file:any) => {
-        console.log(file)
+
+    if (!props.profile || props.isLoading) {
+        return <Spin/>
+    }
+
+    const uploadFileHandler = (file: any) => {
         props.uploadPhotoThunkCreator(file.file.originFileObj)
     }
 
@@ -36,10 +40,12 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                          src={props.profile.photos.large ? props.profile.photos.large : avatarTemp}
                          alt={'avatar'}/>
                     <div>
-                        <Upload showUploadList={false} onChange={uploadFileHandler}>
-                            <Button icon={<UploadOutlined />}>Upload your photo</Button>
-                        </Upload>
-                        <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
+                        {isDisplayUploadInput && props.authUserId &&
+                            <Upload showUploadList={false} onChange={uploadFileHandler}>
+                                <Button icon={<UploadOutlined/>}>Upload your photo</Button>
+                            </Upload>}
+                        <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}
+                                    userId={props.userId}/>
                     </div>
                 </div>
                 <div className={classes.nameContainer}>
