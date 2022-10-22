@@ -1,12 +1,13 @@
 import React from "react";
 import {connect} from "react-redux";
 import {DispatchType, StateType} from "../../../redux/reduxStore";
-import {actionCreatorAddPost, ProfilePageType} from "../../../redux/ProfileReducer";
+import {postDataType, setAddPost} from "../../../redux/ProfileReducer";
 import {MyPosts} from "./MyPosts";
 
 
 export type mapStateToPropsType = {
-    profilePage:ProfilePageType
+    posts:Array<postDataType>
+    photoUser: string | undefined
 }
 export type mapDispatchToProps = {
     addPost:(post:string)=> void
@@ -14,13 +15,14 @@ export type mapDispatchToProps = {
 
 const mapStateToProps = (state: StateType):mapStateToPropsType => {
     return {
-        profilePage: state.profilePage
+        posts: state.profilePage.postData,
+        photoUser: state.profilePage.profileUser?.photos.large
     }
 }
 
 const mapDispatchToProps = (dispatch: DispatchType):mapDispatchToProps => {
     return {
-        addPost: (post:string) => dispatch(actionCreatorAddPost(post))
+        addPost: (post:string) => dispatch(setAddPost(post))
     }
 }
 

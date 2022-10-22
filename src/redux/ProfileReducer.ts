@@ -38,7 +38,7 @@ export type ProfileUserType = {
         large: string
     }
 } | null
-export type actionCreatorAddPostType = ReturnType<typeof actionCreatorAddPost>
+export type actionCreatorAddPostType = ReturnType<typeof setAddPost>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
 export type setIsLoadingType = ReturnType<typeof setIsLoading>
 export type getStatusUserType = ReturnType<typeof getStatusUser>
@@ -72,7 +72,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
         case 'ADD-POST':
             return {
                 ...state,
-                postData: [...state.postData, {id: v1(), text: action.post, likeCount: 0}]
+                postData: [{id: v1(), text: action.post, likeCount: 0},...state.postData]
             }
 
         case "SET-PROFILE-USER": {
@@ -106,7 +106,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
 }
 
 
-export const actionCreatorAddPost = (post: string) => ({type: 'ADD-POST', post} as const)
+export const setAddPost = (post: string) => ({type: 'ADD-POST', post} as const)
 
 export const setProfileUser = (profileUser: ProfileUserType) => {
     return {type: 'SET-PROFILE-USER', profileUser} as const

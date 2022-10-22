@@ -2,3 +2,15 @@
     padding: 20px;
 
 }
+.btnAddPost{
+    display: flex;
+    justify-content: center;
+    color: black;
+}
+.fieldContainer{
+    display: flex;
+    justify-content: center;
+}
+.fieldAddpost{
+    color: black;
+}

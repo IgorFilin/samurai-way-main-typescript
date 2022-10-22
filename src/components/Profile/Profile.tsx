@@ -15,9 +15,16 @@ export type profilePropsType = {
 }
 
 function Profile(props:profilePropsType) {
+
+    let isDisplayUploadInput = true
+    if (props.profile) {
+        isDisplayUploadInput = props.authUserId === props.profile.userId
+    }
+
     return (<div className={classes.profile}>
-        <ProfileInfo authUserId={props.authUserId} uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
-        <MyPostsContainer />
+        <ProfileInfo
+            isDisplayUploadInput={isDisplayUploadInput} authUserId={props.authUserId} uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
+        {isDisplayUploadInput && <MyPostsContainer />}
     </div>)
 }
 

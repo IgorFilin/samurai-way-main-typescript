@@ -7,6 +7,7 @@ import {Button, Spin, Upload} from "antd";
 
 
 export type ProfileInfoTypeProps = {
+    isDisplayUploadInput:boolean
     authUserId: number | null
     profile: ProfileUserType
     isLoading: boolean
@@ -17,11 +18,9 @@ export type ProfileInfoTypeProps = {
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
-    let isDisplayUploadInput = true
-    if (props.profile) {
-        isDisplayUploadInput = props.authUserId === props.profile.userId
-    }
 
+
+    const nameUser = props.profile?.fullName.toLowerCase().split(' ').map(el => el[0].toUpperCase() + el.slice(1)).join(' ')
 
     if (!props.profile || props.isLoading) {
         return <Spin/>
@@ -40,7 +39,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                          src={props.profile.photos.large ? props.profile.photos.large : avatarTemp}
                          alt={'avatar'}/>
                     <div>
-                        {isDisplayUploadInput && props.authUserId &&
+                        {props.isDisplayUploadInput && props.authUserId &&
                             <Upload showUploadList={false} onChange={uploadFileHandler}>
                                 <Button icon={<UploadOutlined/>}>Upload your photo</Button>
                             </Upload>}
@@ -50,7 +49,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                 </div>
                 <div className={classes.nameContainer}>
                     <div>
-                        <h3>{props.profile.fullName.toLowerCase().split(' ').map(el => el[0].toUpperCase() + el.slice(1)).join(' ')}</h3>
+                        <h3>{nameUser}</h3>
                     </div>
                     <hr/>
                     <div><h4>About me: {props.profile.aboutMe}</h4></div>
