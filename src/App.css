@@ -41,4 +41,7 @@ input {
     .app-wrapper-content {
         flex-direction: column;
     }
+    .app-wrapper{
+        width: 80%;
+    }
 }
