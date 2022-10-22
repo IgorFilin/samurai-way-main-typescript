@@ -2,15 +2,25 @@
     padding: 20px;
 
 }
-.btnAddPost{
+
+.btnAddPost {
     display: flex;
     justify-content: center;
     color: black;
 }
-.fieldContainer{
+
+.fieldContainer {
     display: flex;
     justify-content: center;
 }
-.fieldAddpost{
+
+.fieldAddpost {
     color: black;
+}
+
+@media screen and (max-width: 720px) {
+    .formAddPost {
+        display: flex;
+        flex-direction: column;
+    }
 }

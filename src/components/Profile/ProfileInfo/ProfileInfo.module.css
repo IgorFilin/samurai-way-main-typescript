@@ -3,36 +3,58 @@
     width: 150px;
     height: 150px;
 }
+
 .profileInfo {
     margin: 15px;
-    max-width: 100%;
+    max-width: 80%;
 }
 
-.mainInfoContainer{
+.mainInfoContainer {
     border: 2px solid aqua;
     border-radius: 10px;
     padding: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 10px;
+
 }
-.imgContainer{
+
+.imgContainer {
     align-self: center;
     text-align: center;
 }
-.contactsContainer{
+
+.contactsContainer {
     padding: 10px;
     border: 2px solid aqua;
-    max-width:1000px;
+    max-width: 100%;
     border-radius: 10px;
 }
-.statusUser{
- font-weight: bold;
+
+.statusUser {
+    font-weight: bold;
     font-size: 20px;
     width: 200px;
 }
+
 .statusUser input {
     width: 200px;
     height: 30px;
+}
+
+@media screen and (max-width: 720px) {
+    .mainInfoContainer {
+        justify-content: center;
+
+    }
+
+    .profileInfo {
+        max-width: 100%;
+    }
+
+    .buttonUploadPhoto {
+        max-width: 100%;
+        word-break: break-word;
+    }
 }

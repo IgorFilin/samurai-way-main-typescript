@@ -12,9 +12,11 @@ function Post(props: PostTypeProps) {
     return (
         <div>
             <div className={classes.postItem}>
-                <img src={props.photoUser ? props.photoUser : ''}/>
-                <span className={classes.post}>{props.text}</span>
-                <span className={classes.like}>{props.likeCount}</span>
+                <div className={classes.authPhotoUserPostContainer}><img src={props.photoUser ? props.photoUser : ''}/></div>
+                <div className={classes.textPost}><span className={classes.post}>{props.text}</span>
+                    <span className={classes.like}>{props.likeCount}</span>
+                </div>
+
             </div>
         </div>
     )

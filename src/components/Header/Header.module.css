@@ -5,6 +5,7 @@
     background-color: #2c4141;
     border-radius: 2px;
     margin-bottom: 10px;
+    min-height: 60px;
 }
 
 .smallLogoAvatar {
@@ -31,4 +32,21 @@
 }
 .label:hover{
     cursor: pointer;
+}
+.btnLogout{
+    align-self: center;
+}
+@media screen and (max-width: 720px) {
+    .header{
+        flex-direction: column;
+    }
+    .logoApp{
+        align-self: center;
+    }
+    .profileAuthData{
+        align-self: center;
+    }
+    .loginText{
+        margin: 0;
+    }
 }

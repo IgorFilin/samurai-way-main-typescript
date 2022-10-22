@@ -59,10 +59,18 @@
     cursor: pointer;
 }
 
-.paginationBar {
+.paginationContainer{
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 }
 .status{
     word-break: break-word;
+}
+@media screen and (max-width: 720px) {
+ .paginationBarMedia{
+
+ }
+    .blockTwo{
+        flex-direction: column;
+    }
 }

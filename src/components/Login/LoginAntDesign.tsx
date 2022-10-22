@@ -4,6 +4,7 @@ import {loginUserThunkCreator, setErrorMessage} from "../../redux/authReducer";
 import {Redirect} from "react-router-dom";
 import {StateType} from "../../redux/reduxStore";
 import {Alert, Button, Checkbox, Form, Input} from 'antd';
+import classes from './LoginAndDesign.module.css'
 
 
 export type LoginType = {
@@ -17,7 +18,7 @@ export const LoginForm2 = (props: LoginType) => {
     };
 
     return (
-        <div style={{marginTop: '50px',display:'flex',justifyContent:'center'}}>
+        <div className={classes.form}>
             <Form
                 name="basic"
                 labelCol={{span: 8}}
@@ -31,7 +32,7 @@ export const LoginForm2 = (props: LoginType) => {
                     name="email"
                     rules={[{required: true, message: 'Please input your email!'}]}
                 >
-                    <Input style={{width: '200px'}}/>
+                    <Input />
                 </Form.Item>
 
                 <Form.Item
@@ -39,11 +40,11 @@ export const LoginForm2 = (props: LoginType) => {
                     name="password"
                     rules={[{required: true, message: 'Please input your password!'}]}
                 >
-                    <Input.Password style={{width: '200px'}}/>
+                    <Input.Password />
                 </Form.Item>
 
-                <Form.Item name="rememberMe" valuePropName="checked" wrapperCol={{offset: 8, span: 16}}>
-                    <Checkbox>Remember me</Checkbox>
+                <Form.Item   name="rememberMe" valuePropName="checked" wrapperCol={{offset: 4, span: 16}}>
+                    <Checkbox  >Remember me</Checkbox>
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
@@ -58,7 +59,7 @@ export const LoginForm2 = (props: LoginType) => {
 }
 
 
-const Login2 = (props: LoginPropsType) => {
+const LoginAntDesign = (props: LoginPropsType) => {
     const afterCloseHandler = () => {
         props.setError(null)
     }
@@ -67,7 +68,7 @@ const Login2 = (props: LoginPropsType) => {
         return <Redirect to={'profile/'}/>
     }
     return (
-        <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+        <div className={classes.content}>
             {props.errorMessages && <Alert
                 style={{width: '50%', height: '10%', alignSelf: 'center', marginBottom: '20px'}}
                 message="Error"
@@ -78,6 +79,17 @@ const Login2 = (props: LoginPropsType) => {
                 showIcon
                 closable
             />}
+            <div className={classes.textTestAccount}>
+
+            <p>To log in get registered
+                <a href={'https://social-network.samuraijs.com/'}
+                   target={'_blank'}> here
+                </a>
+            </p>
+            <p>or use common test account credentials:</p>
+            <p><strong className={classes.boltText}>Email: free@samuraijs.com</strong></p>
+            <p><strong className={classes.boltText}>Password: free</strong></p>
+            </div>
             <LoginForm2   loginUserThunkCreator={props.loginUserThunkCreator}/>
 
         </div>
@@ -99,4 +111,4 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
     }
 }
 // @ts-ignore
-export default connect(mapStateToProps, {loginUserThunkCreator,setError:setErrorMessage})(Login2)
+export default connect(mapStateToProps, {loginUserThunkCreator,setError:setErrorMessage})(LoginAntDesign)

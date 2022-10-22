@@ -7,7 +7,6 @@ import {requaredField} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
 import {StateType} from "../../redux/reduxStore";
 import classes from './Login.module.css'
-import {Form} from "antd";
 
 export type FormDataTypeLogin = {
     login:string

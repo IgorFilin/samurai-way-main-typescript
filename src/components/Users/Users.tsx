@@ -31,9 +31,9 @@ export const Users = (props: UserTypeProps) => {
             {/*        <div key={page} className={page === props.currentPage ? s.activePage : s.page}*/}
             {/*             onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}*/}
             {/*</div>*/}
-            <div>
+            <div className={s.paginationContainer}>
                 <Pagination
-                    className={s.paginationBar} onShowSizeChange={onChange}
+                    size={"small"} onShowSizeChange={onChange}
                     showLessItems
                     pageSizeOptions={['5', '10', '20']}
                     pageSize={props.pageSizeUsers}
@@ -70,8 +70,8 @@ export const Users = (props: UserTypeProps) => {
                                 <div className={s.status}>{us.status}</div>
                             </div>
                             <div className={s.location}>
-                                <div>{"us.location.country"}</div>
-                                <div>{"us.location.city"}</div>
+                                <div>{"country"}</div>
+                                <div>{"city"}</div>
                             </div>
                         </div>
                     </div>

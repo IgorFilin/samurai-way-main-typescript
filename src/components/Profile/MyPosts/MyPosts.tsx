@@ -1,8 +1,8 @@
 import classes from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import React from "react";
-import {postDataType, ProfilePageType} from "../../../redux/ProfileReducer";
-import {Field, InjectedFormProps, reduxForm, reset} from "redux-form";
+import {postDataType} from "../../../redux/ProfileReducer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthCreator, requaredField} from "../../../utils/validators/validators";
 import {Textarea} from "../../../common/FormsControls/FormsControls";
 
@@ -34,7 +34,7 @@ export const MyPosts = (props: MyPostsTypeProps) => {
 
 const textAreaFormPost = (props:InjectedFormProps<FormDataTypePost>) => {
     return (
-        <form className={classes.formAddPost}  onSubmit={props.handleSubmit}>
+        <form  onSubmit={props.handleSubmit}>
             <div className={classes.fieldContainer}>
                 <Field className={classes.fieldAddpost} name={'post'} component={Textarea} validate={[requaredField,maxLength20]} placeholder={'added post message'}/>
             </div>
