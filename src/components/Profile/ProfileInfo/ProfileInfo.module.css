@@ -32,3 +32,7 @@
     font-size: 20px;
     width: 200px;
 }
+.statusUser input {
+    width: 200px;
+    height: 30px;
+}

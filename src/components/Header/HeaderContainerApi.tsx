@@ -19,7 +19,8 @@ const mapStateToProps = (state:StateType):mapStateToProps => {
            login:state.auth.login,
            profile:state.profilePage.profileUser,
            isAuth: state.auth.isAuth,
-           logoAuthUser:state.profilePage.logoAuthUser
+           logoAuthUser:state.profilePage.logoAuthUser,
+           idAuthUser:state.auth.id
        }
 }
 
@@ -28,6 +29,7 @@ export type mapStateToProps = {
     login:string | null
     profile:ProfileUserType
     logoAuthUser:string | null
+    idAuthUser:number | null
 }
 export type mapDispatchToProps = {
     loginOutUserThunkCreator:()=>void

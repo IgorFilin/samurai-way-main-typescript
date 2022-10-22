@@ -7,7 +7,7 @@ import {Button, Spin, Upload} from "antd";
 
 
 export type ProfileInfoTypeProps = {
-    isDisplayUploadInput:boolean
+    isAuthUser:boolean
     authUserId: number | null
     profile: ProfileUserType
     isLoading: boolean
@@ -23,7 +23,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
     const nameUser = props.profile?.fullName.toLowerCase().split(' ').map(el => el[0].toUpperCase() + el.slice(1)).join(' ')
 
     if (!props.profile || props.isLoading) {
-        return <Spin/>
+        return <Spin style={{display:'flex',justifyContent:'center',marginTop:'50px'}} size={"large"}/>
     }
 
     const uploadFileHandler = (file: any) => {
@@ -39,11 +39,11 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                          src={props.profile.photos.large ? props.profile.photos.large : avatarTemp}
                          alt={'avatar'}/>
                     <div>
-                        {props.isDisplayUploadInput && props.authUserId &&
+                        {props.isAuthUser && props.authUserId &&
                             <Upload showUploadList={false} onChange={uploadFileHandler}>
                                 <Button icon={<UploadOutlined/>}>Upload your photo</Button>
                             </Upload>}
-                        <StatusUser status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}
+                        <StatusUser isAuthUser={props.isAuthUser} status={props.status} updateStatusThunkCreator={props.updateStatusThunkCreator}
                                     userId={props.userId}/>
                     </div>
                 </div>

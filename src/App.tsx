@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
 import {Route, withRouter} from "react-router-dom";
@@ -6,13 +6,12 @@ import {compose} from "redux";
 import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
 import UsersComposeComponent from './components/Users/UsersContainer'
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
-import Login from "./components/Login/Login";
 import ProfileComposeComponent from './components/Profile/ProfileContainer'
 import {connect} from "react-redux";
 import {initializationMeThunkCreator} from "./redux/appReducer";
 import {StateType} from "./redux/reduxStore";
-import {Loading} from "./components/common/Loading";
 import Login2 from "./components/Login/Login2";
+import {Spin} from "antd";
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -24,7 +23,7 @@ class App extends React.Component<AppPropsType> {
     render() {
         return (
             !this.props.initialValue ?
-                <Loading/>
+                <Spin style={{display:'flex',justifyContent:'center',marginTop:'50px'}} size={"large"}/>
                 :
                 <div className='container'>
                 <div className='app-wrapper'>

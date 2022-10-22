@@ -1,6 +1,7 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
 import {FormDataTypeLogin} from "../components/Login/Login";
+import {setLogoAuthUserForUser} from "./ProfileReducer";
 
 
 export type authReducerStateType = {

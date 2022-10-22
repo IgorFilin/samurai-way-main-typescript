@@ -5,6 +5,7 @@ type StatusUserPropsType = {
     status: string
     updateStatusThunkCreator: (status: string) => void
     userId: string
+    isAuthUser:boolean
 }
 
 export const StatusUser = (props: StatusUserPropsType) => {
@@ -20,7 +21,9 @@ export const StatusUser = (props: StatusUserPropsType) => {
     }
 
     const onClickHandler = () => {
-        setEditMode(true)
+        if(props.isAuthUser){
+            setEditMode(true)
+        }
     }
 
     const onBlurHandler = () => {

@@ -35,6 +35,7 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
+        console.log('componentDidMount')
         let userId = this.props.match.params.userId
         if (!userId && this.props.authUserId) {
             userId = String(this.props.authUserId)
@@ -44,8 +45,13 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
     }
 
     componentDidUpdate(prevProps: Readonly<ProfileContainerApiType>, prevState: Readonly<StateType>, snapshot?: any) {
+        let userId = this.props.match.params.userId
         if (this.props.profile !== null) {
             document.title = this.props.profile.fullName
+        }
+        if(prevProps.match.params.userId !== this.props.match.params.userId && this.props.match.params.userId){
+            this.props.setProfileThunkCreator(this.props.match.params.userId)
+            this.props.getStatusThunkCreator(this.props.match.params.userId)
         }
     }
 

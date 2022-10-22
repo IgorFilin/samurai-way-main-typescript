@@ -1,18 +1,19 @@
 import {AuthUserThunkCreator} from "./authReducer";
-import {AppDispatch} from "./reduxStore";
+import {AppDispatch, StateType} from "./reduxStore";
+import {setProfileThunkCreator} from "./ProfileReducer";
 
 type initialStateType = typeof initialState
 type initializationMeACType = ReturnType<typeof initializationMeAC>
 export type AllActionsCreatorsTypeApp = initializationMeACType
 const initialState = {
-    initializationValue:false
+    initializationValue: false
 }
 
 export const appReducer = (state: initialStateType = initialState, action: AllActionsCreatorsTypeApp): initialStateType => {
     switch (action.type) {
         case 'INITIALIZATION-ME': {
             return {
-              ...state,
+                ...state,
                 initializationValue: true
             }
         }
@@ -27,15 +28,16 @@ export const initializationMeAC = () => {
     return {type: 'INITIALIZATION-ME'} as const
 }
 
-export const initializationMeThunkCreator = () => (dispatch:AppDispatch) => {
-    const resultDispatch = dispatch(AuthUserThunkCreator())
-    resultDispatch
+export const initializationMeThunkCreator = () => (dispatch: AppDispatch,getState:()=>StateType) => {
+    dispatch(AuthUserThunkCreator())
         .then(()=>{
+            const idAuthUser = getState().auth.id
+            dispatch(setProfileThunkCreator(String(idAuthUser)))
+        })
+        .then(() => {
             dispatch(initializationMeAC())
         })
-        .finally(()=> {
-            dispatch(initializationMeAC())
-        })
+
 
 }
 

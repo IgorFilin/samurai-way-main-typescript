@@ -20,6 +20,7 @@ import {
     pageSizeUsers,
     totalCountPages
 } from "../../redux/users-selectors";
+import {Spin} from "antd";
 
 
 type mapStateToPropsType = {
@@ -53,7 +54,7 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
 
     render() {
         return <>
-            {this.props.isLoading ? <Loading/> :
+            {this.props.isLoading ? <Spin style={{margin:'200px 0 0 200px'}} size={"large"}/> :
                 <Users {...this.props}
                 />}
         </>

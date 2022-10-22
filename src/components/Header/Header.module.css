@@ -25,3 +25,10 @@
     display: flex;
     padding: 5px;
 }
+.label {
+    display: flex;
+    flex-direction: row;
+}
+.label:hover{
+    cursor: pointer;
+}
