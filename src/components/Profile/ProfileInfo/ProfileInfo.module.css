@@ -42,6 +42,14 @@
     width: 200px;
     height: 30px;
 }
+.lookJob h4{
+    transition: 0.8s;
+}
+.lookJob h4:hover{
+    cursor: pointer;
+    color: #7cb305;
+    transition: 0.8s;
+}
 
 @media screen and (max-width: 720px) {
     .mainInfoContainer {
@@ -58,3 +66,4 @@
         word-break: break-word;
     }
 }
+

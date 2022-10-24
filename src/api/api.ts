@@ -13,8 +13,29 @@ type AuthorizeUserResponseType = {
 type DeleteLoginMe = {
     resultCode: number
     messages: Array<string>
-        data: {}
+    data: {}
 }
+
+export type modelUpdateProfile = {
+    userId: number
+    aboutMe: string | null
+    lookingForAJob: boolean
+    LookingForAJobDescription: string
+    fullName: string
+    contacts: {
+        github: string | null
+        vk: string | null
+        facebook: string | null
+        instagram: string | null
+        twitter: string | null
+        website: string | null
+        youtube: string | null
+        mainLink: string | null
+    }
+
+}
+
+
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
@@ -75,13 +96,18 @@ export const profileApi = {
         return instance.put(`/profile/status`, {status: status})
             .then(response => response.data)
     },
-    uploadPhoto(file:any){
+    uploadPhoto(file: any) {
         const form = new FormData()
-        form.append('image',file)
+        form.append('image', file)
         console.log(form.getAll('image'))
-        return instance.put('/profile/photo',form, { headers: {
+        return instance.put('/profile/photo', form, {
+            headers: {
                 'content-type': 'multipart/form-data'
-        }})
+            }
+        })
+    },
+    updateProfile(modelProfile: modelUpdateProfile) {
+        return instance.put<DeleteLoginMe>('/profile', modelProfile)
     }
 
 }

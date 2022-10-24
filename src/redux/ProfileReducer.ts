@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {Dispatch} from "redux";
-import {profileApi} from "../api/api";
+import {modelUpdateProfile, profileApi} from "../api/api";
 import {DispatchType, StateType} from "./reduxStore";
 
 export type postDataType = {
@@ -38,6 +38,25 @@ export type ProfileUserType = {
         large: string
     }
 } | null
+
+export type termModelUpdateProfile = {
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    aboutMe?: string
+    contacts?: {
+        github: string | null
+        vk: string | null
+        facebook: string | null
+        instagram: string | null
+        twitter: string | null
+        website: string | null
+        youtube: string | null
+        mainLink: string | null
+    }
+
+}
 export type actionCreatorAddPostType = ReturnType<typeof setAddPost>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
 export type setIsLoadingType = ReturnType<typeof setIsLoading>
@@ -45,6 +64,7 @@ export type getStatusUserType = ReturnType<typeof getStatusUser>
 export type updateAuthUserStatusType = ReturnType<typeof updateAuthUserStatus>
 export type setUploadPhotoForUserType = ReturnType<typeof setUploadPhotoForUser>
 export type setLogoAuthUserForUserType = ReturnType<typeof setLogoAuthUserForUser>
+export type setUpdateUserProfileType = ReturnType<typeof setUpdateUserProfile>
 export type AllActionsCreatorsProfile =
     actionCreatorAddPostType
     | setProfileUserType
@@ -53,6 +73,7 @@ export type AllActionsCreatorsProfile =
     | updateAuthUserStatusType
     | setUploadPhotoForUserType
     | setLogoAuthUserForUserType
+    | setUpdateUserProfileType
 
 
 let initialState: ProfilePageType = {
@@ -72,7 +93,7 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
         case 'ADD-POST':
             return {
                 ...state,
-                postData: [{id: v1(), text: action.post, likeCount: 0},...state.postData]
+                postData: [{id: v1(), text: action.post, likeCount: 0}, ...state.postData]
             }
 
         case "SET-PROFILE-USER": {
@@ -87,8 +108,8 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
         case "UPDATE-AUTH-USER-STATUS": {
             return {...state, statusUser: action.status}
         }
-        case "SET-LOGO":{
-            return {...state,logoAuthUser:action.logo}
+        case "SET-LOGO": {
+            return {...state, logoAuthUser: action.logo}
         }
         case "SET-PHOTO": {
             return {
@@ -98,6 +119,9 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
                     photos: {small: action.photoObj.small, large: action.photoObj.large}
                 }
             }
+        }
+        case "SET-UPDATE-USER-PROFILE": {
+            return {...state, profileUser: state.profileUser && {...state.profileUser,...action.value}}
         }
         default:
             return state
@@ -127,14 +151,17 @@ export const setUploadPhotoForUser = (photoObj: any) => {
 export const setLogoAuthUserForUser = (logo: string) => {
     return {type: 'SET-LOGO', logo} as const
 }
+export const setUpdateUserProfile = (value: termModelUpdateProfile) => {
+    return {type: 'SET-UPDATE-USER-PROFILE', value} as const
+}
 export const setProfileThunkCreator = (idUserProfile: string) => {
-    return (dispatch: Dispatch,getState:()=> StateType) => {
+    return (dispatch: Dispatch, getState: () => StateType) => {
         dispatch(setIsLoading(true))
         profileApi.setProfileUser(idUserProfile)
             .then(data => {
                 dispatch(setIsLoading(false))
                 dispatch(setProfileUser(data))
-                if(getState().auth.id === getState().profilePage.profileUser!.userId){
+                if (getState().auth.id === getState().profilePage.profileUser!.userId) {
                     dispatch(setLogoAuthUserForUser(data!.photos.small))
                 }
             })
@@ -176,3 +203,37 @@ export const uploadPhotoThunkCreator = (file: any) => {
     }
 }
 
+export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) => {
+    return (dispatch: DispatchType, getState: () => StateType) => {
+
+        const profile = getState().profilePage.profileUser
+        if (profile) {
+
+            const modelUpdatedProfile: modelUpdateProfile = {
+                userId: profile.userId,
+                LookingForAJobDescription: 'front-end developer',
+                fullName: profile.fullName,
+                lookingForAJob: profile.lookingForAJob,
+                aboutMe: profile.aboutMe,
+                contacts: {
+                    facebook: profile.contacts.facebook,
+                    github: profile.contacts.github,
+                    vk: profile.contacts.vk,
+                    twitter: profile.contacts.twitter,
+                    instagram: profile.contacts.instagram,
+                    youtube: profile.contacts.youtube,
+                    mainLink: profile.contacts.mainLink,
+                    website: profile.contacts.website
+                },
+                ...valueUpdated
+            }
+            profileApi.updateProfile(modelUpdatedProfile)
+                .then(res => {
+                    if (res.data.resultCode === 0) {
+                        setUpdateUserProfile(valueUpdated)
+                    }
+                })
+        }
+    }
+
+}

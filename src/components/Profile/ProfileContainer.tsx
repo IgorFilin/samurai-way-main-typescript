@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {
     getStatusThunkCreator,
     ProfileUserType,
-    setProfileThunkCreator,
+    setProfileThunkCreator, termModelUpdateProfile, updateProfileThunkCreator,
     updateStatusThunkCreator, uploadPhotoThunkCreator
 } from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
@@ -28,6 +28,7 @@ export type mapDispatchToPropsType = {
     getStatusThunkCreator: (id: string) => void
     updateStatusThunkCreator:()=>void
     uploadPhotoThunkCreator:(file:any)=>void
+    updateProfileThunkCreator:(value:termModelUpdateProfile)=> void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType & BookDetailProps
@@ -35,7 +36,6 @@ export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsTy
 
 class ProfileContainerApi extends React.Component<ProfileContainerApiType, StateType> {
     componentDidMount() {
-        console.log('componentDidMount')
         let userId = this.props.match.params.userId
         if (!userId && this.props.authUserId) {
             userId = String(this.props.authUserId)
@@ -61,7 +61,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 
     render() {
         return <div>
-            <Profile authUserId={this.props.authUserId} profile={this.props.profile} isLoading={this.props.isLoading}
+            <Profile updateProfileThunkCreator={this.props.updateProfileThunkCreator} authUserId={this.props.authUserId} profile={this.props.profile} isLoading={this.props.isLoading}
                      status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId} uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
         </div>
     }
@@ -77,7 +77,7 @@ const mapStateToProps = (state: StateType):mapStateToPropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator,uploadPhotoThunkCreator}),
+    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator,uploadPhotoThunkCreator,updateProfileThunkCreator}),
     withRouter,
     WithAuthRedirect
 )(ProfileContainerApi)

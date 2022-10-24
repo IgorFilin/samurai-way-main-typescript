@@ -1,7 +1,8 @@
 import classes from './Profile.module.css'
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {ProfileUserType} from "../../redux/ProfileReducer";
+import {ProfileUserType, termModelUpdateProfile} from "../../redux/ProfileReducer";
+
 
 
 export type profilePropsType = {
@@ -12,6 +13,7 @@ export type profilePropsType = {
     updateStatusThunkCreator:(status:string)=>void
     userId:string
     uploadPhotoThunkCreator:(file:any)=>void
+    updateProfileThunkCreator:(value:termModelUpdateProfile)=> void
 }
 
 function Profile(props:profilePropsType) {
@@ -23,6 +25,7 @@ function Profile(props:profilePropsType) {
 
     return (<div className={classes.profile}>
         <ProfileInfo
+            updateProfileThunkCreator={props.updateProfileThunkCreator}
             isAuthUser={isAuthUser} authUserId={props.authUserId} uploadPhotoThunkCreator={props.uploadPhotoThunkCreator} status={props.status} isLoading={props.isLoading} profile={props.profile} updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
         {isAuthUser && <MyPostsContainer />}
     </div>)
