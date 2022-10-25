@@ -18,17 +18,17 @@ export type WithRouteType = {
     userId: string
 }
 export type mapStateToPropsType = {
-    authUserId:number | null
-    profile: ProfileUserType
+    authUserId: number | null
+    profile: ProfileUserType | null
     isLoading: boolean
-    status:string
+    status: string
 }
 export type mapDispatchToPropsType = {
     setProfileThunkCreator: (params: string) => void
     getStatusThunkCreator: (id: string) => void
-    updateStatusThunkCreator:()=>void
-    uploadPhotoThunkCreator:(file:any)=>void
-    updateProfileThunkCreator:(value:termModelUpdateProfile)=> void
+    updateStatusThunkCreator: () => void
+    uploadPhotoThunkCreator: (file: any) => void
+    updateProfileThunkCreator: (value: termModelUpdateProfile) => void
 }
 
 export type ProfileContainerApiType = mapStateToPropsType & mapDispatchToPropsType & BookDetailProps
@@ -49,7 +49,7 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
         if (this.props.profile !== null) {
             document.title = this.props.profile.fullName
         }
-        if(prevProps.match.params.userId !== this.props.match.params.userId && this.props.match.params.userId){
+        if (prevProps.match.params.userId !== this.props.match.params.userId && this.props.match.params.userId) {
             this.props.setProfileThunkCreator(this.props.match.params.userId)
             this.props.getStatusThunkCreator(this.props.match.params.userId)
         }
@@ -61,23 +61,36 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
 
     render() {
         return <div>
-            <Profile updateProfileThunkCreator={this.props.updateProfileThunkCreator} authUserId={this.props.authUserId} profile={this.props.profile} isLoading={this.props.isLoading}
-                     status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator} userId={this.props.match.params.userId} uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
+            <Profile
+                updateProfileThunkCreator={this.props.updateProfileThunkCreator}
+                authUserId={this.props.authUserId}
+                profile={this.props.profile!}
+                isLoading={this.props.isLoading}
+                status={this.props.status}
+                updateStatusThunkCreator={this.props.updateStatusThunkCreator}
+                userId={this.props.match.params.userId}
+                uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
         </div>
     }
 
 
 }
 
-const mapStateToProps = (state: StateType):mapStateToPropsType => ({
-    authUserId:state.auth.id,
+const mapStateToProps = (state: StateType): mapStateToPropsType => ({
+    authUserId: state.auth.id,
     profile: state.profilePage.profileUser,
     isLoading: state.profilePage.isLoading,
-    status:state.profilePage.statusUser
+    status: state.profilePage.statusUser
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThunkCreator,uploadPhotoThunkCreator,updateProfileThunkCreator}),
+    connect(mapStateToProps, {
+        setProfileThunkCreator,
+        getStatusThunkCreator,
+        updateStatusThunkCreator,
+        uploadPhotoThunkCreator,
+        updateProfileThunkCreator
+    }),
     withRouter,
     WithAuthRedirect
 )(ProfileContainerApi)

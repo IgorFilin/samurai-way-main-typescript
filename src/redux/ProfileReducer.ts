@@ -11,14 +11,14 @@ export type postDataType = {
 export type ProfilePageType = {
     logoAuthUser: string | null
     isLoading: boolean
-    profileUser: ProfileUserType
+    profileUser: ProfileUserType | null
     statusUser: string
     statusAuthUser: string
     postData: Array<postDataType>
 }
 
 export type ProfileUserType = {
-    aboutMe: string
+    aboutMe: string | null
     contacts: {
         facebook: null | string
         website: null | string
@@ -37,26 +37,9 @@ export type ProfileUserType = {
         small: string
         large: string
     }
-} | null
-
-export type termModelUpdateProfile = {
-    userId?: number
-    lookingForAJob?: boolean
-    lookingForAJobDescription?: string
-    fullName?: string
-    aboutMe?: string
-    contacts?: {
-        github: string | null
-        vk: string | null
-        facebook: string | null
-        instagram: string | null
-        twitter: string | null
-        website: string | null
-        youtube: string | null
-        mainLink: string | null
-    }
-
 }
+
+
 export type actionCreatorAddPostType = ReturnType<typeof setAddPost>
 export type setProfileUserType = ReturnType<typeof setProfileUser>
 export type setIsLoadingType = ReturnType<typeof setIsLoading>
@@ -121,7 +104,16 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
             }
         }
         case "SET-UPDATE-USER-PROFILE": {
-            return {...state, profileUser: state.profileUser && {...state.profileUser,...action.value}}
+            return {
+                ...state,
+                profileUser: {
+                    ...state.profileUser!,
+                    ...action.value,
+                    contacts: {
+                        ...action.value.contacts
+                    }
+                }
+            }
         }
         default:
             return state
@@ -151,7 +143,7 @@ export const setUploadPhotoForUser = (photoObj: any) => {
 export const setLogoAuthUserForUser = (logo: string) => {
     return {type: 'SET-LOGO', logo} as const
 }
-export const setUpdateUserProfile = (value: termModelUpdateProfile) => {
+export const setUpdateUserProfile = (value: modelUpdateProfile) => {
     return {type: 'SET-UPDATE-USER-PROFILE', value} as const
 }
 export const setProfileThunkCreator = (idUserProfile: string) => {
@@ -203,15 +195,33 @@ export const uploadPhotoThunkCreator = (file: any) => {
     }
 }
 
+export type termModelUpdateProfile = {
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    aboutMe?: string
+    contacts?: {
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
+        mainLink: string
+    }
+
+}
+
+
 export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) => {
     return (dispatch: DispatchType, getState: () => StateType) => {
-
         const profile = getState().profilePage.profileUser
         if (profile) {
-
             const modelUpdatedProfile: modelUpdateProfile = {
                 userId: profile.userId,
-                LookingForAJobDescription: 'front-end developer',
+                LookingForAJobDescription: profile.lookingForAJobDescription,
                 fullName: profile.fullName,
                 lookingForAJob: profile.lookingForAJob,
                 aboutMe: profile.aboutMe,
@@ -223,14 +233,14 @@ export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) 
                     instagram: profile.contacts.instagram,
                     youtube: profile.contacts.youtube,
                     mainLink: profile.contacts.mainLink,
-                    website: profile.contacts.website
+                    website: profile.contacts.website,
                 },
                 ...valueUpdated
             }
             profileApi.updateProfile(modelUpdatedProfile)
                 .then(res => {
                     if (res.data.resultCode === 0) {
-                        setUpdateUserProfile(valueUpdated)
+                        dispatch(setUpdateUserProfile(modelUpdatedProfile))
                     }
                 })
         }

@@ -27,7 +27,7 @@ const mapStateToProps = (state:StateType):mapStateToProps => {
 export type mapStateToProps = {
     isAuth:boolean
     login:string | null
-    profile:ProfileUserType
+    profile:ProfileUserType | null
     logoAuthUser:string | null
     idAuthUser:number | null
 }

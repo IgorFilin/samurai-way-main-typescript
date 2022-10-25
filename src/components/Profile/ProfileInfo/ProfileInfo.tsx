@@ -4,7 +4,7 @@ import {ProfileUserType, termModelUpdateProfile} from "../../../redux/ProfileRed
 import avatarTemp from './../../../assets/images/user.png'
 import {StatusUser} from "./StatusUser/StatusUser";
 import {Button, Spin, Upload} from "antd";
-import {ChangeEvent, useState} from "react";
+import {EditableSpan} from "../../EditableSpan/EditableSpan";
 
 
 export type ProfileInfoTypeProps = {
@@ -20,35 +20,33 @@ export type ProfileInfoTypeProps = {
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
-    const [editMode, setEditMode] = useState(false)
-    const [value, setValue] = useState<string>('')
-
-
 
     const nameUser = props.profile?.fullName.toLowerCase().split(' ').map(el => el[0].toUpperCase() + el.slice(1)).join(' ')
 
-    if (!props.profile || props.isLoading) {
-        return <Spin style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}} size={"large"}/>
+    const changeAboutMy = (title: string) => {
+        props.updateProfileThunkCreator({aboutMe: title})
+    }
+    const changeNameHandler = (title: string) => {
+        props.updateProfileThunkCreator({fullName: title})
+    }
+    const ChangeLookingForAJobHandler = () => {
+        props.updateProfileThunkCreator({lookingForAJob: !props.profile.lookingForAJob})
     }
 
     const uploadFileHandler = (file: any) => {
         props.uploadPhotoThunkCreator(file.file.originFileObj)
     }
 
-    const onDoubleClickHandler = () => {
-        setEditMode(true)
+    if (!props.profile || props.isLoading) {
+        return <Spin style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}} size={"large"}/>
     }
-    const onBlurHandler = () => {
-        setEditMode(false)
-        props.updateProfileThunkCreator({aboutMe: value})
 
-    }
-    const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value)
+
+    const lookingForAJobDescriptionChanger = (title: string) => {
+        props.updateProfileThunkCreator({lookingForAJobDescription: title})
     }
 
     return (
-        props.profile &&
         <div className={classes.profileInfo}>
             <div className={classes.mainInfoContainer}>
                 <div className={classes.imgContainer}>
@@ -57,33 +55,47 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                          alt={'avatar'}/>
                     <div>
                         {props.isAuthUser && props.authUserId &&
-
                             <Upload showUploadList={false} onChange={uploadFileHandler}>
                                 <Button className={classes.buttonUploadPhoto} icon={<UploadOutlined/>}>Upload
                                     photo</Button>
                             </Upload>}
-                        <StatusUser isAuthUser={props.isAuthUser} status={props.status}
+                        <StatusUser isAuthUser={props.isAuthUser}
+                                    status={props.status}
                                     updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
                     </div>
                 </div>
                 <div className={classes.nameContainer}>
                     <div>
-                        <h3>{nameUser}</h3>
+                        <h3><EditableSpan title={nameUser} disable={!props.isAuthUser} changeTitle={changeNameHandler}/>
+                        </h3>
                     </div>
                     <hr/>
-                    <div onBlur={onBlurHandler} onDoubleClick={onDoubleClickHandler}><h4>About
-                        me: {!editMode ? props.profile.aboutMe ? props.profile.aboutMe : <span>---</span> :
-                            <input value={value} onChange={onChangeInputHandler} autoFocus type="text"/>}</h4></div>
+                    <div>
+                        <h4>About me:{
+                            props.profile.aboutMe ?
+                                <EditableSpan
+                                    title={props.profile.aboutMe!}
+                                    changeTitle={changeAboutMy}
+                                    disable={false}/>
+                                : '---'
+                        }
+                        </h4>
+                    </div>
                     <hr/>
 
-                    <div className={classes.lookJob}>{props.profile.lookingForAJob ? <h4>looking for a job</h4> :
+                    <div className={props.isAuthUser ? classes.lookJob : ''}
+                         onClick={props.isAuthUser ? ChangeLookingForAJobHandler : () => {
+                         }}>{props.profile.lookingForAJob ?
+                        <h4>looking for a job</h4> :
                         <h4>not looking for a job</h4>}</div>
                 </div>
             </div>
             <div className={classes.contactsContainer}>
                 <div>
                     <h3>looking for a job
-                        description: {props.profile.lookingForAJobDescription ? props.profile.lookingForAJobDescription :
+                        description: {props.profile.lookingForAJobDescription ?
+                            <EditableSpan title={props.profile.lookingForAJobDescription}
+                                          changeTitle={lookingForAJobDescriptionChanger} disable={false}/> :
                             <span>---</span>}</h3></div>
                 <hr/>
                 <h3>My contacts:</h3>
