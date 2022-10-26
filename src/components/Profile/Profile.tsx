@@ -18,7 +18,7 @@ export type profilePropsType = {
 
 function Profile(props:profilePropsType) {
 
-    let isAuthUser = true
+    let isAuthUser = false
     if (props.profile) {
         isAuthUser = props.authUserId === props.profile.userId
     }

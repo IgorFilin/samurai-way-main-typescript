@@ -7,7 +7,7 @@ type EditableSpanTypeProps = {
     disable: boolean
 }
 
-export const EditableSpan = React.memo((props: EditableSpanTypeProps) => {
+export const EditableSpan = (props: EditableSpanTypeProps) => {
 
 
     const [editMode, setEditMode] = useState(false)
@@ -23,23 +23,15 @@ export const EditableSpan = React.memo((props: EditableSpanTypeProps) => {
 
     }
 
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (!props.disable) {
             valueInputTitle(e.currentTarget.value)
         }
     }
 
-    useEffect(() => {
-        return () => {
-            if (props.disable) {
-                valueInputTitle('')
-            } else {
-                valueInputTitle(props.title)
-            }
-
-        }
-    })
+    useEffect(()=>{
+        valueInputTitle(props.title)
+    },[props])
     return (
         editMode ?
             <input value={valueInput} onChange={onChangeHandler} onBlur={changeEditModeOnBlur}
@@ -47,5 +39,5 @@ export const EditableSpan = React.memo((props: EditableSpanTypeProps) => {
             <span style={{fontSize: '15px'}} onDoubleClick={!props.disable ? changeEditModeOnDoubleClick : () => {
             }}>{props.title}</span>
     );
-});
+};
 

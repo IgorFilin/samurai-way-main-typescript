@@ -226,14 +226,14 @@ export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) 
                 lookingForAJob: profile.lookingForAJob,
                 aboutMe: profile.aboutMe,
                 contacts: {
-                    facebook: profile.contacts.facebook,
-                    github: profile.contacts.github,
-                    vk: profile.contacts.vk,
-                    twitter: profile.contacts.twitter,
-                    instagram: profile.contacts.instagram,
-                    youtube: profile.contacts.youtube,
-                    mainLink: profile.contacts.mainLink,
-                    website: profile.contacts.website,
+                    facebook: '',
+                    github: '',
+                    vk: '',
+                    twitter: '',
+                    instagram: '',
+                    youtube: '',
+                    mainLink: '',
+                    website: '',
                 },
                 ...valueUpdated
             }
