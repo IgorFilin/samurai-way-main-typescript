@@ -12,26 +12,40 @@ export const EditableSpan = React.memo((props: EditableSpanTypeProps) => {
 
     const [editMode, setEditMode] = useState(false)
     const [valueInput, valueInputTitle] = useState(props.title)
-    console.log(valueInput)
     const changeEditModeOnDoubleClick = () => {
         setEditMode(true)
     }
     const changeEditModeOnBlur = () => {
-        setEditMode(false)
-        props.changeTitle(valueInput)
+        if (!props.disable) {
+            setEditMode(false)
+            props.changeTitle(valueInput)
+        }
+
     }
 
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        valueInputTitle(e.currentTarget.value)
+        if (!props.disable) {
+            valueInputTitle(e.currentTarget.value)
+        }
     }
 
+    useEffect(() => {
+        return () => {
+            if (props.disable) {
+                valueInputTitle('')
+            } else {
+                valueInputTitle(props.title)
+            }
 
+        }
+    })
     return (
-        editMode && !props.disable ?
+        editMode ?
             <input value={valueInput} onChange={onChangeHandler} onBlur={changeEditModeOnBlur}
                    autoFocus/> :
-            <span style={{fontSize: '15px'}} onDoubleClick={changeEditModeOnDoubleClick}>{props.title}</span>
+            <span style={{fontSize: '15px'}} onDoubleClick={!props.disable ? changeEditModeOnDoubleClick : () => {
+            }}>{props.title}</span>
     );
 });
 

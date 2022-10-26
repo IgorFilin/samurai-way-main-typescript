@@ -66,7 +66,8 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                 </div>
                 <div className={classes.nameContainer}>
                     <div>
-                        <h3><EditableSpan title={nameUser} disable={!props.isAuthUser} changeTitle={changeNameHandler}/>
+                        <h3>
+                            <EditableSpan title={nameUser} disable={!props.isAuthUser} changeTitle={changeNameHandler}/>
                         </h3>
                     </div>
                     <hr/>
@@ -76,7 +77,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                                 <EditableSpan
                                     title={props.profile.aboutMe!}
                                     changeTitle={changeAboutMy}
-                                    disable={false}/>
+                                    disable={!props.isAuthUser}/>
                                 : '---'
                         }
                         </h4>
@@ -95,7 +96,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                     <h3>looking for a job
                         description: {props.profile.lookingForAJobDescription ?
                             <EditableSpan title={props.profile.lookingForAJobDescription}
-                                          changeTitle={lookingForAJobDescriptionChanger} disable={false}/> :
+                                          changeTitle={lookingForAJobDescriptionChanger} disable={!props.isAuthUser}/> :
                             <span>---</span>}</h3></div>
                 <hr/>
                 <h3>My contacts:</h3>
