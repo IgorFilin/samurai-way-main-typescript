@@ -47,32 +47,29 @@ export const Users = (props: UserTypeProps) => {
                     <div key={us.id} className={s.Content}>
                         <div className={s.userInfo}>
                             <NavLink to={'/profile/' + us.id}>
-                                <img className={s.Img}
-                                     src={us.photos.small !== null ? us.photos.small : userPhotoDefault}/>
+                                <img
+                                    className={s.Img}
+                                    src={us.photos.small !== null ? us.photos.small : userPhotoDefault}
+                                />
                             </NavLink>
+                            <div>{us.name}</div>
+                            <div className={s.status}>{us.status}</div>
                             <div>{us.followed}</div>
                             {us.followed ?
-                                <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                        onClick={() => {
-                                            props.unFollowThunkCreator(us.id)
-                                        }}>{'unFollow'}
+                                <button
+                                    className={s.buttonFollowUnfollow}
+                                    disabled={props.arrayUsersIdForDisabledButton.some(el => el === us.id)}
+                                    onClick={() => {
+                                        props.unFollowThunkCreator(us.id)
+                                    }}>{'unFollow'}
                                 </button> :
-                                <button disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
+                                <button className={s.buttonFollowUnfollow}
+                                        disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
                                         onClick={() => {
                                             props.followThunkCreator(us.id)
                                         }}>{'Follow'}
                                 </button>}
 
-                        </div>
-                        <div className={s.blockTwo}>
-                            <div className={s.nameStatus}>
-                                <div>{us.name}</div>
-                                <div className={s.status}>{us.status}</div>
-                            </div>
-                            <div className={s.location}>
-                                <div>{"country"}</div>
-                                <div>{"city"}</div>
-                            </div>
                         </div>
                     </div>
                 )

@@ -2,6 +2,8 @@ import {v1} from "uuid";
 import {Dispatch} from "redux";
 import {modelUpdateProfile, profileApi} from "../api/api";
 import {DispatchType, StateType} from "./reduxStore";
+import {setErrorMessage} from "./authReducer";
+import axios from "axios";
 
 export type postDataType = {
     id: string
@@ -58,6 +60,24 @@ export type AllActionsCreatorsProfile =
     | setLogoAuthUserForUserType
     | setUpdateUserProfileType
 
+export type termModelUpdateProfile = {
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    aboutMe?: string
+    contacts?: {
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
+        mainLink: string
+    }
+
+}
 
 let initialState: ProfilePageType = {
     logoAuthUser: null,
@@ -146,77 +166,66 @@ export const setLogoAuthUserForUser = (logo: string) => {
 export const setUpdateUserProfile = (value: modelUpdateProfile) => {
     return {type: 'SET-UPDATE-USER-PROFILE', value} as const
 }
-export const setProfileThunkCreator = (idUserProfile: string) => {
-    return (dispatch: Dispatch, getState: () => StateType) => {
+
+export const setProfileThunkCreator = (idUserProfile: string) => async (dispatch: Dispatch, getState: () => StateType) => {
+    try {
         dispatch(setIsLoading(true))
-        profileApi.setProfileUser(idUserProfile)
-            .then(data => {
-                dispatch(setIsLoading(false))
-                dispatch(setProfileUser(data))
-                if (getState().auth.id === getState().profilePage.profileUser!.userId) {
-                    dispatch(setLogoAuthUserForUser(data!.photos.small))
-                }
-            })
-            .catch(err => {
-                    console.warn(err)
-                }
-            )
-
+        const response = await profileApi.setProfileUser(idUserProfile)
+        dispatch(setProfileUser(response))
+        if (getState().auth.id === getState().profilePage.profileUser!.userId) {
+            dispatch(setLogoAuthUserForUser(response!.photos.small))
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(setIsLoading(false))
     }
 }
 
-export const getStatusThunkCreator = (userId: string) => {
-    return (dispatch: DispatchType) => {
-        profileApi.getStatusUser(userId)
-            .then(status => dispatch(getStatusUser(status)))
+export const getStatusThunkCreator = (userId: string) => async (dispatch: DispatchType) => {
+    try {
+        const response = await profileApi.getStatusUser(userId)
+        dispatch(getStatusUser(response))
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
     }
 }
 
-export const updateStatusThunkCreator = (status: string) => {
-    return (dispatch: DispatchType) => {
-        profileApi.updateStatusUser(status)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(updateAuthUserStatus(status))
-                }
-            })
+export const updateStatusThunkCreator = (status: string) => async (dispatch: DispatchType) => {
+    try {
+        const response = await profileApi.updateStatusUser(status)
+        if (response.resultCode === 0) {
+            dispatch(updateAuthUserStatus(status))
+        } else {
+            dispatch(setErrorMessage(response.data.messages[0]))
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
     }
 }
 
-export const uploadPhotoThunkCreator = (file: any) => {
-    return (dispatch: DispatchType) => {
-        profileApi.uploadPhoto(file)
-            .then(res => {
-                dispatch(setUploadPhotoForUser(res.data.data.photos))
-            })
-            .catch(err => {
-                console.log(err)
-            })
+
+export const uploadPhotoThunkCreator = (file: any) => async (dispatch: DispatchType) => {
+    try {
+        const response = await profileApi.uploadPhoto(file)
+        dispatch(setUploadPhotoForUser(response.data.data.photos))
+
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
     }
 }
 
-export type termModelUpdateProfile = {
-    userId?: number
-    lookingForAJob?: boolean
-    lookingForAJobDescription?: string
-    fullName?: string
-    aboutMe?: string
-    contacts?: {
-        github: string
-        vk: string
-        facebook: string
-        instagram: string
-        twitter: string
-        website: string
-        youtube: string
-        mainLink: string
-    }
 
-}
-
-
-export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) => {
-    return (dispatch: DispatchType, getState: () => StateType) => {
+export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) => async (dispatch: DispatchType, getState: () => StateType) => {
+    try {
         const profile = getState().profilePage.profileUser
         if (profile) {
             const modelUpdatedProfile: modelUpdateProfile = {
@@ -237,13 +246,16 @@ export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) 
                 },
                 ...valueUpdated
             }
-            profileApi.updateProfile(modelUpdatedProfile)
-                .then(res => {
-                    if (res.data.resultCode === 0) {
-                        dispatch(setUpdateUserProfile(modelUpdatedProfile))
-                    }
-                })
+            const response = await profileApi.updateProfile(modelUpdatedProfile)
+            if (response.data.resultCode === 0) {
+                dispatch(setUpdateUserProfile(modelUpdatedProfile))
+            } else {
+                dispatch(setErrorMessage(response.data.messages[0]))
+            }
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
         }
     }
-
 }

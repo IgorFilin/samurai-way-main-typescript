@@ -37,6 +37,12 @@ input {
     justify-content: center;
 }
 
+.alert {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
 @media screen and (max-width: 720px) {
     .app-wrapper-content {
         flex-direction: column;

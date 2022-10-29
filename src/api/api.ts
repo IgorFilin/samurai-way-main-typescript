@@ -72,11 +72,10 @@ export const headerApi = {
     },
     login(dataForm: FormDataTypeLogin) {
         return instance.post<AuthorizeUserResponseType>('/auth/login', {...dataForm})
-            .then(resolve => resolve.data)
+
     },
     logOut() {
         return instance.delete<DeleteLoginMe>('/auth/login')
-            .then(response => response.data)
     }
 
 }

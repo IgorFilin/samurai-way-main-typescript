@@ -28,15 +28,18 @@ export const initializationMeAC = () => {
     return {type: 'INITIALIZATION-ME'} as const
 }
 
-export const initializationMeThunkCreator = () => (dispatch: AppDispatch,getState:()=>StateType) => {
-    dispatch(AuthUserThunkCreator())
-        .then(()=>{
+export const initializationMeThunkCreator = () => async (dispatch: AppDispatch, getState: () => StateType) => {
+    try {
+        await dispatch(AuthUserThunkCreator())
+        if (getState().auth.id) {
             const idAuthUser = getState().auth.id
             dispatch(setProfileThunkCreator(String(idAuthUser)))
-        })
-        .then(() => {
-            dispatch(initializationMeAC())
-        })
+        }
+        dispatch(initializationMeAC())
+
+    } catch (err) {
+        console.warn(err)
+    }
 
 
 }

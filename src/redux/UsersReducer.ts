@@ -1,5 +1,7 @@
-import {headerApi, userApi} from "../api/api";
+import {userApi} from "../api/api";
 import {Dispatch} from "redux";
+import {setErrorMessage} from "./authReducer";
+import axios from "axios";
 
 export type UserType = {
     id: string
@@ -42,8 +44,9 @@ let initialState = {
     pageSizeUsers: 5,
     totalUserCount: 0,
     isLoading: false,
-    isLoadingFollowUnFollow: false,
-    arrayUsersIdForDisabledButton: [] as Array<string>
+    isLoadingFollowUnFollow: false,// если тру добавляем айдишку юзера в arrayUsersIdForDisabledButton, если фолс удаляем
+    arrayUsersIdForDisabledButton: [] as Array<string>//айдишки юзеров на которых фоловимся и анфоловимся
+    // в Users компоненте дисэйбл кнопкок фолов проверяем методом some, если хоть один айдишник этого массива равен айдишнику юзера с сервака которые на странице, это кнопка блокируется на время пендинга запроса
 }
 
 
@@ -121,56 +124,79 @@ export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
     return {type: 'SET-LOADING-FOLLOW-UNFOLLOW', status, idUser} as const
 }
 
-export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number) => {
-    return (dispatch: Dispatch) => {
+export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number) => async (dispatch: Dispatch) => {
+    try {
         dispatch(SetLoading(true))
         userApi.getUsers(pageSizeUsers, currentPage)
             .then(data => {
-                dispatch(SetLoading(false))
                 dispatch(SetUser(data.items))
                 dispatch(SetUserCount(data.totalCount))
             })
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(SetLoading(false))
     }
+
 }
 
-export const followThunkCreator = (userID: string) => {
-    return (dispatch: Dispatch) => {
+export const followThunkCreator = (userID: string) => async (dispatch: Dispatch) => {
+    try {
         dispatch(SetLoadingFollowUnFollow(true, userID))
-        userApi.follow(userID)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(follow(userID))
-                    dispatch(SetLoadingFollowUnFollow(false, userID))
-                }
-            })
+        const response = await userApi.follow(userID)
+        if (response.resultCode === 0) {
+            dispatch(follow(userID))
+            dispatch(SetLoadingFollowUnFollow(false, userID))
+        } else {
+            dispatch(SetLoadingFollowUnFollow(false, userID))
+        }
+
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(SetLoadingFollowUnFollow(false, userID))
     }
+
 }
 
-export const unFollowThunkCreator = (userID: string) => {
-    return (dispatch: Dispatch) => {
+
+export const unFollowThunkCreator = (userID: string) => async (dispatch: Dispatch) => {
+    try {
         dispatch(SetLoadingFollowUnFollow(true, userID))
-        userApi.unFollow(userID)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unFollow(userID))
-                    dispatch(SetLoadingFollowUnFollow(false, userID))
-                }
-            })
+        const response = await userApi.unFollow(userID)
+        if (response.resultCode === 0) {
+            dispatch(unFollow(userID))
+            dispatch(SetLoadingFollowUnFollow(false, userID))
+        } else {
+            dispatch(setErrorMessage(response.message))
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(SetLoadingFollowUnFollow(false, userID))
     }
 }
 
 
-export const setPageThunkCreator = (pageSizeUsers: number, page: number) => {
-    return (dispatch: Dispatch) => {
+export const setPageThunkCreator = (pageSizeUsers: number, page: number) => async (dispatch: Dispatch) => {
+    try {
         dispatch(SetLoading(true))
-        userApi.setPage(pageSizeUsers, page)
-            .then(data => {
-                dispatch(SetPage(page))
-                dispatch(SetUserCount(data.totalCount))
-                dispatch(SetPageSizeUsers(pageSizeUsers))
-                dispatch(SetUser(data.items))
-                dispatch(SetLoading(false))
-            })
+        const response = await userApi.setPage(pageSizeUsers, page)
+        dispatch(SetPage(page))
+        dispatch(SetUserCount(response.totalCount))
+        dispatch(SetPageSizeUsers(pageSizeUsers))
+        dispatch(SetUser(response.items))
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(SetLoading(false))
     }
-
 }

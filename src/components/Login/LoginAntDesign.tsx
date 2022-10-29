@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {loginUserThunkCreator, setErrorMessage} from "../../redux/authReducer";
 import {Redirect} from "react-router-dom";
 import {StateType} from "../../redux/reduxStore";
@@ -8,7 +8,7 @@ import classes from './LoginAndDesign.module.css'
 
 
 export type LoginType = {
-    loginUserThunkCreator: (dataForm:any) => void
+    loginUserThunkCreator: (dataForm: any) => void
 }
 export const LoginForm2 = (props: LoginType) => {
 
@@ -32,7 +32,7 @@ export const LoginForm2 = (props: LoginType) => {
                     name="email"
                     rules={[{required: true, message: 'Please input your email!'}]}
                 >
-                    <Input />
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item
@@ -40,11 +40,11 @@ export const LoginForm2 = (props: LoginType) => {
                     name="password"
                     rules={[{required: true, message: 'Please input your password!'}]}
                 >
-                    <Input.Password />
+                    <Input.Password/>
                 </Form.Item>
 
-                <Form.Item   name="rememberMe" valuePropName="checked" wrapperCol={{offset: 4, span: 16}}>
-                    <Checkbox  >Remember me</Checkbox>
+                <Form.Item name="rememberMe" valuePropName="checked" wrapperCol={{offset: 4, span: 16}}>
+                    <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
@@ -60,38 +60,25 @@ export const LoginForm2 = (props: LoginType) => {
 
 
 const LoginAntDesign = (props: LoginPropsType) => {
-    const afterCloseHandler = () => {
-        props.setError(null)
-    }
 
     if (props.isAuth) {
         return <Redirect to={'profile/'}/>
     }
     return (
         <div className={classes.content}>
-            {props.errorMessages && <Alert
-                style={{width: '50%', height: '10%', alignSelf: 'center', marginBottom: '20px'}}
-                message="Error"
-                description={props.errorMessages}
-                type="error"
-                afterClose={afterCloseHandler}
-                banner
-                showIcon
-                closable
-            />}
             <div className={classes.textTestAccount}>
 
-            <p>To log in get registered
-                <a href={'https://social-network.samuraijs.com/'}
-                   target={'_blank'}> here
-                </a>
-            </p>
-            <p>or use common test account credentials:</p>
-            <p><strong className={classes.boltText}>Email: free@samuraijs.com</strong></p>
-            <p><strong className={classes.boltText}>Password: free</strong></p>
+                <p>To log in get registered
+                    <a href={'https://social-network.samuraijs.com/'}
+                       target={'_blank'}> here
+                    </a>
+                </p>
+                <p>or use common test account credentials:</p>
+                <p><strong className={classes.boltText}>Email: free@samuraijs.com</strong></p>
+                <p><strong className={classes.boltText}>Password: free</strong></p>
             </div>
-            <LoginForm2   loginUserThunkCreator={props.loginUserThunkCreator}/>
-
+            <LoginForm2
+                loginUserThunkCreator={props.loginUserThunkCreator}/>
         </div>
     );
 };
@@ -100,8 +87,8 @@ type mapStateToPropsType = {
     errorMessages: null | string
 }
 type mapDispatchToPropsType = {
-    loginUserThunkCreator: (dataForm:any) => void
-    setError:(message:string | null)=> void
+    loginUserThunkCreator: (dataForm: any) => void
+    setError: (message: string | null) => void
 }
 type LoginPropsType = mapStateToPropsType & mapDispatchToPropsType
 const mapStateToProps = (state: StateType): mapStateToPropsType => {
@@ -111,4 +98,4 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
     }
 }
 // @ts-ignore
-export default connect(mapStateToProps, {loginUserThunkCreator,setError:setErrorMessage})(LoginAntDesign)
+export default connect(mapStateToProps, {loginUserThunkCreator, setError: setErrorMessage})(LoginAntDesign)

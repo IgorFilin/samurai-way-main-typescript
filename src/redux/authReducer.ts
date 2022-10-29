@@ -1,7 +1,8 @@
 import {Dispatch} from "redux";
 import {headerApi} from "../api/api";
 import {FormDataTypeLogin} from "../components/Login/Login";
-import {setLogoAuthUserForUser} from "./ProfileReducer";
+import axios from "axios";
+import {AppDispatch} from "./reduxStore";
 
 
 export type authReducerStateType = {
@@ -22,7 +23,7 @@ const initialState: authReducerStateType = {
     login: null,
     email: null,
     isAuth: false,
-    errorMessages:null
+    errorMessages: null
 }
 
 
@@ -37,59 +38,70 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
                 isAuth: action.payload.valueIsAuth
             }
         }
-        case "SET-ERROR-MESSAGE":{
-            return {...state,errorMessages:action.message}
+        case "SET-ERROR-MESSAGE": {
+            return {...state, errorMessages: action.message}
         }
-
-
         default: {
             return state
         }
     }
 };
 
-export const setAuthUser = (idUser: number, login: string, email: string,valueIsAuth:boolean) => {
-    return {type: 'SET-AUTH-USER', payload: {idUser, login, email,valueIsAuth}} as const
+export const setAuthUser = (idUser: number, login: string, email: string, valueIsAuth: boolean) => {
+    return {type: 'SET-AUTH-USER', payload: {idUser, login, email, valueIsAuth}} as const
 }
-export const setErrorMessage = (message:string) => {
-    return {type: 'SET-ERROR-MESSAGE', message } as const
-}
-
-export const AuthUserThunkCreator = () => {
-    return (dispatch: Dispatch) => {
-      return   headerApi.AuthUser()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    const {id, login, email} = data.data
-                    dispatch(setAuthUser(id, login, email,true))
-                }
-            })
-    }
+export const setErrorMessage = (message: string) => {
+    return {type: 'SET-ERROR-MESSAGE', message} as const
 }
 
-export const loginUserThunkCreator = (dataForm:FormDataTypeLogin) => {
-    return (dispatch: Dispatch) => {
-        headerApi.login(dataForm)
-            .then(data => {
-                if(data.resultCode === 0){
-                    // @ts-ignore
-                    dispatch(AuthUserThunkCreator())
-                }else {
-                    let messages = data.messages.length > 0 ? data.messages[0] : 'Some error'
-                    dispatch(setErrorMessage(messages))
-                }
-            })
+export const AuthUserThunkCreator = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await headerApi.AuthUser()
+        if (response.resultCode === 0) {
+            const {id, login, email} = response.data
+            dispatch(setAuthUser(id, login, email, true))
+        } else {
+            dispatch(setErrorMessage(response.messages[0]))
+        }
+
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
     }
 }
-export const loginOutUserThunkCreator = () => {
-    return (dispatch: Dispatch) => {
-        headerApi.logOut()
-            .then(data => {
-                if(data.resultCode === 0){
-                    // @ts-ignore
-                    dispatch(setAuthUser(null,null,null,false))
-                }
-            })
+
+
+export const loginUserThunkCreator = (dataForm: FormDataTypeLogin) => async (dispatch: AppDispatch) => {
+    try {
+        const response = await headerApi.login(dataForm)
+        if (response.data.resultCode === 0) {
+            await dispatch(AuthUserThunkCreator())
+        } else {
+            let messages = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            dispatch(setErrorMessage(messages))
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
     }
 }
+
+export const loginOutUserThunkCreator = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await headerApi.logOut()
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUser(0, '', '', false))
+        } else {
+            dispatch(setErrorMessage(response.data.messages[0]))
+        }
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    }
+
+}
+
 // {"data":{"userId":25406},"messages":[],"fieldsErrors":[],"resultCode":0}

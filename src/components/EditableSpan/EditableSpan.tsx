@@ -9,7 +9,6 @@ type EditableSpanTypeProps = {
 
 export const EditableSpan = (props: EditableSpanTypeProps) => {
 
-
     const [editMode, setEditMode] = useState(false)
     const [valueInput, valueInputTitle] = useState(props.title)
     const changeEditModeOnDoubleClick = () => {
@@ -32,6 +31,7 @@ export const EditableSpan = (props: EditableSpanTypeProps) => {
     useEffect(()=>{
         valueInputTitle(props.title)
     },[props])
+
     return (
         editMode ?
             <input value={valueInput} onChange={onChangeHandler} onBlur={changeEditModeOnBlur}

@@ -1,25 +1,18 @@
 .Content {
     display: flex;
     padding: 10px;
-    justify-content: flex-start;
-    max-width: 600px;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 100%;
+    background-color: #2c4141;
 }
 
 .Img {
     margin: 4px;
     width: 80px;
     height: 80px;
-    border-radius: 50%;
 }
 
-.blockTwo {
-    padding: 10px;
-    border: 2px solid lavender;
-    border-radius: 10px;
-    display: flex;
-    width: 70%;
-    justify-content: space-between;
-}
 
 .nameStatus {
     display: flex;
@@ -28,16 +21,13 @@
     justify-content: space-around;
 }
 
-.location {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
 
 .userInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 8px;
+    border-bottom: solid 2px #8cc8ff;
 }
 
 .pages {
@@ -62,15 +52,17 @@
 .paginationContainer{
     display: flex;
     justify-content: center;
+    margin-bottom: 10px;
 }
 .status{
     word-break: break-word;
+}
+.buttonFollowUnfollow{
+    margin: 10px;
 }
 @media screen and (max-width: 720px) {
  .paginationBarMedia{
 
  }
-    .blockTwo{
-        flex-direction: column;
-    }
+
 }

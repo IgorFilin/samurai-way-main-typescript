@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import {Route, withRouter} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
 import UsersComposeComponent from './components/Users/UsersContainer'
@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import {initializationMeThunkCreator} from "./redux/appReducer";
 import {StateType} from "./redux/reduxStore";
 import Login2 from "./components/Login/LoginAntDesign";
-import {Spin} from "antd";
+import {Alert, Spin} from "antd";
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -31,6 +31,7 @@ class App extends React.Component<AppPropsType> {
                         <div className="app-wrapper-content">
                             <Navbar/>
                             <div className="app-main-content">
+                                <Route path={'/'} render={() => <Redirect to={'/profile'}/>}/>
                                 <Route path={'/login'} render={() => <Login2/>}/>
                                 <Route path={'/profile/:userId?'} render={
                                     () => <ProfileComposeComponent/>}/>
@@ -39,6 +40,14 @@ class App extends React.Component<AppPropsType> {
                                 <Route path={'/users/*'} render={
                                     () => <UsersComposeComponent/>
                                 }/>
+                                {this.props.errorMessages && <Alert
+                                    style={{alignSelf: 'center'}}
+                                    description={this.props.errorMessages}
+                                    type="error"
+                                    showIcon
+                                    closable
+                                    className='alert'
+                                />}
                             </div>
                         </div>
                     </div>
@@ -49,6 +58,7 @@ class App extends React.Component<AppPropsType> {
 
 type mapStateToPropsType = {
     initialValue: boolean
+    errorMessages:string | null
 }
 type mapDispatchToPropsType = {
     initializationMeThunkCreator: () => void
@@ -57,7 +67,8 @@ type mapDispatchToPropsType = {
 
 const mapStateToProps = (state: StateType): mapStateToPropsType => {
     return {
-        initialValue: state.app.initializationValue
+        initialValue: state.app.initializationValue,
+        errorMessages:state.auth.errorMessages
     }
 }
 
