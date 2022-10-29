@@ -84,11 +84,14 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                     </div>
                     <hr/>
 
-                    <div className={props.isAuthUser ? classes.lookJob : ''}
-                         onClick={props.isAuthUser ? ChangeLookingForAJobHandler : () => {
-                         }}>{props.profile.lookingForAJob ?
-                        <h4>looking for a job</h4> :
-                        <h4>not looking for a job</h4>}</div>
+                    <div
+                        onClick={props.isAuthUser ? ChangeLookingForAJobHandler : () => {
+                        }}>{props.profile.lookingForAJob
+                        ?
+                        <h4 className={props.isAuthUser ?classes.contentProfileUser: ''}>looking for a job</h4>
+                        :
+                        <h4  className={props.isAuthUser ? classes.contentProfileUser: ''}>not looking for a job</h4>}
+                    </div>
                 </div>
             </div>
             <div className={classes.contactsContainer}>
@@ -97,7 +100,8 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                         description: {props.profile.lookingForAJobDescription ?
                             <EditableSpan title={props.profile.lookingForAJobDescription}
                                           changeTitle={lookingForAJobDescriptionChanger} disable={!props.isAuthUser}/> :
-                            <span>---</span>}</h3></div>
+                            <span>---</span>}</h3>
+                </div>
                 <hr/>
                 <h3>My contacts:</h3>
                 <div>{Object.values(props.profile.contacts).map((c, i) => {

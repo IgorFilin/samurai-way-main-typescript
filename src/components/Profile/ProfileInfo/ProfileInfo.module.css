@@ -37,7 +37,24 @@
     font-size: 20px;
     width: 200px;
 }
-
+.spanStatusUser{
+    color: lavender;
+    transition: 0.8s;
+}
+.spanStatusUser:hover{
+    cursor: pointer;
+    color: gold;
+    transition: 0.8s;
+}
+.contentProfileUser{
+    color: lavender;
+    transition: 0.8s;
+}
+.contentProfileUser:hover{
+    cursor: pointer;
+    color: gold;
+    transition: 0.8s;
+}
 .statusUser input {
     width: 200px;
     height: 30px;

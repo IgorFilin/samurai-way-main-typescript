@@ -1,4 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
+import classes from './../Profile/ProfileInfo/ProfileInfo.module.css'
 
 
 type EditableSpanTypeProps = {
@@ -36,7 +37,7 @@ export const EditableSpan = (props: EditableSpanTypeProps) => {
         editMode ?
             <input value={valueInput} onChange={onChangeHandler} onBlur={changeEditModeOnBlur}
                    autoFocus/> :
-            <span style={{fontSize: '15px'}} onDoubleClick={!props.disable ? changeEditModeOnDoubleClick : () => {
+            <span className={props.disable ? '' : classes.contentProfileUser} style={{fontSize: '15px'}} onDoubleClick={!props.disable ? changeEditModeOnDoubleClick : () => {
             }}>{props.title}</span>
     );
 };

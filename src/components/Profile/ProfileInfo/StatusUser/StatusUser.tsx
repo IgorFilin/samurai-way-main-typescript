@@ -43,7 +43,7 @@ export const StatusUser = (props: StatusUserPropsType) => {
             <input onKeyPress={onKeyHandler} value={status} onChange={onChangeHandler} autoFocus onBlur={onBlurHandler}
                    type="text"/>
             :
-            <span
+            <span className={classes.spanStatusUser}
                 onDoubleClick={onClickHandler}>{!props.status ? 'status not found' : props.status}</span>}
     </div>)
 }
