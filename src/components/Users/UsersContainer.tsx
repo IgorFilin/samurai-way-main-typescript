@@ -2,14 +2,14 @@ import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
     followThunkCreator,
-    getUserThunkCreator, SetPageSizeUsers,
+    getUserThunkCreator,
+    SetPageSizeUsers,
     setPageThunkCreator,
     unFollowThunkCreator,
     UserType
 } from "../../redux/UsersReducer";
 import React from "react";
 import {Users} from "./Users";
-import {Loading} from "../common/Loading";
 import {compose} from "redux";
 import {
     arrayUsersIdForDisabledButton,

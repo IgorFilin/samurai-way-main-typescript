@@ -1,9 +1,8 @@
 import React from 'react';
 import s from "./Users.module.css";
-import userPhotoDefault from "../../assets/images/user.png";
-import {NavLink} from "react-router-dom";
 import {UserTypeProps} from "./UsersContainer";
 import {Pagination} from 'antd';
+import {User} from "./User/User";
 
 
 export const Users = (props: UserTypeProps) => {
@@ -12,25 +11,9 @@ export const Users = (props: UserTypeProps) => {
         props.setPageThunkCreator(pageSize, page)
     }
 
-    // const onShowSizeChangeHandler = (current: number, pageSize: number) => {
-    //     debugger
-    //     props.setPageThunkCreator(pageSize, current)
-    // }
-
-    // let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
-    // let totalCountPagesArray = []
-    // for (let i = 1; i <= totalCountPages; i++) {
-    //     totalCountPagesArray.push(i)
-    // }
-    // let newTotalCountPagesArray = totalCountPagesArray
-
     return (
         <>
-            {/*<div className={s.pages}>*/}
-            {/*    {newTotalCountPagesArray.map(page =>*/}
-            {/*        <div key={page} className={page === props.currentPage ? s.activePage : s.page}*/}
-            {/*             onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}*/}
-            {/*</div>*/}
+
             <div className={s.paginationContainer}>
                 <Pagination
                     size={"small"} onShowSizeChange={onChange}
@@ -42,40 +25,39 @@ export const Users = (props: UserTypeProps) => {
                     showQuickJumper
                     onChange={onChange}/>
             </div>
-            {props.users.map(us => {
-                return (
-                    <div key={us.id} className={s.Content}>
-                        <div className={s.userInfo}>
-                            <NavLink to={'/profile/' + us.id}>
-                                <img
-                                    className={s.Img}
-                                    src={us.photos.small !== null ? us.photos.small : userPhotoDefault}
-                                />
-                            </NavLink>
-                            <div>{us.name}</div>
-                            <div className={s.status}>{us.status}</div>
-                            <div>{us.followed}</div>
-                            {us.followed ?
-                                <button
-                                    className={s.buttonFollowUnfollow}
-                                    disabled={props.arrayUsersIdForDisabledButton.some(el => el === us.id)}
-                                    onClick={() => {
-                                        props.unFollowThunkCreator(us.id)
-                                    }}>{'unFollow'}
-                                </button> :
-                                <button className={s.buttonFollowUnfollow}
-                                        disabled={props.arrayUsersIdForDisabledButton.some(id => id === us.id)}
-                                        onClick={() => {
-                                            props.followThunkCreator(us.id)
-                                        }}>{'Follow'}
-                                </button>}
-
-                        </div>
-                    </div>
-                )
-            })}
+            <div className={s.Content}>
+                {props.users.map(us => <User
+                    user={us}
+                    arrayUsersIdForDisabledButton={props.arrayUsersIdForDisabledButton}
+                    followThunkCreator={props.followThunkCreator}
+                    unFollowThunkCreator={props.unFollowThunkCreator}
+                    key={us.id}/>)}
+            </div>
         </>
     );
 }
 
 
+{/*<div className={s.pages}>*/
+}
+{/*    {newTotalCountPagesArray.map(page =>*/
+}
+{/*        <div key={page} className={page === props.currentPage ? s.activePage : s.page}*/
+}
+{/*             onClick={() => props?.setPageThunkCreator(props.pageSizeUsers,page)}>{page}</div>)}*/
+}
+{/*</div>*/
+}
+
+
+// const onShowSizeChangeHandler = (current: number, pageSize: number) => {
+//     debugger
+//     props.setPageThunkCreator(pageSize, current)
+// }
+
+// let totalCountPages = Math.ceil(props.totalCountPages / props.pageSizeUsers)
+// let totalCountPagesArray = []
+// for (let i = 1; i <= totalCountPages; i++) {
+//     totalCountPagesArray.push(i)
+// }
+// let newTotalCountPagesArray = totalCountPagesArray

@@ -4,8 +4,11 @@ import {connect} from "react-redux";
 import {
     getStatusThunkCreator,
     ProfileUserType,
-    setProfileThunkCreator, termModelUpdateProfile, updateProfileThunkCreator,
-    updateStatusThunkCreator, uploadPhotoThunkCreator
+    setProfileThunkCreator,
+    termModelUpdateProfile,
+    updateProfileThunkCreator,
+    updateStatusThunkCreator,
+    uploadPhotoThunkCreator
 } from "../../redux/ProfileReducer";
 import {StateType} from "../../redux/reduxStore";
 import {RouteComponentProps, withRouter} from "react-router-dom";
