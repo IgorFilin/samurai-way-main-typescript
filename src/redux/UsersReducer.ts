@@ -2,6 +2,7 @@ import {userApi} from "../api/api";
 import {Dispatch} from "redux";
 import {setErrorMessage} from "./authReducer";
 import axios from "axios";
+import {ChangeObj} from "../utils/functionHelper/ChangeObj";
 
 export type UserType = {
     id: string
@@ -55,14 +56,14 @@ export const UsersReducer = (state: InitialStateType = initialState, action: All
         case 'FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.idUser ? {...user, followed: true} : user),
+                users: ChangeObj(state.users,'id',action.idUser,{followed:true}),
 
             }
         }
         case 'UN-FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.idUser ? {...user, followed: false} : user),
+                users: ChangeObj(state.users,'id',action.idUser,{followed:false}),
 
             }
         }
@@ -143,37 +144,25 @@ export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number) 
 }
 
 export const followThunkCreator = (userID: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(SetLoadingFollowUnFollow(true, userID))
-        const response = await userApi.follow(userID)
-        if (response.resultCode === 0) {
-            dispatch(follow(userID))
-            dispatch(SetLoadingFollowUnFollow(false, userID))
-        } else {
-            dispatch(SetLoadingFollowUnFollow(false, userID))
-        }
-
-    } catch (err) {
-        if (axios.isAxiosError(err)) {
-            dispatch(setErrorMessage(err.message))
-        }
-    } finally {
-        dispatch(SetLoadingFollowUnFollow(false, userID))
-    }
-
+    await followUnfollowFlow(dispatch,userID,userApi.follow,follow)
 }
 
 
 export const unFollowThunkCreator = (userID: string) => async (dispatch: Dispatch) => {
+    await followUnfollowFlow(dispatch,userID,userApi.unFollow,unFollow)
+}
+
+const followUnfollowFlow = async (dispatch:Dispatch,userID:string,methodApi:any,actionCreator:any) => {
     try {
         dispatch(SetLoadingFollowUnFollow(true, userID))
-        const response = await userApi.unFollow(userID)
+        const response = await methodApi(userID)
         if (response.resultCode === 0) {
-            dispatch(unFollow(userID))
+            dispatch(actionCreator(userID))
             dispatch(SetLoadingFollowUnFollow(false, userID))
         } else {
             dispatch(setErrorMessage(response.message))
         }
+
     } catch (err) {
         if (axios.isAxiosError(err)) {
             dispatch(setErrorMessage(err.message))
