@@ -105,13 +105,38 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                 <hr/>
                 <h3>My contacts:</h3>
                 <div>
-                    <h4>website: {props.profile.contacts.website ? props.profile.contacts.website : '---'}</h4>
-                    <h4>vk: {props.profile.contacts.vk ? props.profile.contacts.vk : '---'}</h4>
-                    <h4>youtube: {props.profile.contacts.youtube ? props.profile.contacts.youtube : '---'}</h4>
-                    <h4>twitter: {props.profile.contacts.twitter ? props.profile.contacts.twitter : '---'}</h4>
-                    <h4>instagram: {props.profile.contacts.instagram ? props.profile.contacts.instagram : '---'}</h4>
-                    <h4>github: {props.profile.contacts.github ? props.profile.contacts.github : '---'}</h4>
-                    <h4>facebook: {props.profile.contacts.facebook ? props.profile.contacts.facebook : '---'}</h4>
+                    <h4>website: <EditableSpan
+                        title={props.profile.contacts.website ? props.profile.contacts.website : '---'}
+                        changeTitle={() => {
+                        }}
+                        disable={!props.isAuthUser}/></h4>
+                    <h4>vk: <EditableSpan title={props.profile.contacts.vk ? props.profile.contacts.vk : '---'}
+                                          changeTitle={() => {
+                                          }}
+                                          disable={!props.isAuthUser}/></h4>
+                    <h4>youtube: <EditableSpan
+                        title={props.profile.contacts.youtube ? props.profile.contacts.youtube : '---'}
+                        changeTitle={() => {
+                        }}
+                        disable={!props.isAuthUser}/></h4>
+                    <h4>twitter: <EditableSpan
+                        title={props.profile.contacts.twitter ? props.profile.contacts.twitter : '---'}
+                        changeTitle={() => {
+                        }}
+                        disable={!props.isAuthUser}/></h4>
+                    <h4>instagram: <EditableSpan
+                        title={props.profile.contacts.instagram ? props.profile.contacts.instagram : '---'}
+                        changeTitle={() => {
+                        }}
+                        disable={!props.isAuthUser}/></h4>
+                    <h4>github:<EditableSpan
+                        title={props.profile.contacts.github ? props.profile.contacts.github : '---'}
+                        changeTitle={lookingForAJobDescriptionChanger}
+                        disable={!props.isAuthUser}/></h4>
+                    <h4>facebook: <EditableSpan
+                        title={props.profile.contacts.facebook ? props.profile.contacts.facebook : '---'}
+                        changeTitle={lookingForAJobDescriptionChanger}
+                        disable={!props.isAuthUser}/></h4>
                 </div>
                 <div>{Object.values(props.profile.contacts).map((c, i) => {
                     return <h5 key={i}><a target={'_blank'} href={c ? c : '#'}>{c}</a></h5>

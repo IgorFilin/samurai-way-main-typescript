@@ -13,6 +13,9 @@ export const EditableSpan = (props: EditableSpanTypeProps) => {
     const [editMode, setEditMode] = useState(false)
     const [valueInput, valueInputTitle] = useState(props.title)
     const changeEditModeOnDoubleClick = () => {
+        if(valueInput === '---'){
+            valueInputTitle('')
+        }
         setEditMode(true)
     }
     const changeEditModeOnBlur = () => {
