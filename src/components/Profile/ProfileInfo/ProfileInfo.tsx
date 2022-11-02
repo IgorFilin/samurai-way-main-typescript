@@ -88,9 +88,9 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                         onClick={props.isAuthUser ? ChangeLookingForAJobHandler : () => {
                         }}>{props.profile.lookingForAJob
                         ?
-                        <h4 className={props.isAuthUser ?classes.contentProfileUser: ''}>looking for a job</h4>
+                        <h4 className={props.isAuthUser ? classes.contentProfileUser : ''}>looking for a job</h4>
                         :
-                        <h4  className={props.isAuthUser ? classes.contentProfileUser: ''}>not looking for a job</h4>}
+                        <h4 className={props.isAuthUser ? classes.contentProfileUser : ''}>not looking for a job</h4>}
                     </div>
                 </div>
             </div>
@@ -104,6 +104,15 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                 </div>
                 <hr/>
                 <h3>My contacts:</h3>
+                <div>
+                    <h4>website: {props.profile.contacts.website ? props.profile.contacts.website : '---'}</h4>
+                    <h4>vk: {props.profile.contacts.vk ? props.profile.contacts.vk : '---'}</h4>
+                    <h4>youtube: {props.profile.contacts.youtube ? props.profile.contacts.youtube : '---'}</h4>
+                    <h4>twitter: {props.profile.contacts.twitter ? props.profile.contacts.twitter : '---'}</h4>
+                    <h4>instagram: {props.profile.contacts.instagram ? props.profile.contacts.instagram : '---'}</h4>
+                    <h4>github: {props.profile.contacts.github ? props.profile.contacts.github : '---'}</h4>
+                    <h4>facebook: {props.profile.contacts.facebook ? props.profile.contacts.facebook : '---'}</h4>
+                </div>
                 <div>{Object.values(props.profile.contacts).map((c, i) => {
                     return <h5 key={i}><a target={'_blank'} href={c ? c : '#'}>{c}</a></h5>
                 })}</div>
