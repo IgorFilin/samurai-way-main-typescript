@@ -124,16 +124,8 @@ export const ProfileReducer = (state: ProfilePageType = initialState, action: Al
             }
         }
         case "SET-UPDATE-USER-PROFILE": {
-            return {
-                ...state,
-                profileUser: {
-                    ...state.profileUser!,
-                    ...action.value,
-                    contacts: {
-                        ...action.value.contacts
-                    }
-                }
-            }
+            return {...state, profileUser: {...state.profileUser!, ...action.value}}
+
         }
         default:
             return state
@@ -224,7 +216,7 @@ export const uploadPhotoThunkCreator = (file: any) => async (dispatch: DispatchT
 }
 
 
-export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) => async (dispatch: DispatchType, getState: () => StateType) => {
+export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile | null, valueUpdatedContacts: any) => async (dispatch: DispatchType, getState: () => StateType) => {
     try {
         const profile = getState().profilePage.profileUser
         if (profile) {
@@ -235,14 +227,15 @@ export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile) 
                 lookingForAJob: profile.lookingForAJob,
                 aboutMe: profile.aboutMe,
                 contacts: {
-                    facebook: '',
-                    github: '',
-                    vk: '',
-                    twitter: '',
-                    instagram: '',
-                    youtube: '',
-                    mainLink: '',
-                    website: '',
+                    facebook: profile.contacts.facebook,
+                    github: profile.contacts.github,
+                    vk: profile.contacts.vk,
+                    twitter: profile.contacts.twitter,
+                    instagram: profile.contacts.instagram,
+                    youtube: profile.contacts.youtube,
+                    mainLink: profile.contacts.mainLink,
+                    website: profile.contacts.website,
+                    ...valueUpdatedContacts
                 },
                 ...valueUpdated
             }
