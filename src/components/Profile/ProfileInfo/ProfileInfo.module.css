@@ -67,6 +67,12 @@
     color: #7cb305;
     transition: 0.8s;
 }
+.spinAnt {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    height: 100vh;
+}
 
 @media screen and (max-width: 720px) {
     .mainInfoContainer {

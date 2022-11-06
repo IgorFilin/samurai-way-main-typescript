@@ -17,9 +17,11 @@ export type ProfileInfoTypeProps = {
     userId: string
     uploadPhotoThunkCreator: (file: any) => void
     updateProfileThunkCreator: (value: termModelUpdateProfile, valueUpdateContacts: any) => void
+
 }
 
 function ProfileInfo(props: ProfileInfoTypeProps) {
+
 
     const nameUser = props.profile?.fullName.toLowerCase().split(' ').map(el => el[0].toUpperCase() + el.slice(1)).join(' ')
 
@@ -38,7 +40,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
     }
 
     if (!props.profile || props.isLoading) {
-        return <Spin style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}} size={"large"}/>
+        return <div className={classes.spinAnt}><Spin  size={"large"}/></div>
     }
 
 
@@ -46,7 +48,6 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
         props.updateProfileThunkCreator({lookingForAJobDescription: title}, null)
     }
     const changeContactsHandler = (keyObj: string, title: string) => {
-        debugger
         props.updateProfileThunkCreator({}, {[keyObj]: title})
     }
 
@@ -63,9 +64,11 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                                 <Button className={classes.buttonUploadPhoto} icon={<UploadOutlined/>}>Upload
                                     photo</Button>
                             </Upload>}
-                        <StatusUser isAuthUser={props.isAuthUser}
-                                    status={props.status}
-                                    updateStatusThunkCreator={props.updateStatusThunkCreator} userId={props.userId}/>
+                        <StatusUser
+                            isAuthUser={props.isAuthUser}
+                            status={props.status}
+                            updateStatusThunkCreator={props.updateStatusThunkCreator}
+                            userId={props.userId}/>
                     </div>
                 </div>
                 <div className={classes.nameContainer}>
@@ -78,13 +81,13 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                     <hr/>
                     <div>
                         <h4>About me:{
-                            props.profile.aboutMe ?
-                                <EditableSpan
-                                    forContacts={false}
-                                    title={props.profile.aboutMe!}
-                                    changeTitle={changeAboutMy}
-                                    disable={!props.isAuthUser}/>
-                                : '---'
+                                props.profile.aboutMe ?
+                                    <EditableSpan
+                                        forContacts={false}
+                                        title={props.profile.aboutMe!}
+                                        changeTitle={changeAboutMy}
+                                        disable={!props.isAuthUser}/>
+                                    : '---'
                         }
                         </h4>
                     </div>
@@ -109,7 +112,7 @@ function ProfileInfo(props: ProfileInfoTypeProps) {
                             <span>---</span>}</h3>
                 </div>
                 <hr/>
-                <h3>My contacts:</h3>
+                <h3>Contacts:</h3>
                 <div>
                     <h4>website: <EditableSpan forContacts={true}
                                                title={props.profile.contacts.website!}

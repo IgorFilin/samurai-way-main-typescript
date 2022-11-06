@@ -72,7 +72,10 @@ class ProfileContainerApi extends React.Component<ProfileContainerApiType, State
                 status={this.props.status}
                 updateStatusThunkCreator={this.props.updateStatusThunkCreator}
                 userId={this.props.match.params.userId}
-                uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}/>
+                uploadPhotoThunkCreator={this.props.uploadPhotoThunkCreator}
+
+            />
+
         </div>
     }
 
@@ -83,7 +86,7 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => ({
     authUserId: state.auth.id,
     profile: state.profilePage.profileUser,
     isLoading: state.profilePage.isLoading,
-    status: state.profilePage.statusUser
+    status: state.profilePage.statusUser,
 })
 
 export default compose<React.ComponentType>(

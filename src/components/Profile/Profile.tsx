@@ -10,7 +10,7 @@ export type profilePropsType = {
     profile:ProfileUserType
     isLoading:boolean
     status:string
-    updateStatusThunkCreator:(status:string)=>void
+    updateStatusThunkCreator: (status: string) => void
     userId:string
     uploadPhotoThunkCreator:(file:any)=>void
     updateProfileThunkCreator:(value:termModelUpdateProfile)=> void

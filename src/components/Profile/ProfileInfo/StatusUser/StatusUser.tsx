@@ -1,27 +1,31 @@
 import classes from "../ProfileInfo.module.css";
 import React, {ChangeEvent, useEffect, useState} from "react";
+import {Spin} from "antd";
 
 type StatusUserPropsType = {
     status: string
     updateStatusThunkCreator: (status: string) => void
     userId: string
-    isAuthUser:boolean
+    isAuthUser: boolean
+
 }
 
 export const StatusUser = (props: StatusUserPropsType) => {
     const [editMode, setEditMode] = useState(false)
     const [status, setStatus] = useState(props.status)
 
-    useEffect(()=> {
+
+
+    useEffect(() => {
         setStatus(props.status)
-    },[props.status])
+    }, [props.status])
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
     }
 
     const onClickHandler = () => {
-        if(props.isAuthUser){
+        if (props.isAuthUser) {
             setEditMode(true)
         }
     }
@@ -42,22 +46,10 @@ export const StatusUser = (props: StatusUserPropsType) => {
             ?
             <input onKeyPress={onKeyHandler} value={status} onChange={onChangeHandler} autoFocus onBlur={onBlurHandler}
                    type="text"/>
-            :
-            <span className={classes.spanStatusUser}
-                onDoubleClick={onClickHandler}>{!props.status ? 'status not found' : props.status}</span>}
+            : <span className={classes.spanStatusUser}
+                                                            onDoubleClick={onClickHandler}>{!props.status ? 'status not found' : props.status}</span>}
     </div>)
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 // export class StatusUser extends Component<StatusUserPropsType> {

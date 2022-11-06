@@ -159,6 +159,7 @@ export const setUpdateUserProfile = (value: modelUpdateProfile) => {
     return {type: 'SET-UPDATE-USER-PROFILE', value} as const
 }
 
+
 export const setProfileThunkCreator = (idUserProfile: string) => async (dispatch: Dispatch, getState: () => StateType) => {
     try {
         dispatch(setIsLoading(true))
@@ -189,6 +190,7 @@ export const getStatusThunkCreator = (userId: string) => async (dispatch: Dispat
 
 export const updateStatusThunkCreator = (status: string) => async (dispatch: DispatchType) => {
     try {
+        dispatch(setIsLoading(true))
         const response = await profileApi.updateStatusUser(status)
         if (response.resultCode === 0) {
             dispatch(updateAuthUserStatus(status))
@@ -199,6 +201,8 @@ export const updateStatusThunkCreator = (status: string) => async (dispatch: Dis
         if (axios.isAxiosError(err)) {
             dispatch(setErrorMessage(err.message))
         }
+    } finally {
+        dispatch(setIsLoading(false))
     }
 }
 
@@ -218,6 +222,7 @@ export const uploadPhotoThunkCreator = (file: any) => async (dispatch: DispatchT
 
 export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile | null, valueUpdatedContacts: any) => async (dispatch: DispatchType, getState: () => StateType) => {
     try {
+        dispatch(setIsLoading(true))
         const profile = getState().profilePage.profileUser
         if (profile) {
             const modelUpdatedProfile: modelUpdateProfile = {
@@ -250,5 +255,7 @@ export const updateProfileThunkCreator = (valueUpdated: termModelUpdateProfile |
         if (axios.isAxiosError(err)) {
             dispatch(setErrorMessage(err.message))
         }
+    }finally {
+        dispatch(setIsLoading(false))
     }
 }
