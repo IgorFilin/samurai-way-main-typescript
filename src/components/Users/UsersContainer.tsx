@@ -54,7 +54,7 @@ class UsersApiComponent extends React.Component<UserTypeProps> {
 
     render() {
         return <>
-            {this.props.isLoading ? <Spin style={{margin:'200px 0 0 200px'}} size={"large"}/> :
+            {this.props.isLoading ? <Spin style={{display:'flex',alignItems:'center',justifyContent:'center'}} size={"large"}/> :
                 <Users {...this.props}
                 />}
         </>
