@@ -76,6 +76,9 @@ export const headerApi = {
     },
     logOut() {
         return instance.delete<DeleteLoginMe>('/auth/login')
+    },
+    getCapcha(){
+        return instance.get<{url:string}>('/security/get-captcha-url')
     }
 
 }

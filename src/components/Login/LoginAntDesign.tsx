@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect, useDispatch} from "react-redux";
+import {connect} from "react-redux";
 import {loginUserThunkCreator, setErrorMessage} from "../../redux/authReducer";
 import {Redirect} from "react-router-dom";
 import {StateType} from "../../redux/reduxStore";
@@ -9,11 +9,11 @@ import classes from './LoginAndDesign.module.css'
 
 export type LoginType = {
     loginUserThunkCreator: (dataForm: any) => void
+    captcha:string
 }
 export const LoginForm2 = (props: LoginType) => {
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
         props.loginUserThunkCreator(values)
     };
 
@@ -46,6 +46,16 @@ export const LoginForm2 = (props: LoginType) => {
                 <Form.Item name="rememberMe" valuePropName="checked" wrapperCol={{offset: 4, span: 16}}>
                     <Checkbox>Remember me</Checkbox>
                 </Form.Item>
+                {props.captcha && <div style={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                    <img  style={{width:'200px',height:'100px',marginBottom:'20px'}} src={props.captcha} alt=""/>
+                    <Form.Item
+                        label="Captcha"
+                        name="captcha"
+                        rules={[{required: true, message: 'Please input captcha'}]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                </div>}
 
                 <Form.Item wrapperCol={{offset: 8, span: 16}}>
                     <Button type="primary" htmlType="submit">
@@ -78,13 +88,24 @@ const LoginAntDesign = (props: LoginPropsType) => {
                 <p><strong className={classes.boltText}>Password: free</strong></p>
             </div>
             <LoginForm2
-                loginUserThunkCreator={props.loginUserThunkCreator}/>
+                loginUserThunkCreator={props.loginUserThunkCreator}
+                captcha={props.captcha}
+            />
+            {props.errorMessages && <Alert
+                style={{alignSelf: 'center'}}
+                description={props.errorMessages}
+                type="error"
+                showIcon
+                closable
+                className='alert'
+            />}
         </div>
     );
 };
 type mapStateToPropsType = {
     isAuth: boolean
     errorMessages: null | string
+    captcha:string
 }
 type mapDispatchToPropsType = {
     loginUserThunkCreator: (dataForm: any) => void
@@ -94,7 +115,8 @@ type LoginPropsType = mapStateToPropsType & mapDispatchToPropsType
 const mapStateToProps = (state: StateType): mapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
-        errorMessages: state.auth.errorMessages
+        errorMessages: state.auth.errorMessages,
+        captcha:state.auth.urlCaptcha
     }
 }
 // @ts-ignore

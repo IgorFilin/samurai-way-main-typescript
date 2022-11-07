@@ -11,11 +11,13 @@ export type authReducerStateType = {
     email: string | null
     isAuth: boolean
     errorMessages: null | string
+    urlCaptcha: string
 
 }
 export type setAuthUserType = ReturnType<typeof setAuthUser>
 export type setErrorMessageType = ReturnType<typeof setErrorMessage>
-export type AllActionsCreatorsTypeAuth = setAuthUserType | setErrorMessageType
+export type setUrlCaptchaType = ReturnType<typeof setUrlCaptcha>
+export type AllActionsCreatorsTypeAuth = setAuthUserType | setErrorMessageType | setUrlCaptchaType
 
 
 const initialState: authReducerStateType = {
@@ -23,7 +25,8 @@ const initialState: authReducerStateType = {
     login: null,
     email: null,
     isAuth: false,
-    errorMessages: null
+    errorMessages: null,
+    urlCaptcha: ''
 }
 
 
@@ -41,6 +44,9 @@ export const AuthReducer = (state: authReducerStateType = initialState, action: 
         case "SET-ERROR-MESSAGE": {
             return {...state, errorMessages: action.message}
         }
+        case "SET-URL-CAPTCHA":{
+            return {...state,urlCaptcha:action.url}
+        }
         default: {
             return state
         }
@@ -52,6 +58,9 @@ export const setAuthUser = (idUser: number, login: string, email: string, valueI
 }
 export const setErrorMessage = (message: string) => {
     return {type: 'SET-ERROR-MESSAGE', message} as const
+}
+export const setUrlCaptcha = (url: string) => {
+    return {type: 'SET-URL-CAPTCHA', url} as const
 }
 
 export const AuthUserThunkCreator = () => async (dispatch: Dispatch) => {
@@ -77,7 +86,12 @@ export const loginUserThunkCreator = (dataForm: FormDataTypeLogin) => async (dis
         const response = await headerApi.login(dataForm)
         if (response.data.resultCode === 0) {
             await dispatch(AuthUserThunkCreator())
-        } else {
+        } else if (response.data.resultCode === 10){
+            let messages = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            dispatch(setErrorMessage(messages))
+            const result = await headerApi.getCapcha()
+            dispatch(setUrlCaptcha(result.data.url))
+        }else {
             let messages = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
             dispatch(setErrorMessage(messages))
         }
@@ -93,6 +107,7 @@ export const loginOutUserThunkCreator = () => async (dispatch: Dispatch) => {
         const response = await headerApi.logOut()
         if (response.data.resultCode === 0) {
             dispatch(setAuthUser(0, '', '', false))
+            dispatch(setUrlCaptcha(''))
         } else {
             dispatch(setErrorMessage(response.data.messages[0]))
         }
