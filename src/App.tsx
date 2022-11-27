@@ -31,7 +31,7 @@ class App extends React.Component<AppPropsType> {
                         <div className="app-wrapper-content">
                             <Navbar/>
                             <div className="app-main-content">
-                                <Route path={'/'} render={() => <Redirect to={'/profile'}/>}/>
+                                <Route  path={'/'} render={() => <Redirect to={'/profile'}/>}/>
                                 <Route path={'/login'} render={() => <Login2/>}/>
                                 <Route path={'/profile/:userId?'} render={
                                     () => <ProfileComposeComponent/>}/>
