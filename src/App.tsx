@@ -12,6 +12,7 @@ import {initializationMeThunkCreator} from "./redux/appReducer";
 import {StateType} from "./redux/reduxStore";
 import Login2 from "./components/Login/LoginAntDesign";
 import {Alert, Spin} from "antd";
+import {Friends} from "./components/Friends/Friends";
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -31,15 +32,19 @@ class App extends React.Component<AppPropsType> {
                         <div className="app-wrapper-content">
                             <Navbar/>
                             <div className="app-main-content">
-                                <Route  path={'/'} render={() => <Redirect to={'/profile'}/>}/>
-                                <Route path={'/login'} render={() => <Login2/>}/>
-                                <Route path={'/profile/:userId?'} render={
+                                <Route  path='/' render={() => <Redirect to={'/profile'}/>}/>
+                                <Route path='/login' render={() => <Login2/>}/>
+                                <Route path='/profile/:userId?' render={
                                     () => <ProfileComposeComponent/>}/>
-                                <Route path={'/dialogs/*'} render={
+                                <Route path='/dialogs/*' render={
                                     () => <DialogsComposeComponent/>}/>
-                                <Route path={'/users/*'} render={
+                                <Route path='/users/*' render={
                                     () => <UsersComposeComponent/>
                                 }/>
+                                <Route path='/friends/' render={()=>
+                                    <Friends/>
+                                }/>
+
                                 {this.props.errorMessages && <Alert
                                     style={{alignSelf: 'center'}}
                                     description={this.props.errorMessages}
