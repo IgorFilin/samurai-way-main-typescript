@@ -1,7 +1,8 @@
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 import {FormDataTypeLogin} from "../components/Login/Login";
 import {ProfileUserType} from "../redux/ProfileReducer";
 
+//====Types========================================================
 type AuthorizeUserResponseType = {
     data: {
         userId: number
@@ -34,7 +35,7 @@ export type modelUpdateProfile = {
     }
 
 }
-
+//=================================================================
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -66,7 +67,7 @@ export const userApi = {
 }
 
 export const headerApi = {
-    AuthUser() {
+    authUser() {
         return instance.get('auth/me')
             .then(response => response.data)
     },

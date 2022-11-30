@@ -65,7 +65,7 @@ export const setUrlCaptcha = (url: string) => {
 
 export const AuthUserThunkCreator = () => async (dispatch: Dispatch) => {
     try {
-        const response = await headerApi.AuthUser()
+        const response = await headerApi.authUser()
         if (response.resultCode === 0) {
             const {id, login, email} = response.data
             dispatch(setAuthUser(id, login, email, true))

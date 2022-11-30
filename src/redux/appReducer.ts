@@ -28,13 +28,9 @@ export const initializationMeAC = () => {
     return {type: 'INITIALIZATION-ME'} as const
 }
 
-export const initializationMeThunkCreator = () => async (dispatch: AppDispatch, getState: () => StateType) => {
+export const initializationMeThunkCreator = () => async (dispatch: AppDispatch) => {
     try {
         await dispatch(AuthUserThunkCreator())
-        if (getState().auth.id) {
-            const idAuthUser = getState().auth.id
-            dispatch(setProfileThunkCreator(String(idAuthUser)))
-        }
         dispatch(initializationMeAC())
 
     } catch (err) {
