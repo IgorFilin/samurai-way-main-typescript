@@ -1,29 +1,15 @@
 import React from 'react';
 import s from "./Users.module.css";
 import {UserTypeProps} from "./UsersContainer";
-import {Pagination} from 'antd';
 import {User} from "./User/User";
+import {PaginationComponent} from "../../common/Pagination";
 
 
-export const Users = (props: UserTypeProps) => {
-
-    const onChange = (page: number, pageSize: number) => {
-        props.setPageThunkCreator(pageSize, page)
-    }
+export const Users = (props: UserTypeProps & {friendsMode:boolean | null}) => {
 
     return (
         <>
-            <div className={s.paginationContainer}>
-                <Pagination
-                    size={"small"} onShowSizeChange={onChange}
-                    showLessItems
-                    pageSizeOptions={['5', '10', '20']}
-                    pageSize={props.pageSizeUsers}
-                    current={props.currentPage}
-                    total={props.totalCountPages}
-                    showQuickJumper
-                    onChange={onChange}/>
-            </div>
+          <PaginationComponent friendsMode={props.friendsMode} pageSizeUsers={props.pageSizeUsers} totalCountPages={props.totalCountPages} currentPage={props.currentPage} callBack={props.setPageThunkCreator}/>
             <div className={s.Content}>
                 {props.users.map(us => <User
                     user={us}

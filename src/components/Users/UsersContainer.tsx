@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import {StateType} from "./../../redux/reduxStore";
 import {
     followThunkCreator,
-    getUserThunkCreator,
+    getUserThunkCreator, SetPage,
     SetPageSizeUsers,
     setPageThunkCreator,
     unFollowThunkCreator,
@@ -34,26 +34,35 @@ type mapStateToPropsType = {
 }
 
 type mapDispatchToPropsType = {
-    setPageThunkCreator:(pageSizeUsers:number,page:number)=>void
-    getUserThunkCreator:(pageSizeUsers:number,currentPage:number,userName?:string,isFriend?:boolean)=> void
+    setPageThunkCreator:(pageSizeUsers:number,page:number,friend:boolean | null) => void
+    getUserThunkCreator:(pageSizeUsers:number,currentPage:number,isFriend?:boolean | null,userName?:string) => void
     unFollowThunkCreator:(userId:string) => void
     followThunkCreator:(userId:string) => void
     SetPageSizeUsers:(PageSizeUsers:number)=> void
-
+    SetPage:(page:number) => void
 }
 
 export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType & {isFriends:boolean}
 
 
 class UsersApiComponent extends React.Component<UserTypeProps> {
+
+    friendsMode = this.props.isFriends ? true : null
+
     componentDidMount() {
-        this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage,'',this.props.isFriends && true )
+        console.log('componentDidMount')
+        this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage,this.friendsMode )
+    }
+    componentWillUnmount() {
+        console.log('componentWillUnmount')
+        this.props.SetPage(1)
+        this.props.SetPageSizeUsers(5)
     }
 
     render() {
         return <>
             {this.props.isLoading ? <Spin style={{display:'flex',alignItems:'center',justifyContent:'center'}} size={"large"}/> :
-                <Users {...this.props}
+                <Users {...this.props} friendsMode={this.friendsMode}
                 />}
         </>
 
@@ -79,7 +88,8 @@ export default compose<React.ComponentType<{isFriends:boolean}>>(
         unFollowThunkCreator,
         followThunkCreator,
         setPageThunkCreator,
-        SetPageSizeUsers
+        SetPageSizeUsers,
+        SetPage
     })
 )(UsersApiComponent)
 

@@ -124,25 +124,6 @@ export const SetPageSizeUsers = (pageSizeUsers: number) => {
 export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
     return {type: 'SET-LOADING-FOLLOW-UNFOLLOW', status, idUser} as const
 }
-
-export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number,userName?:string,isFriend?:boolean) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(SetLoading(true))
-        userApi.getUsers(pageSizeUsers, currentPage,userName,isFriend)
-            .then(data => {
-                dispatch(SetUser(data.items))
-                dispatch(SetUserCount(data.totalCount))
-            })
-    } catch (err) {
-        if (axios.isAxiosError(err)) {
-            dispatch(setErrorMessage(err.message))
-        }
-    } finally {
-        dispatch(SetLoading(false))
-    }
-
-}
-
 export const followThunkCreator = (userID: string) => async (dispatch: Dispatch) => {
     await followUnfollowFlow(dispatch,userID,userApi.follow,follow)
 }
@@ -172,11 +153,27 @@ const followUnfollowFlow = async (dispatch:Dispatch,userID:string,methodApi:any,
     }
 }
 
-
-export const setPageThunkCreator = (pageSizeUsers: number, page: number) => async (dispatch: Dispatch) => {
+export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number,isFriend?:boolean | null,userName?:string) => async (dispatch: Dispatch) => {
     try {
         dispatch(SetLoading(true))
-        const response = await userApi.setPage(pageSizeUsers, page)
+        const result = await userApi.getUsers(pageSizeUsers, currentPage,userName,isFriend)
+                dispatch(SetUser(result.items))
+                dispatch(SetUserCount(result.totalCount))
+    } catch (err) {
+        if (axios.isAxiosError(err)) {
+            dispatch(setErrorMessage(err.message))
+        }
+    } finally {
+        dispatch(SetLoading(false))
+    }
+
+}
+
+export const setPageThunkCreator = (pageSizeUsers: number, page: number,friend:boolean) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(SetLoading(true))
+        const response = await userApi.setPage(pageSizeUsers, page, friend)
+        console.log(response.totalCount)
         dispatch(SetPage(page))
         dispatch(SetUserCount(response.totalCount))
         dispatch(SetPageSizeUsers(pageSizeUsers))

@@ -149,7 +149,6 @@ export const updateAuthUserStatus = (status: string) => {
     return {type: 'UPDATE-AUTH-USER-STATUS', status} as const
 }
 export const setUploadPhotoForUser = (photoObj: any) => {
-    debugger
     return {type: 'SET-PHOTO', photoObj} as const
 }
 export const setLogoAuthUserForUser = (logo: string) => {
