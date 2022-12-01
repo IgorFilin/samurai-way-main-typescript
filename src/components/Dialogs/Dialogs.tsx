@@ -29,6 +29,7 @@ const Dialogs = (props:DialogsPropsType) => {
     const onSubmit = (formData:FormDataMessagesType) => {
         props.AddMessages(formData.messages)
     }
+
     const addMessagesPage = props.messagesData.map(m => <Message key={m.id} messages={m.messages}/>)
     const addDialogsPage = props.dialogsData.map(d => <DialogsItems key={d.id} name={d.name} id={d.id}/>)
 

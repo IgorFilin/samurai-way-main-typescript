@@ -35,22 +35,20 @@ type mapStateToPropsType = {
 
 type mapDispatchToPropsType = {
     setPageThunkCreator:(pageSizeUsers:number,page:number)=>void
-    getUserThunkCreator:(pageSizeUsers:number,currentPage:number)=> void
+    getUserThunkCreator:(pageSizeUsers:number,currentPage:number,userName?:string,isFriend?:boolean)=> void
     unFollowThunkCreator:(userId:string) => void
     followThunkCreator:(userId:string) => void
     SetPageSizeUsers:(PageSizeUsers:number)=> void
 
 }
 
-export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType
+export type UserTypeProps = mapStateToPropsType & mapDispatchToPropsType & {isFriends:boolean}
 
 
 class UsersApiComponent extends React.Component<UserTypeProps> {
     componentDidMount() {
-        this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage)
+        this.props.getUserThunkCreator(this.props.pageSizeUsers,this.props.currentPage,'',this.props.isFriends && true )
     }
-
-
 
     render() {
         return <>
@@ -75,7 +73,7 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
 
 
 
-export default compose<React.ComponentType>(
+export default compose<React.ComponentType<{isFriends:boolean}>>(
     connect(mapStateToProps, {
         getUserThunkCreator,
         unFollowThunkCreator,
@@ -95,3 +93,4 @@ export default compose<React.ComponentType>(
 //         setLoading:(statusLoading:boolean)=> dispatch(SetLoadingAC(statusLoading))
 //     }
 // }
+// памятка как писать без сокращений mapDispatchToProps

@@ -13,7 +13,6 @@ export const Users = (props: UserTypeProps) => {
 
     return (
         <>
-
             <div className={s.paginationContainer}>
                 <Pagination
                     size={"small"} onShowSizeChange={onChange}

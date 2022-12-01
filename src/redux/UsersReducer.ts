@@ -125,10 +125,10 @@ export const SetLoadingFollowUnFollow = (status: boolean, idUser: string) => {
     return {type: 'SET-LOADING-FOLLOW-UNFOLLOW', status, idUser} as const
 }
 
-export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number) => async (dispatch: Dispatch) => {
+export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number,userName?:string,isFriend?:boolean) => async (dispatch: Dispatch) => {
     try {
         dispatch(SetLoading(true))
-        userApi.getUsers(pageSizeUsers, currentPage)
+        userApi.getUsers(pageSizeUsers, currentPage,userName,isFriend)
             .then(data => {
                 dispatch(SetUser(data.items))
                 dispatch(SetUserCount(data.totalCount))

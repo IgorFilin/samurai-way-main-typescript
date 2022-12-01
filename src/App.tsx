@@ -39,7 +39,7 @@ class App extends React.Component<AppPropsType> {
                                 <Route path='/dialogs/*' render={
                                     () => <DialogsComposeComponent/>}/>
                                 <Route path='/users/*' render={
-                                    () => <UsersComposeComponent/>
+                                    () => <UsersComposeComponent isFriends={false}/>
                                 }/>
                                 <Route path='/friends/' render={()=>
                                     <Friends/>

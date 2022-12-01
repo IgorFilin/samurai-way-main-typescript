@@ -47,8 +47,13 @@ const instance = axios.create({
 })
 
 export const userApi = {
-    getUsers(pageSizeUsers: number, currentPage: number) {
-        return instance.get(`users?count=${pageSizeUsers}&page=${currentPage}`)
+    getUsers(pageSizeUsers: number, currentPage: number,term?:string,friend?:boolean) {
+        return instance.get(`users?count=${pageSizeUsers}&page=${currentPage}`,{params:{
+                pageSizeUsers,
+                currentPage,
+                term,
+                friend
+            }})
             .then(response => response.data)
     },
     setPage(pageSizeUsers: number, page: number) {
