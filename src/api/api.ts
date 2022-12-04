@@ -56,11 +56,11 @@ export const userApi = {
             }})
             .then(response => response.data)
     },
-    setPage(pageSizeUsers: number, page: number,friend:boolean) {
+    setPage(pageSizeUsers: number, page: number,friend:boolean | null) {
         return instance.get(`users`,{params:{
                 count: pageSizeUsers,
                 page : page,
-                friend
+                friend:friend
             }})
             .then(response => response.data)
     },

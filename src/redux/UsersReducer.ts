@@ -153,7 +153,7 @@ const followUnfollowFlow = async (dispatch:Dispatch,userID:string,methodApi:any,
     }
 }
 
-export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number,isFriend?:boolean | null,userName?:string) => async (dispatch: Dispatch) => {
+export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number, isFriend?: boolean | null, userName?: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(SetLoading(true))
         const result = await userApi.getUsers(pageSizeUsers, currentPage,userName,isFriend)
@@ -169,11 +169,10 @@ export const getUserThunkCreator = (pageSizeUsers: number, currentPage: number,i
 
 }
 
-export const setPageThunkCreator = (pageSizeUsers: number, page: number,friend:boolean) => async (dispatch: Dispatch) => {
+export const setPageThunkCreator = (pageSizeUsers: number, page: number,friend:boolean | null) => async (dispatch: Dispatch) => {
     try {
         dispatch(SetLoading(true))
         const response = await userApi.setPage(pageSizeUsers, page, friend)
-        console.log(response.totalCount)
         dispatch(SetPage(page))
         dispatch(SetUserCount(response.totalCount))
         dispatch(SetPageSizeUsers(pageSizeUsers))

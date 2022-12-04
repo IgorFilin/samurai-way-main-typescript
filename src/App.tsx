@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import {Redirect, Route, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import DialogsComposeComponent from './components/Dialogs/DialogsContainer'
-import UsersComposeComponent from './components/Users/UsersContainer'
+import {UsersContainer} from './components/Users/UsersContainer'
 import HeaderContainerApi from "./components/Header/HeaderContainerApi";
 import ProfileComposeComponent from './components/Profile/ProfileContainer'
 import {connect} from "react-redux";
@@ -39,7 +39,7 @@ class App extends React.Component<AppPropsType> {
                                 <Route path='/dialogs/*' render={
                                     () => <DialogsComposeComponent/>}/>
                                 <Route path='/users/*' render={
-                                    () => <UsersComposeComponent isFriends={false}/>
+                                    () => <UsersContainer isFriends={false}/>
                                 }/>
                                 <Route path='/friends/' render={()=>
                                     <Friends/>

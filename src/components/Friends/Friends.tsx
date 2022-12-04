@@ -1,10 +1,10 @@
 import React from 'react';
-import UsersComposeComponent from "../Users/UsersContainer";
+import {UsersContainer} from "../Users/UsersContainer";
 
 export const Friends = () => {
     return (
         <div>
-           <UsersComposeComponent isFriends />
+           <UsersContainer isFriends />
         </div>
     );
 };

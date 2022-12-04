@@ -1,19 +1,25 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from "../components/Users/Users.module.css";
 import {Pagination} from "antd";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, StateType} from "../redux/reduxStore";
+import {setPageThunkCreator} from "../redux/UsersReducer";
 
 export type PaginationComponentTypeProps = {
-    callBack:(pageSize:number,page:number,friendsMode:boolean | null)=>void
-    pageSizeUsers:number
-    currentPage:number
-    totalCountPages:number
     friendsMode:boolean | null
 }
 
-export const PaginationComponent:React.FC<PaginationComponentTypeProps> = ({pageSizeUsers,currentPage,totalCountPages,friendsMode,callBack}) => {
+export const PaginationComponent:React.FC<PaginationComponentTypeProps> = ({friendsMode}) => {
+
+    const pageSizeUsers = useSelector<StateType,number>(state=> state.userPage.pageSizeUsers)
+    const currentPage = useSelector<StateType,number>(state=> state.userPage.currentPage)
+    const totalCountPages = useSelector<StateType,number>(state=> state.userPage.totalUserCount)
+
+    const dispatch = useDispatch<AppDispatch>()
+
 
     const onChange = (page: number, pageSize: number) => {
-        callBack(pageSize,page,friendsMode)
+        dispatch(setPageThunkCreator(pageSize,page,friendsMode))
     }
 
     return (

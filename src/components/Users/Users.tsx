@@ -1,21 +1,23 @@
 import React from 'react';
 import s from "./Users.module.css";
-import {UserTypeProps} from "./UsersContainer";
 import {User} from "./User/User";
 import {PaginationComponent} from "../../common/Pagination";
+import {useSelector} from "react-redux";
+import {StateType} from "../../redux/reduxStore";
+import {UserType} from "../../redux/UsersReducer";
 
 
-export const Users = (props: UserTypeProps & {friendsMode:boolean | null}) => {
+export const Users = (props:{friendsMode:boolean | null}) => {
+
+    const users  = useSelector<StateType,Array<UserType>>(state => state.userPage.users)
+
 
     return (
         <>
-          <PaginationComponent friendsMode={props.friendsMode} pageSizeUsers={props.pageSizeUsers} totalCountPages={props.totalCountPages} currentPage={props.currentPage} callBack={props.setPageThunkCreator}/>
+          <PaginationComponent friendsMode={props.friendsMode}/>
             <div className={s.Content}>
-                {props.users.map(us => <User
+                {users.map(us => <User
                     user={us}
-                    arrayUsersIdForDisabledButton={props.arrayUsersIdForDisabledButton}
-                    followThunkCreator={props.followThunkCreator}
-                    unFollowThunkCreator={props.unFollowThunkCreator}
                     key={us.id}/>)}
             </div>
         </>

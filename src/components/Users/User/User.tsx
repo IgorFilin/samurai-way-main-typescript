@@ -2,22 +2,29 @@ import s from "../Users.module.css";
 import {NavLink} from "react-router-dom";
 import userPhotoDefault from "../../../assets/images/user.png";
 import React from "react";
-import {UserType} from "../../../redux/UsersReducer";
+import {followThunkCreator, unFollowThunkCreator, UserType} from "../../../redux/UsersReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, StateType} from "../../../redux/reduxStore";
 
 type UserTypeProps = {
     user: UserType
-    arrayUsersIdForDisabledButton: Array<string>
-    unFollowThunkCreator: (userId: string) => void
-    followThunkCreator: (userId: string) => void
 }
 
-export const User: React.FC<UserTypeProps> = ({
-                                                  user,
-                                                  arrayUsersIdForDisabledButton,
-                                                  unFollowThunkCreator,
-                                                  followThunkCreator
-                                              }) => {
-    return <div className={s.userInfo}>
+export const User: React.FC<UserTypeProps> = ({user,}) => {
+
+    const arrayUsersIdForDisabledButton = useSelector<StateType,Array<string>>(state => state.userPage.arrayUsersIdForDisabledButton)
+
+    const dispatch = useDispatch<AppDispatch>()
+
+    const unFollowHandler = (id:string) => {
+      dispatch(unFollowThunkCreator(id))
+    }
+    const FollowHandler = (id:string) => {
+        dispatch(followThunkCreator(id))
+    }
+
+    return (
+        <div className={s.userInfo}>
         <NavLink to={'/profile/' + user.id}>
             <img className={s.Img} src={user.photos.small !== null ? user.photos.small : userPhotoDefault}
             />
@@ -30,15 +37,14 @@ export const User: React.FC<UserTypeProps> = ({
                 className={s.buttonFollowUnfollow}
                 disabled={arrayUsersIdForDisabledButton.some(el => el === user.id)}
                 onClick={() => {
-                    unFollowThunkCreator(user.id)
+                    unFollowHandler(user.id)
                 }}>{'unFollow'}
             </button> :
             <button className={s.buttonFollowUnfollow}
                     disabled={arrayUsersIdForDisabledButton.some(id => id === user.id)}
                     onClick={() => {
-                        followThunkCreator(user.id)
+                        FollowHandler(user.id)
                     }}>{'Follow'}
             </button>}
-
-    </div>
+    </div>)
 }
