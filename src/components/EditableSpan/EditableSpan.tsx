@@ -44,7 +44,7 @@ export const EditableSpan = (props: EditableSpanTypeProps) => {
             <input value={valueInput} onChange={onChangeHandler} onBlur={changeEditModeOnBlur}
                    autoFocus/>
             :
-            props.forContacts ? <><a href={props.title} target='_blank'>{props.title}</a>{!props.disable &&
+            props.forContacts ? <><a href={props.title} style={{wordBreak:'break-word'}} target='_blank'>{props.title}</a>{!props.disable &&
                     <button onClick={!props.disable ? changeEditModeOnDoubleClick : () => {
                     }}>Change</button>}</>
                 :
