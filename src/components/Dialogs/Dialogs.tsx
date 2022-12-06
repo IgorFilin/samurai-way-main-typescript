@@ -3,6 +3,7 @@ import Message from './Message/message/Message'
 import MessageSender from './Message/message-sender/MessageSender'
 import FriendMessage from './Message/friend-message/FriendMessage'
 import avatar from './Message/avatar.png'
+import s from './Dialogs.module.css'
 
 
 export type MessageType = {
@@ -43,8 +44,7 @@ export const friendMessage0: MessageType = {
 
 export const Dialogs = () => {
     return (
-        <div id={'hw1'}>
-            <div>Homework #1</div>
+        <div  className={s.mainContainer}>
             <div >
                 <div>
                     <Message message={message0} />
