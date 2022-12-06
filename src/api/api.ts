@@ -111,7 +111,6 @@ export const profileApi = {
     uploadPhoto(file: any) {
         const form = new FormData()
         form.append('image', file)
-        console.log(form.getAll('image'))
         return instance.put('/profile/photo', form, {
             headers: {
                 'content-type': 'multipart/form-data'
