@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import Dialogs from "./Dialogs";
+import {Dialogs} from "./Dialogs";
 import {DispatchType, StateType} from "../../redux/reduxStore";
 import {
     actionCreatorAddMessages,

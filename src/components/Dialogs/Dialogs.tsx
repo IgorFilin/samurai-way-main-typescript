@@ -1,74 +1,59 @@
-import classes from './Dialogs.module.css'
-import DialogsItems from "./DialogsItem/DialogsItems";
-import Message from "./Message/Message";
-import React from "react";
-import {dialogsDataType, messagesDataType} from "../../redux/DialogsReducer";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Textarea} from "../../common/FormsControls/FormsControls";
-import {maxLengthCreator, requaredField} from "../../utils/validators/validators";
+import React from 'react'
+import Message from './Message/message/Message'
+import MessageSender from './Message/message-sender/MessageSender'
+import FriendMessage from './Message/friend-message/FriendMessage'
+import avatar from './Message/avatar.png'
 
 
-type DialogsPropsType = {
-    AddTextMessage: (text: string) => void
-    AddMessages: (message:string) => void
-    messagesData:messagesDataType[]
-    dialogsData:dialogsDataType[]
-    addMessage:string
-    isAuth:boolean
-}
-
-type FormDataMessagesType = {
-    messages:string
-}
-
-
-const maxLength20 = maxLengthCreator(20)
-
-
-const Dialogs = (props:DialogsPropsType) => {
-    const onSubmit = (formData:FormDataMessagesType) => {
-        props.AddMessages(formData.messages)
+export type MessageType = {
+    id:number
+    user: {
+        avatar:string
+        name:string
     }
+    message:{
+        text:string
+        time:string
+    }
+}
 
-    const addMessagesPage = props.messagesData.map(m => <Message key={m.id} messages={m.messages}/>)
-    const addDialogsPage = props.dialogsData.map(d => <DialogsItems key={d.id} name={d.name} id={d.id}/>)
 
-    return (<div>
-            <div className={classes.dialogs}>
-                <div className={classes.items}>
-                    {addDialogsPage}
+export const message0: MessageType = {
+    id: 0,
+    user: {
+        avatar: avatar,
+        name: 'Me',
+    },
+    message: {
+        text: 'Задача организации, в особенности же укрепление и развитие структуры обеспечивает широкому кругу (специалистов) участие в формировании новых предложений. Разнообразный и богатый опыт реализация намеченных плановых заданий требуют от нас анализа систем массового участия. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки форм развития. Задача организации, в особенности же постоянный количественный рост и сфера нашей активности играет важную роль в формировании новых предложений. Значимость этих проблем настолько очевидна, что начало повседневной работы по формированию позиции обеспечивает широкому кругу (специалистов) участие в формировании системы обучения кадров, соответствует насущным потребностям',
+        time: '22:00',
+    },
+}
+export const friendMessage0: MessageType = {
+    id: 100,
+    user: {
+        avatar: avatar,
+        name: 'Bob',
+    },
+    message: {
+        text: 'зеркальное сообщение для тренировки css',
+        time: '22:00',
+    },
+}
+
+export const Dialogs = () => {
+    return (
+        <div id={'hw1'}>
+            <div>Homework #1</div>
+            <div >
+                <div>
+                    <Message message={message0} />
+                    <FriendMessage message={friendMessage0} />
                 </div>
-                <div className={classes.messages}>
-                    {addMessagesPage}
-                </div>
+                <MessageSender message={message0}/>
             </div>
-            <div className={classes.textAreaMessages}>
-                <TextAreaFormMessagesComponent onSubmit={onSubmit}/>
-            </div>
-
         </div>
-
     )
 }
-
-
-
-
-
-const textAreaFormMessages = (props:InjectedFormProps<FormDataMessagesType>) => {
-
-    return (<form onSubmit={props.handleSubmit}>
-        <div>
-            <Field name={'messages'} component={Textarea} placeholder={'add message'} validate={[requaredField,maxLength20]}/>
-        </div>
-        <div>
-            <button>Add Messages</button>
-        </div>
-    </form>)
-}
-
-const TextAreaFormMessagesComponent = reduxForm<FormDataMessagesType>({
-    form:'messages'
-})(textAreaFormMessages)
 
 export default Dialogs
