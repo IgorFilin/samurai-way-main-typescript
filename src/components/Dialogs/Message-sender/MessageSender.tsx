@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import s from './MessageSender.module.css'
-import {MessageType} from "../../Dialogs";
-import Message from "../message/Message";
+import Message from "../Message/Message";
+import avatar from '../../../assets/images/avatar.png'
+import {v1} from "uuid";
 
 type MessageSenderPropsType = {
-    message:MessageType
+
 }
-const MessageSender = (props: MessageSenderPropsType) => {
-    const M = props.message
+const MessageSender = () => {
     const [messages, setMessages] = useState<any[]>([])
     const [text, setText] = useState<any>('')
 
@@ -20,15 +20,18 @@ const MessageSender = (props: MessageSenderPropsType) => {
         setMessages([
             ...messages,
             {
-                id: messages.length ? messages.length + 1 : 1,
-                user: props.message.user,
+                id: v1(),
+                user: {
+                    avatar,
+                    name:'Me'
+                },
                 message: {
                     text,
                     time: new Date().toTimeString().slice(0, 5),
                 },
             },
         ])
-        setTimeout(() => setText(''), 4)
+        setText('')
     }
 
     const onKeyDown = (e: any) => {
