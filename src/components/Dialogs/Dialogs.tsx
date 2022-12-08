@@ -13,10 +13,8 @@ export const Dialogs = () => {
     const arrayMessage = useSelector<StateType,Array<dialogsDataType>>(state=> state.dialogPage.dialogsData)
 
     const myMessage = arrayMessage.filter(el => el.user.name === 'My')
-    console.log(myMessage)
-
     const friendsMessage = arrayMessage.filter(el => el.user.name === 'Friend')
-    console.log(friendsMessage)
+
 
     return (
         <div  className={s.mainContainer}>
