@@ -1,11 +1,11 @@
 import React from 'react'
 import s from './FriendMessage.module.css'
-import {MessageType} from "../Dialogs";
+
 
 
 
 type FriendMessageType = {
-    message: Array<MessageType>
+    message: Array<any>
 }
 
 const FriendMessage = (props: FriendMessageType) => {

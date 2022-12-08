@@ -1,15 +1,14 @@
 import React, {useState} from 'react'
 import s from './MessageSender.module.css'
-import Message from "../Message/Message";
-import avatar from '../../../assets/images/avatar.png'
-import {v1} from "uuid";
+import {useDispatch} from "react-redux";
+import {setMessage} from "../../../redux/DialogsReducer";
 
-type MessageSenderPropsType = {
 
-}
 const MessageSender = () => {
-    const [messages, setMessages] = useState<any[]>([])
+
     const [text, setText] = useState<any>('')
+
+    const dispatch = useDispatch()
 
     const onChange = (e: any) => {
         setText(e.currentTarget.value)
@@ -17,20 +16,7 @@ const MessageSender = () => {
 
 
     const addMessage = () => {
-        setMessages([
-            ...messages,
-            {
-                id: v1(),
-                user: {
-                    avatar,
-                    name:'Me'
-                },
-                message: {
-                    text,
-                    time: new Date().toTimeString().slice(0, 5),
-                },
-            },
-        ])
+        dispatch(setMessage(text))
         setText('')
     }
 
@@ -40,10 +26,6 @@ const MessageSender = () => {
 
     return (
         <>
-            {messages.map((m) => (
-                <Message key={'message' + m.id} message={m} />
-            ))}
-
             <div  className={s.sendForm}>
                 <textarea
                     className={s.textarea}

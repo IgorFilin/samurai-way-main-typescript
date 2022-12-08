@@ -1,28 +1,48 @@
 import {v1} from "uuid";
+import avatar from "../assets/images/avatar.png";
 
 export type dialogsDataType = {
     id: string
-    name: string
+    user: {
+        avatar:string
+        name:string
+    },
+    message:{
+        text:string
+        time:string
+    }
 }
 export type messagesDataType = {
     id: string
     messages: string
 }
 export type DialogPageType = {
-    // addMessage: string
     dialogsData: Array<dialogsDataType>
     messagesData: Array<messagesDataType>
 }
 export type actionCreatorAddMessagesType = ReturnType<typeof actionCreatorAddMessages>
-export type AllActionsCreatorsTypeDialogs =  actionCreatorAddMessagesType
+export type setMyMessageType = ReturnType<typeof setMessage>
+export type AllActionsCreatorsTypeDialogs =  actionCreatorAddMessagesType | setMyMessageType
 
 let initialState = {
     dialogsData: [
-        {id: v1(), name: 'Igor'},
-        {id: v1(), name: 'Ivan'},
-        {id: v1(), name: 'Anya'},
-        {id: v1(), name: 'Valera'},
-        {id: v1(), name: 'Alisa'}
+        {id: v1(),
+            user: {
+            avatar: avatar,
+                name: 'Friend'
+            },
+            message: {
+            text: 'Hello my friend', time: '22:00',
+            },
+        },  {id: v1(),
+            user: {
+                avatar: avatar,
+                name: 'My'
+            },
+            message: {
+                text: 'Hello Bobick', time: '22:00',
+            },
+        }
     ] as Array<dialogsDataType>,
     messagesData: [
         {id: v1(), messages: 'Hi Samurai'},
@@ -42,6 +62,9 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
                 ...state,
                 messagesData: [...state.messagesData, {id: v1(), messages: action.messages}]
             }
+        case 'SET-MESSAGE':{
+            return {...state,dialogsData:[...state.dialogsData,{id:v1(),user:{avatar,name:'My'},message:{text:action.myMessage,time:'20:00'}}]}
+        }
         default:
             return state
 
@@ -51,4 +74,7 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
 
 
 export const actionCreatorAddMessages = (messages:string) => ({type: "ADD-MESSAGE",messages}as const)
+
+export const setMessage = (myMessage:string) => ({type: "SET-MESSAGE",myMessage}as const)
+
 
