@@ -63,7 +63,7 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
                 messagesData: [...state.messagesData, {id: v1(), messages: action.messages}]
             }
         case 'SET-MESSAGE':{
-            return {...state,dialogsData:[...state.dialogsData,{id:v1(),user:{avatar,name:'My'},message:{text:action.myMessage,time:'20:00'}}]}
+            return {...state,dialogsData:[...state.dialogsData,{id:v1(),user:{avatar,name:action.whoseMessage},message:{text:action.myMessage,time:'20:00'}}]}
         }
         default:
             return state
@@ -75,6 +75,6 @@ export const DialogsReducer = (state: initialStateType = initialState, action: A
 
 export const actionCreatorAddMessages = (messages:string) => ({type: "ADD-MESSAGE",messages}as const)
 
-export const setMessage = (myMessage:string) => ({type: "SET-MESSAGE",myMessage}as const)
+export const setMessage = (myMessage:string,whoseMessage:'My' | 'Friend') => ({type: "SET-MESSAGE",myMessage,whoseMessage}as const)
 
 

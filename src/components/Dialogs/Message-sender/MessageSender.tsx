@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import s from './MessageSender.module.css'
 import {useDispatch} from "react-redux";
 import {setMessage} from "../../../redux/DialogsReducer";
+import {RandomWord} from "../../../utils/functionHelper/RandomWord";
 
 
 const MessageSender = () => {
@@ -15,8 +16,11 @@ const MessageSender = () => {
     }
 
 
-    const addMessage = () => {
-        dispatch(setMessage(text))
+    const addMessage =  () => {
+        dispatch(setMessage(text,'My'))
+        setTimeout(()=>{
+            dispatch(setMessage(RandomWord(Math.floor(Math.random() * 100) + 1),'Friend'))
+        },2000)
         setText('')
     }
 

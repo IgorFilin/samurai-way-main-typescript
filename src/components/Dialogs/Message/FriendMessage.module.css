@@ -1,4 +1,4 @@
-.friendMessage {
+.friendsMessage {
     width: 100%;
     min-height: 77px;
     display: flex;
@@ -7,13 +7,13 @@
     padding-bottom: 40px;
 }
 
-.friendImageAndText {
+.friendMessage {
     display: flex;
     justify-content: left;
     flex-direction: row;
 }
 
-.friendImageAndText img {
+.friendMessage img {
     width: 48px;
     height: 48px;
     align-self: flex-end;
@@ -55,6 +55,7 @@
     font-size: 16px;
     line-height: 20px;
     color: #000000;;
+    word-break: break-word
 }
 
 .friendTime {
