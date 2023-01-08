@@ -1,131 +1,53 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
+import React, {ChangeEvent, createRef, LegacyRef, useEffect, useState} from 'react';
 import styles from './Chat.module.css'
 
-
-type arrayMessagesType = Array<{message: string,
+type arrayMessagesType = Array<{
+    message: string,
     photo: string,
     userId: number,
-    userName: string}>
+    userName: string
+}>
 
 export const Chat = () => {
-    const [arrayMessages, setArrayMessages] = useState<arrayMessagesType>([
-        {
-            message: "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
 
-        }, {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        }, {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        }, {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },{
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },{
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },{
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-        {
-            message: "asdasd",
-            photo: "https://social-network.samuraijs.com/activecontent/images/users/2/user-small.jpg?v=4",
-            userId: 2,
-            userName: "samurai dimych"
-
-        },
-
-
-
-    ])
+    const [arrayMessages, setArrayMessages] = useState<arrayMessagesType>([])
     const [message, setMessage] = useState('')
+    const [socket, setSocket] = useState<WebSocket | null>(null)
+
 
     const messageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(e.currentTarget.value)
     }
 
     const sendHandler = () => {
-
+        socket?.send(message)
+        setMessage('')
     }
+
+    useEffect(() => {
+        let socket = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx");
+
+        socket.onmessage = function (event) {
+            setArrayMessages(state => [...state, ...JSON.parse(event.data)])
+        }
+        setSocket(socket)
+
+    }, [])
+
+    useEffect(() => {
+        let textarea = document.querySelector('#textarea_id');
+        if(textarea){
+            debugger
+            textarea.scrollTop = textarea.scrollHeight;
+        }
+
+    }, [arrayMessages])
+
     return (
         <div className={styles.container}>
             <div className={styles.window}>
-                {arrayMessages.map(m => {
-                    return <div className={styles.message}>
+                {arrayMessages.map((m, i) => {
+                    return <div key={m.userId + '' + i} className={styles.message}>
                         <img src={m.photo} alt=""/>
                         <div>
                             <h4>{m.userName}</h4>
@@ -134,7 +56,7 @@ export const Chat = () => {
                     </div>
                 })}
             </div>
-            <textarea value={message} onChange={messageHandler} className={styles.textarea}
+            <textarea  id='textarea_id' value={message} onChange={messageHandler} className={styles.textarea}
                       placeholder='write your message please'></textarea>
             <button onClick={sendHandler} className={styles.button}>Send</button>
         </div>
