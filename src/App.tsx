@@ -13,6 +13,7 @@ import {StateType} from "./redux/reduxStore";
 import Login2 from "./components/Login/LoginAntDesign";
 import {Alert, Spin} from "antd";
 import {Friends} from "./components/Friends/Friends";
+import {Chat} from "./components/Chat/Chat";
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -38,6 +39,8 @@ class App extends React.Component<AppPropsType> {
                                     () => <ProfileComposeComponent/>}/>
                                 <Route path='/dialogs/*' render={
                                     () => <DialogsComposeComponent/>}/>
+                                <Route path='/chat/' render={
+                                    () => <Chat/>}/>
                                 <Route path='/users/*' render={
                                     () => <UsersContainer isFriends={false}/>
                                 }/>

@@ -28,6 +28,10 @@ function Navbar(props: NavbarPropsType) {
 
             <div className={classes.item}><NavLink className={isActive =>
                 (isActive ? classes.active : "")
+            } to={'/chat/'}>Chat</NavLink></div>
+
+            <div className={classes.item}><NavLink className={isActive =>
+                (isActive ? classes.active : "")
             } to="/news/">News</NavLink></div>
 
             <div className={classes.item}><NavLink className={isActive =>
