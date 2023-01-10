@@ -35,9 +35,8 @@ export const Chat = () => {
     }, [])
 
     useEffect(() => {
-        let textarea = document.querySelector('#textarea_id');
-        if(textarea){
-            debugger
+        let textarea = document.querySelector('#chat');
+        if(textarea) {
             textarea.scrollTop = textarea.scrollHeight;
         }
 
@@ -45,7 +44,7 @@ export const Chat = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.window}>
+            <div className={styles.window} id='chat'>
                 {arrayMessages.map((m, i) => {
                     return <div key={m.userId + '' + i} className={styles.message}>
                         <img src={m.photo} alt=""/>
@@ -56,7 +55,7 @@ export const Chat = () => {
                     </div>
                 })}
             </div>
-            <textarea  id='textarea_id' value={message} onChange={messageHandler} className={styles.textarea}
+            <textarea   value={message} onChange={messageHandler} className={styles.textarea}
                       placeholder='write your message please'></textarea>
             <button onClick={sendHandler} className={styles.button}>Send</button>
         </div>
