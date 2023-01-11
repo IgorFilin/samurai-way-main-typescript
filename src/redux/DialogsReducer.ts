@@ -57,11 +57,13 @@ export type initialStateType = typeof initialState
 
 export const DialogsReducer = (state: initialStateType = initialState, action: AllActionsCreatorsTypeDialogs): DialogPageType => {
     switch (action.type) {
-        case 'ADD-MESSAGE':
+        case 'ADD-MESSAGE':{
             return {
                 ...state,
                 messagesData: [...state.messagesData, {id: v1(), messages: action.messages}]
             }
+        }
+
         case 'SET-MESSAGE':{
             return {...state,dialogsData:[...state.dialogsData,{id:v1(),user:{avatar,name:action.whoseMessage},message:{text:action.myMessage,time:'20:00'}}]}
         }

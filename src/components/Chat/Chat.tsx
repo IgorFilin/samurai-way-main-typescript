@@ -1,4 +1,4 @@
-import React, {ChangeEvent, createRef, LegacyRef, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import styles from './Chat.module.css'
 
 type arrayMessagesType = Array<{
@@ -36,7 +36,7 @@ export const Chat = () => {
 
     useEffect(() => {
         let textarea = document.querySelector('#chat');
-        if(textarea) {
+        if (textarea) {
             textarea.scrollTop = textarea.scrollHeight;
         }
 
@@ -55,7 +55,7 @@ export const Chat = () => {
                     </div>
                 })}
             </div>
-            <textarea   value={message} onChange={messageHandler} className={styles.textarea}
+            <textarea value={message} onChange={messageHandler} className={styles.textarea}
                       placeholder='write your message please'></textarea>
             <button onClick={sendHandler} className={styles.button}>Send</button>
         </div>

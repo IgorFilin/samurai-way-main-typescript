@@ -1,6 +1,5 @@
 import {AuthUserThunkCreator} from "./authReducer";
-import {AppDispatch, StateType} from "./reduxStore";
-import {setProfileThunkCreator} from "./ProfileReducer";
+import {AppDispatch} from "./reduxStore";
 
 type initialStateType = typeof initialState
 type initializationMeACType = ReturnType<typeof initializationMeAC>

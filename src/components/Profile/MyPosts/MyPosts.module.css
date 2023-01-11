@@ -1,21 +1,11 @@
 .Posts {
     padding: 20px;
-
 }
 
-.btnAddPost {
+.containerTextAreaBtn{
     display: flex;
-    justify-content: center;
-    color: black;
-}
-
-.fieldContainer {
-    display: flex;
-    justify-content: center;
-}
-
-.fieldAddpost {
-    color: black;
+    flex-direction: column;
+    width: 85%;
 }
 
 @media screen and (max-width: 720px) {

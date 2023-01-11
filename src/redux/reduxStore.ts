@@ -8,6 +8,7 @@ import MiddleWareThunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {reducer as formReducer} from 'redux-form'
 import {AllActionsCreatorsTypeApp, appReducer} from "./appReducer";
 import {composeWithDevTools} from "@redux-devtools/extension";
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 
 
 let rootReducer = combineReducers({
@@ -33,7 +34,7 @@ window.store = store
 
 export type AppDispatch = ThunkDispatch<StateType, unknown, DomainActionsCreatorsType>
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, StateType, unknown, DomainActionsCreatorsType>
+export type AppThunk<ReturnType = void> = ThunkAction <ReturnType, StateType, unknown, DomainActionsCreatorsType>
 
 export type DomainActionsCreatorsType =
     AllActionsCreatorsTypeApp
@@ -44,9 +45,6 @@ export type DomainActionsCreatorsType =
 
 export type StateType = ReturnType<typeof rootReducer>
 
-export type DispatchType = Dispatch
+export const useAppSelector: TypedUseSelectorHook<StateType> = useSelector;
 
-// const state = store.getState()
-// const dispatch = store.dispatch
-// export type StateType = typeof state
-// export type DispatchType = typeof dispatch
+export type DispatchType = Dispatch
