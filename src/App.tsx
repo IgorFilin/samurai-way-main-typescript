@@ -14,6 +14,7 @@ import Login2 from "./components/Login/LoginAntDesign";
 import {Alert, Spin} from "antd";
 import {Friends} from "./components/Friends/Friends";
 import {Chat} from "./components/Chat/Chat";
+import { News } from './components/News/News';
 
 type AppPropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -46,6 +47,9 @@ class App extends React.Component<AppPropsType> {
                                 }/>
                                 <Route path='/friends/' render={()=>
                                     <Friends/>
+                                }/>
+                                <Route path='/news/' render={()=> 
+                                    <News/>
                                 }/>
 
                                 {this.props.errorMessages && <Alert
