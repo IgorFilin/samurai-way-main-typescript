@@ -2,7 +2,7 @@ import axios from "axios";
 import {FormDataTypeLogin} from "../components/Login/Login";
 import {ProfileUserType} from "../redux/ProfileReducer";
 
-//d29de916961444da8d62d12ad6554cf1
+
 //====Types========================================================
 type AuthorizeUserResponseType = {
     data: {
@@ -45,6 +45,13 @@ const instance = axios.create({
         'API-KEY': '523f3afc-9394-4d5e-8a49-5b44c559d911'
     },
     data: {}
+})
+
+const instanceNews = axios.create({
+    baseURL:'https://newsapi.org/v2/top-headlines',
+    headers:{
+        'apiKey':'d29de916961444da8d62d12ad6554cf1'
+    }
 })
 
 export const userApi = {
