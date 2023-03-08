@@ -36,6 +36,33 @@ export type modelUpdateProfile = {
     }
 
 }
+
+export type NewsResponseType = {
+    warnings: Array<string>
+    meta: {
+      found: number
+      returned: number
+      limit: number
+      page: number
+    },
+    data: Array<{
+        uuid: string,
+        title: string,
+        description: string,
+        keywords: string,
+        snippet: string,
+        url: string,
+        image_url: string,
+        language: string,
+        published_at: string,
+        source: string,
+        categories: Array<any>,
+        relevance_score: null,
+        locale: string
+      }>
+
+  }
+
 //=================================================================
 
 const instance = axios.create({
@@ -48,10 +75,7 @@ const instance = axios.create({
 })
 
 const instanceNews = axios.create({
-    baseURL:'https://newsapi.org/v2/top-headlines',
-    headers:{
-        'apiKey':'d29de916961444da8d62d12ad6554cf1'
-    }
+    baseURL:'https://api.thenewsapi.com/v1/news/top'
 })
 
 export const userApi = {
@@ -128,7 +152,18 @@ export const profileApi = {
     updateProfile(modelProfile: modelUpdateProfile) {
         return instance.put<DeleteLoginMe>('/profile', modelProfile)
     }
+}
 
+export const newsApi = {
+    getNews () {
+        return instanceNews.get('', { params: {
+            locale:'ru',
+            language:'ru',
+            api_token:'pib3C34LM4pral2xcgVCM6tJf3iwNHY9MD1KpqxC',
+            limit:'10'
+        },
+        })
+    }
 }
 
 
